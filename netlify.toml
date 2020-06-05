@@ -1,0 +1,8 @@
+[build]
+  command = "npm run generate"
+  functions = "functions" # netlify dev uses this to know where to scaffold and serve your functions
+  publish = "dist"
+
+[dev]
+  framework="nuxt"
+  autoLaunch = true # a Boolean value that determines if Netlify Dev launches the local server address in your browser
