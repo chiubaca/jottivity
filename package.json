@@ -10,7 +10,8 @@
     "generate": "nuxt-ts generate",
     "start": "nuxt-ts start",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "test": "jest"
+    "test": "jest",
+    "ndev": "netlify dev"
   },
   "dependencies": {
     "nuxt": "^2.0.0",
@@ -35,6 +36,7 @@
     "babel-jest": "^24.1.0",
     "jest": "^24.1.0",
     "vue-jest": "^4.0.0-0",
-    "ts-jest": "^25.0.0"
+    "ts-jest": "^25.0.0",
+    "netlify-cli": "^2.51.0"
   }
 }
