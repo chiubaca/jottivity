@@ -91,3 +91,7 @@ sw.*
 
 # Local Netlify folder
 .netlify
+
+#Netlify Functions compiles js files
+functions/*
+!functions/src

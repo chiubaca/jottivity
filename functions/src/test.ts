@@ -10,9 +10,8 @@ exports.handler = (
   callback: APIGatewayProxyCallback
 ) => {
   let body = {};
-
   if (event.httpMethod === "GET") {
-    body = event;
+    body = event.queryStringParameters;
   } else if (event.httpMethod === "POST") {
     body = JSON.parse(event.body);
   }
@@ -22,12 +21,15 @@ exports.handler = (
   const response = {
     ...body
   };
-  console.log("Test");
+
   callback(null, {
     statusCode: 200,
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(response)
+    body: JSON.stringify({
+      message: "Hi There",
+      query: response
+    })
   });
 };

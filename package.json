@@ -7,11 +7,11 @@
   "scripts": {
     "dev": "nuxt-ts",
     "build": "nuxt-ts build",
-    "generate": "nuxt-ts generate",
+    "generate": "nuxt-ts generate && tsc -p functions/tsconfig.json",
     "start": "nuxt-ts start",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest",
-    "ndev": "netlify dev"
+    "ndev": "concurrently \"netlify dev\" \"tsc -p functions/tsconfig.json -w\" "
   },
   "dependencies": {
     "nuxt": "^2.0.0",
@@ -37,6 +37,7 @@
     "jest": "^24.1.0",
     "vue-jest": "^4.0.0-0",
     "ts-jest": "^25.0.0",
-    "netlify-cli": "^2.51.0"
+    "netlify-cli": "^2.51.0",
+    "concurrently": "^5.2.0"
   }
 }
