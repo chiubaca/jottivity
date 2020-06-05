@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2018",
+    "declaration": false,
+    "outDir": "./"
+  },
+  "include": [
+    "./**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    ".nuxt",
+    ".json",
+    "dist"
+  ]
+}

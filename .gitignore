@@ -95,3 +95,4 @@ sw.*
 #Netlify Functions compiles js files
 functions/*
 !functions/src
+!tsconfig.json
