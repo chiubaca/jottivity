@@ -8,6 +8,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/aws-lambda": "^8.10.53",
     "firebase": "^7.15.0"
   }
 }
