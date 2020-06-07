@@ -96,3 +96,6 @@ sw.*
 functions/*
 !functions/src
 !tsconfig.json
+
+#misc
+jottivityServiceAccount.json
