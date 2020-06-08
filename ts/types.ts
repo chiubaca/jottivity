@@ -3,3 +3,9 @@ export type UserRegistration = {
   name: string;
   password: string;
 };
+
+export type SignupResponse = {
+  data: {
+    idToken: string;
+  };
+};
