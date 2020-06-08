@@ -93,9 +93,7 @@ sw.*
 .netlify
 
 #Netlify Functions compiles js files
-functions/*
-!functions/src
-!tsconfig.json
+builtFunctions
 
 #misc
 jottivityServiceAccount.json

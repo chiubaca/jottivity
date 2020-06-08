@@ -1,6 +1,6 @@
 import axios from "axios";
 import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
-import { UserRegistration, SignupResponse } from "../../ts/types";
+import { UserRegistration, SignupResponse } from "../ts/types";
 
 exports.handler = async (
   event: APIGatewayProxyEvent,
@@ -19,16 +19,17 @@ exports.handler = async (
       })
     });
   }
-  const userData: UserRegistration = JSON.parse(event.body);
+  const userData: UserRegistration = JSON.parse(event.body as string);
+  let resp: SignupResponse;
   try {
-    const resp: SignupResponse = await axios.post(
+    resp = await axios.post(
       `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${process.env.FIREBASE_KEY}`,
       {
-        ...userData,
+        email: userData.email,
+        password: userData.password,
         returnSecureToken: true
       }
     );
-
     callback(null, {
       statusCode: 200,
       headers: {
@@ -39,7 +40,7 @@ exports.handler = async (
       })
     });
   } catch (err) {
-    console.error("Registration error", err);
+    console.warn("Registration error", err.message);
     callback(null, {
       statusCode: 400,
       headers: {
