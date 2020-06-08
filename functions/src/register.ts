@@ -1,11 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
+import { UserRegistration } from "../../ts/types"
 import axios from "axios";
-
-interface userRegistration {
-  email: string;
-  name: string;
-  password: string;
-}
 
 exports.handler = (
   event: APIGatewayProxyEvent,
@@ -17,14 +12,14 @@ exports.handler = (
     callback(null, {
       statusCode: 400,
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         error: "POST requests only"
       })
     });
   }
-  const data: userRegistration = JSON.parse(event.body);
+  const data: UserRegistration = JSON.parse(event.body);
   axios
     .post(
       `https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=${process.env.FIREBASE_KEY}`,
@@ -35,27 +30,24 @@ exports.handler = (
       }
     )
     .then((resp) => {
-      console.log("Success");
       callback(null, {
         statusCode: 200,
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          message: "success",
-          data: resp
+          message: resp.data.idToken
         })
       });
     })
     .catch((err) => {
-      // console.error("shit", err);
       callback(null, {
         statusCode: 400,
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          message: err
+          message: err.message
         })
       });
     });
