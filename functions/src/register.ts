@@ -1,18 +1,18 @@
-import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
-import { UserRegistration } from "../../ts/types"
 import axios from "axios";
+import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
+import { UserRegistration } from "../../ts/types";
 
 exports.handler = (
   event: APIGatewayProxyEvent,
   _context: any,
   callback: APIGatewayProxyCallback
 ) => {
-  console.log("HTTP method: ", event.httpMethod);
   if (event.httpMethod !== "POST") {
+    console.warn("Invalid HTTP Method used", event.httpMethod);
     callback(null, {
       statusCode: 400,
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         error: "POST requests only"
@@ -41,6 +41,7 @@ exports.handler = (
       });
     })
     .catch((err) => {
+      console.error("Registration error", err)
       callback(null, {
         statusCode: 400,
         headers: {
