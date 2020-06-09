@@ -92,8 +92,8 @@ sw.*
 # Local Netlify folder
 .netlify
 
-#Netlify Functions compiles js files
-builtFunctions
+#Netlify Functions compiled js files
+functions/built
 
 #misc
 jottivityServiceAccount.json
