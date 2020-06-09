@@ -4,6 +4,7 @@
     "target": "es2018",
     "declaration": false,
     "outDir": "built",
+    "strict": true,
   },
   "include": [
     "./*"
