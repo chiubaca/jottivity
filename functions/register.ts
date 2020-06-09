@@ -42,7 +42,8 @@ exports.handler = async (
     // TODO deconstruct User  and user object extract the useful parts from both
     // - stsTokenManager
     // - user credentials
-    const User: firebase.User = await firebase.auth().currentUser;
+    const User: firebase.User = (await firebase.auth()
+      .currentUser) as firebase.User;
     const user: any = User.toJSON();
 
     console.warn("USER-->", user.stsTokenManager);
