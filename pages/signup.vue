@@ -46,15 +46,28 @@ export default Vue.extend({
   },
   methods: {
     onSubmit() {
-      console.log("Submit!");
-      fetch("http://localhost:8888/.netlify/functions/register", {
-        method: "POST",
-        body: JSON.stringify(this.registrationDetails)
-      })
-        .then(resp => resp.json())
-        .then(data => {
-          console.log(data)
-        });
+      console.log("Submit!", process.env.NODE_ENV);
+      if (process.env.NODE_ENV === "development") {
+        fetch("http://localhost:8888/.netlify/functions/register", {
+          method: "POST",
+          body: JSON.stringify(this.registrationDetails)
+        })
+          .then(resp => resp.json())
+          .then(data => {
+            console.log(data)
+          });
+      } else {
+        fetch(document.baseURI + ".netlify/functions/register", {
+          method: "POST",
+          body: JSON.stringify(this.registrationDetails)
+        })
+          .then(resp => resp.json())
+          .then(data => {
+            console.log(data)
+          });
+      }
+
+
     }
   }
 });
