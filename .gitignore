@@ -88,3 +88,9 @@ sw.*
 
 # Vim swap files
 *.swp
+
+# Local Netlify folder
+.netlify
+
+#Netlify Functions compiled js files
+functions/built

@@ -1,6 +1,6 @@
 [build]
   command = "npm run generate"
-  functions = "functions" # netlify dev uses this to know where to scaffold and serve your functions
+  functions = "functions/built/functions" # netlify dev uses this to know where to scaffold and serve your functions
   publish = "dist"
 
 [dev]

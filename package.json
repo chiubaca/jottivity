@@ -7,18 +7,21 @@
   "scripts": {
     "dev": "nuxt-ts",
     "build": "nuxt-ts build",
-    "generate": "nuxt-ts generate",
+    "generate": "tsc -p functions/tsconfig.json && nuxt-ts generate",
     "start": "nuxt-ts start",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest",
-    "ndev": "netlify dev"
+    "ndev": "concurrently \"netlify dev\" \"tsc -p functions/tsconfig.json -w\" ",
+    "cfunc": "tsc -p functions/tsconfig.json"
   },
   "dependencies": {
     "nuxt": "^2.0.0",
     "@nuxt/typescript-runtime": "^0.4.0",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/pwa": "^3.0.0-0",
-    "@nuxtjs/dotenv": "^1.4.0"
+    "@nuxtjs/dotenv": "^1.4.0",
+    "@types/aws-lambda": "^8.10.53",
+    "firebase": "^7.15.0"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^0.6.0",
@@ -37,6 +40,7 @@
     "jest": "^24.1.0",
     "vue-jest": "^4.0.0-0",
     "ts-jest": "^25.0.0",
-    "netlify-cli": "^2.51.0"
+    "netlify-cli": "^2.51.0",
+    "concurrently": "^5.2.0"
   }
 }
