@@ -2,15 +2,16 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es2018",
-    "declaration": false,
+    "declaration": true,
     "outDir": "built",
     "strict": true,
+    "allowJs": true,
+    "sourceMap": true,
   },
   "include": [
     "./*"
   ],
   "exclude": [
-    "node_modules",
     "built"
   ]
 }
