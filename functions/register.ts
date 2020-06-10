@@ -6,12 +6,12 @@ import { UserRegistration } from "../ts/types";
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_KEY,
-  authDomain: "jottivity-prod.firebaseapp.com",
-  databaseURL: "https://jottivity-prod.firebaseio.com",
-  projectId: "jottivity-prod",
-  storageBucket: "jottivity-prod.appspot.com",
-  messagingSenderId: "1058066622542",
-  appId: "1:1058066622542:web:3e20bcd826d3d130b63b1f"
+  authDomain: "jottivity-live.firebaseapp.com",
+  databaseURL: "https://jottivity-live.firebaseio.com",
+  projectId: "jottivity-live",
+  storageBucket: "jottivity-live.appspot.com",
+  messagingSenderId: "718665282013",
+  appId: "1:718665282013:web:69b4feb386ea031ca30634"
 };
 
 if (!firebase.apps.length) {
