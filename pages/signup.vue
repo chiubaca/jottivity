@@ -4,22 +4,22 @@
       <form @submit.prevent="onSubmit">
         <div class="input">
           <label for="email">Mail</label>
-          <input type="email" id="email" v-model="registrationDetails.email" />
+          <input id="email" v-model="registrationDetails.email" type="email" />
         </div>
         <div class="input">
           <label for="age">Your Name</label>
           <input
-            type="text"
             id="name"
             v-model.number="registrationDetails.name"
+            type="text"
           />
         </div>
         <div class="input">
           <label for="password">Password</label>
           <input
-            type="password"
             id="password"
             v-model="registrationDetails.password"
+            type="password"
           />
         </div>
 
@@ -52,26 +52,28 @@ export default Vue.extend({
           method: "POST",
           body: JSON.stringify(this.registrationDetails)
         })
-          .then(resp => resp.json())
-          .then(data => {
-            console.log(data)
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
           });
       } else {
-        fetch(document.baseURI + ".netlify/functions/register", {
-          method: "POST",
-          body: JSON.stringify(this.registrationDetails)
-        })
-          .then(resp => resp.json())
-          .then(data => {
-            console.log(data)
+        fetch(
+          "https://" +
+          document.location.hostname +
+          "/.netlify/functions/register",
+          {
+            method: "POST",
+            body: JSON.stringify(this.registrationDetails)
+          }
+        )
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
           });
       }
-
-
     }
   }
 });
 </script>
 
-<style>
-</style>
+<style></style>
