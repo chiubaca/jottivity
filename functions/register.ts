@@ -5,7 +5,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
 import { UserRegistration } from "../ts/types";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC6kyIY2DYNrZufwZtB4nBdtbVmuD_uCvg",
+  apiKey: process.env.FIREBASE_KEY,
   authDomain: "jottivity-prod.firebaseapp.com",
   databaseURL: "https://jottivity-prod.firebaseio.com",
   projectId: "jottivity-prod",
