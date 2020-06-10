@@ -94,6 +94,3 @@ sw.*
 
 #Netlify Functions compiled js files
 functions/built
-
-#misc
-jottivityServiceAccount.json
