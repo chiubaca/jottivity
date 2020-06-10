@@ -19,7 +19,9 @@
     "@nuxt/typescript-runtime": "^0.4.0",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/pwa": "^3.0.0-0",
-    "@nuxtjs/dotenv": "^1.4.0"
+    "@nuxtjs/dotenv": "^1.4.0",
+    "@types/aws-lambda": "^8.10.53",
+    "firebase": "^7.15.0"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^0.6.0",
