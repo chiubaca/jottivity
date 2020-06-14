@@ -6,10 +6,11 @@
       <br />
       <span>Wheels: {{ wheelNum }}</span>
     </div>
-    <button @click="incrWheels(2)">Increase wheels</button>
-    <button @click="useAction('lalalalal')">
-      update text with lalalal
+    <button @click="incrWheels(5)">Increase wheels</button>
+    <button @click="useUpdateTextAction">
+      udpate text
     </button>
+    <input v-model="text" type="text" />
   </div>
 </template>
 
@@ -20,7 +21,7 @@ import { mapGetters, mapMutations, mapActions } from "vuex";
 export default Vue.extend({
   data() {
     return {
-      text: "THIS IS SOME TEXT FROM VUE DATA"
+      text: ""
     };
   },
   computed: {
@@ -32,9 +33,8 @@ export default Vue.extend({
   methods: {
     ...mapMutations("TestModule", ["incrWheels"]),
     ...mapActions("TestModule", ["updateTextAction"]),
-    useAction(textToUpdate: string) {
-      console.log("Action Time!", textToUpdate);
-      this.updateTextAction(textToUpdate);
+    useUpdateTextAction() {
+      this.updateTextAction(this.text);
     }
   }
 });

@@ -12,19 +12,19 @@ export default class TestModule extends VuexModule {
   text = "This is somehting randon TEXT!!!!";
 
   @Mutation
-  incrWheels(extra: number) {
+  incrWheels(extra: number): void {
     this.wheels += extra;
   }
 
   @Mutation
   updateText(text: string) {
-    console.log("mutatation...", text);
+    console.log("Mutation commited", text);
     this.text = text;
   }
 
-  @Action({ rawError: true })
-  updateTextAction(updatedText: string) {
-    console.log("Action1?", updatedText);
+  @Action
+  updateTextAction(updatedText: string): void {
+    console.log("Action dispatched");
     this.context.commit("updateText", updatedText);
   }
 
