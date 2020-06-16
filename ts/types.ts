@@ -4,6 +4,11 @@ export type UserRegistration = {
   password: string;
 };
 
+export type LoginCrendentials = {
+  email: string;
+  password: string;
+};
+
 export type SignupResponse = {
   data: {
     idToken: string;
