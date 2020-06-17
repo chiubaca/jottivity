@@ -7,13 +7,8 @@ let $axios: NuxtAxiosInstance;
 
 export function initializeAxios(axiosInstance: NuxtAxiosInstance) {
   $axios = axiosInstance;
-  console.log("I cant set axios here?", $axios);
 
   if (process.env.NODE_ENV === "development") {
-    console.log(
-      "in dev environment, setting base url to -",
-      process.env.DEV_API_BASE_URL
-    );
     $axios.setBaseURL(process.env.DEV_API_BASE_URL as string);
     return;
   }
