@@ -1,7 +1,7 @@
 <template>
   <div id="signup">
     <div class="signup-form">
-      <form @submit.prevent="onSubmit">
+      <form @submit.prevent="useEmailSignup">
         <div class="input">
           <label for="email">Mail</label>
           <input id="email" v-model="registrationDetails.email" type="email" />
@@ -33,6 +33,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { mapActions } from "vuex";
 
 export default Vue.extend({
   data() {
@@ -45,32 +46,9 @@ export default Vue.extend({
     };
   },
   methods: {
-    onSubmit() {
-      console.log("Submit!", process.env.NODE_ENV);
-      if (process.env.NODE_ENV === "development") {
-        fetch("http://localhost:8888/.netlify/functions/register", {
-          method: "POST",
-          body: JSON.stringify(this.registrationDetails)
-        })
-          .then((resp) => resp.json())
-          .then((data) => {
-            console.log(data);
-          });
-      } else {
-        fetch(
-          "https://" +
-          document.location.hostname +
-          "/.netlify/functions/register",
-          {
-            method: "POST",
-            body: JSON.stringify(this.registrationDetails)
-          }
-        )
-          .then((resp) => resp.json())
-          .then((data) => {
-            console.log(data);
-          });
-      }
+    ...mapActions("Auth", ["emailSignup"]),
+    useEmailSignup() {
+      this.emailSignup(this.registrationDetails);
     }
   }
 });
