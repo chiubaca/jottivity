@@ -1,26 +1,44 @@
-import { Module, VuexModule, Action } from "vuex-module-decorators";
+import { Module, VuexModule, Action, Mutation } from "vuex-module-decorators";
 import store from "vuex";
 import { $axios } from "~/utils/api";
-import { JLoginCrendentials } from "@/types";
+import { JLoginCrendentials, JUserRegistration } from "@/types";
 
 @Module({
   namespaced: true,
   stateFactory: true,
-  preserveState: true,
+  preserveState: false,
   store: store as any
 })
 export default class Auth extends VuexModule {
-  userData: any = null;
+  user: any = null;
 
-  @Action({ rawError: true })
-  async login(loginCreds: JLoginCrendentials) {
-    // await console.log("test...");
-
-    const resp = await $axios.$post("login", loginCreds);
-    console.log("login resp", resp);
+  @Mutation
+  SET_USER(user: any) {
+    this.user = user;
   }
 
-  get userSignedIn() {
-    return !this.userData;
+  @Action({ rawError: true })
+  async emailLogin(loginCreds: JLoginCrendentials) {
+    try {
+      const resp = await $axios.$post("email-login", loginCreds);
+      this.context.commit("SET_USER", resp);
+      console.log("login resp", resp);
+      return resp
+    } catch (err) {
+      console.error("error logging in", err);
+    }
+
+  }
+
+  @Action({ rawError: true })
+  async emailSignup(loginCreds: JUserRegistration) {
+    const resp = await $axios.$post("email-signup", loginCreds);
+    this.context.commit("SET_USER", resp.message);
+    console.log("login resp", resp.message);
+    return resp.message;
+  }
+
+  get isSignedIn() {
+    return !!this.user;
   }
 }
