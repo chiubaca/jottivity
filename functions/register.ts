@@ -2,7 +2,7 @@ import * as firebase from "firebase/app";
 import "firebase/auth";
 
 import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
-import { UserRegistration } from "../ts/types";
+import { JUserRegistration } from "../types";
 import { firebaseConfig } from "./firebaseConfig";
 
 if (!firebase.apps.length) {
@@ -24,7 +24,7 @@ exports.handler = async (
       })
     });
   }
-  const userData: UserRegistration = JSON.parse(event.body as string);
+  const userData: JUserRegistration = JSON.parse(event.body as string);
   try {
     await firebase
       .auth()

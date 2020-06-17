@@ -1,7 +1,7 @@
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
-import { LoginCrendentials } from "../ts/types";
+import { JLoginCrendentials } from "../types";
 import { firebaseConfig } from "./firebaseConfig";
 // Prevents firebase from initilising more than once
 // TODO: find a way to remove this.
@@ -24,7 +24,7 @@ exports.handler = async (
       })
     });
   }
-  const loginCreds: LoginCrendentials = JSON.parse(event.body as string);
+  const loginCreds: JLoginCrendentials = JSON.parse(event.body as string);
   try {
     await firebase
       .auth()

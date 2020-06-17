@@ -1,7 +1,7 @@
 import { Module, VuexModule, Action } from "vuex-module-decorators";
 import store from "vuex";
 import { $axios } from "~/utils/api";
-import { LoginCrendentials } from "@/ts/types";
+import { JLoginCrendentials } from "@/types";
 
 @Module({
   namespaced: true,
@@ -13,7 +13,7 @@ export default class Auth extends VuexModule {
   userData: any = null;
 
   @Action({ rawError: true })
-  async login(loginCreds: LoginCrendentials) {
+  async login(loginCreds: JLoginCrendentials) {
     // await console.log("test...");
 
     const resp = await $axios.$post("login", loginCreds);

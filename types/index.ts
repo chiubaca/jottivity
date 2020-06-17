@@ -1,15 +1,16 @@
-export type UserRegistration = {
+
+export type JUserRegistration = {
   email: string;
   name: string;
   password: string;
 };
 
-export type LoginCrendentials = {
+export type JLoginCrendentials = {
   email: string;
   password: string;
 };
 
-export type SignupResponse = {
+export type JSignupResponse = {
   data: {
     idToken: string;
   };
