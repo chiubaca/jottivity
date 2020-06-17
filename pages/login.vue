@@ -4,14 +4,14 @@
       <form @submit.prevent="useLogin">
         <div class="input">
           <label for="email">Mail</label>
-          <input type="email" id="email" v-model="loginCrendentials.email" />
+          <input id="email" v-model="loginCrendentials.email" type="email" />
         </div>
         <div class="input">
           <label for="password">Password</label>
           <input
-            type="password"
             id="password"
             v-model="loginCrendentials.password"
+            type="password"
           />
         </div>
         <div class="submit">
@@ -37,13 +37,18 @@ export default Vue.extend({
     };
   },
   methods: {
-    ...mapActions("Auth", ["login"]),
-    useLogin() {
-      this.login(this.loginCrendentials);
+    ...mapActions("Auth", ["emailLogin"]),
+    async useLogin() {
+      try {
+        const resp = await this.emailLogin(this.loginCrendentials);
+        console.log("got response in component", resp)
+      } catch (err) {
+        console.error("there was an error in the component", err)
+      }
+
     }
   }
 });
 </script>
 
-<style>
-</style>
+<style></style>
