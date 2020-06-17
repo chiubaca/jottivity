@@ -4,12 +4,12 @@ import store from "vuex";
 @Module({
   namespaced: true,
   stateFactory: true,
-  preserveState: true,
+  preserveState: false,
   store: store as any
 })
 export default class TestModule extends VuexModule {
   wheels = 2;
-  text = "This is somehting randon TEXT!!!!";
+  text = "some text";
 
   @Mutation
   incrWheels(extra: number): void {
