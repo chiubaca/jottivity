@@ -1,7 +1,7 @@
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
-import { JLoginCrendentials } from "../types";
+import { JUser, JLoginCrendentials, firebaseExt } from "../types";
 import { firebaseConfig } from "./firebaseConfig";
 // Prevents firebase from initilising more than once
 // TODO: find a way to remove this.
@@ -30,33 +30,32 @@ exports.handler = async (
       .auth()
       .signInWithEmailAndPassword(loginCreds.email, loginCreds.password);
 
-    // TODO deconstruct User  and user object extract the useful parts from both
-    // - stsTokenManager
-    // - user credentials
     const User: firebase.User = firebase.auth().currentUser as firebase.User;
-    // TODO create type for user object
-    const user: any = User.toJSON();
 
-    console.warn("USER-->", user.stsTokenManager);
+    const userJson: firebaseExt.UserJSON = User.toJSON() as firebaseExt.UserJSON;
+
+    const user: JUser = {
+      tokens: {
+        refreshToken: userJson.stsTokenManager.refreshToken,
+        accessToken: userJson.stsTokenManager.accessToken,
+        expirationTime: userJson.stsTokenManager.expirationTime
+      },
+      email: userJson.email,
+      emailVerified: userJson.emailVerified,
+      lastLoginAt: userJson.lastLoginAt,
+      createdAt: userJson.createdAt
+    };
 
     callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message: user.stsTokenManager
-      })
+      body: JSON.stringify({ user })
     });
-  } catch (err) {
-    const errorCode = err.code;
-    const errorMessage = err.message;
-
+  } catch (error) {
     callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        errorCode,
-        errorMessage
-      })
+      body: JSON.stringify({ error })
     });
   }
 };
