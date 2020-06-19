@@ -9,11 +9,11 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-exports.handler = async (
+export const handler = async function(
   event: APIGatewayProxyEvent,
   _context: any,
   callback: APIGatewayProxyCallback
-) => {
+) {
   if (event.httpMethod !== "POST") {
     console.warn("Invalid HTTP Method used", event.httpMethod);
     callback(null, {
