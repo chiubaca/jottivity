@@ -12,6 +12,7 @@
     "./*"
   ],
   "exclude": [
-    "built"
+    "built",
+     "**/*.spec.ts"
   ]
 }
