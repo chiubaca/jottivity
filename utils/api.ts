@@ -17,7 +17,7 @@ export function initializeAxios(axiosInstance: NuxtAxiosInstance) {
   if (process.env.NODE_ENV === "production") {
     console.log("We're in prod")
     $axios.setBaseURL(
-      document.location.hostname + "/.netlify/functions/register"
+      "https://" + document.location.hostname + "/.netlify/functions/"
     );
     console.log($axios);
     return;
