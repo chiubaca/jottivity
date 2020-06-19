@@ -1,5 +1,7 @@
 import { handler } from "./email-login";
 
-test("a random test", () => {
-  expect(handler).toBe(true);
+describe("Login", () => {
+  test("A placeholder test", () => {
+    expect(handler).toBeTruthy();
+  });
 });
