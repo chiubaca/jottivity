@@ -8,11 +8,14 @@
     "allowJs": true,
     "sourceMap": true,
   },
+  "types": [
+    "jest"
+  ],
   "include": [
     "./*"
   ],
   "exclude": [
     "built",
-     "**/*.spec.ts"
+    "**/*.spec.ts"
   ]
 }
