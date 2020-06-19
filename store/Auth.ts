@@ -30,7 +30,7 @@ export default class Auth extends VuexModule {
       this.context.commit("SET_USER", user);
       console.log("login resp", user);
       alert("You've logged in");
-      return resp;
+      return user;
     } catch (err) {
       console.error("error logging in", err);
     }
