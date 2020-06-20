@@ -16,6 +16,7 @@
   ],
   "exclude": [
     "built",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "firebaseConfig.ts"
   ]
 }
