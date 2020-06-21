@@ -16,6 +16,23 @@ describe("Login", () => {
           headers: {
             "Content-Type": "application/json"
           },
+          statusCode: 405
+        });
+      });
+  });
+
+  test("The provided credentials are not empty", async () => {
+    await LambdaTester(handler)
+      .event({
+        httpMethod: "POST",
+        body: '{ "email": "", "password": "" }'
+      } as any)
+      .expectResult((result: any) => {
+        return expect(result).toEqual({
+          body: '{"error":{"message":"email or password can not be empty"}}',
+          headers: {
+            "Content-Type": "application/json"
+          },
           statusCode: 400
         });
       });
