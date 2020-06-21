@@ -8,15 +8,15 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-exports.handler = async (
+export const handler = async function(
   event: APIGatewayProxyEvent,
   _context: any,
   callback: APIGatewayProxyCallback
-) => {
+) {
   if (event.httpMethod !== "POST") {
     console.warn("Invalid HTTP Method used", event.httpMethod);
     callback(null, {
-      statusCode: 400,
+      statusCode: 405,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         error: "POST requests only"
@@ -24,6 +24,19 @@ exports.handler = async (
     });
   }
   const userData: JUserRegistration = JSON.parse(event.body as string);
+
+  if (userData.email === "" || userData.password === "") {
+    return callback(null, {
+      statusCode: 400,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        error: {
+          message: "email or password can not be empty"
+        }
+      })
+    });
+  }
+
   try {
     await firebase
       .auth()
