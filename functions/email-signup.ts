@@ -24,7 +24,7 @@ export const handler = async function(
     });
   }
   const userData: JUserRegistration = JSON.parse(event.body as string);
-
+  // Check provided credetials are not empty string
   if (userData.email === "" || userData.password === "") {
     return callback(null, {
       statusCode: 400,
@@ -41,9 +41,8 @@ export const handler = async function(
     await firebase
       .auth()
       .createUserWithEmailAndPassword(userData.email, userData.password);
-
     const User: firebase.User = firebase.auth().currentUser as firebase.User;
-
+    // Parse the user object so we can destructure the contents of the object
     const userJson: firebaseExt.UserJSON = User.toJSON() as firebaseExt.UserJSON;
 
     const user: JUser = {
@@ -57,15 +56,16 @@ export const handler = async function(
       lastLoginAt: userJson.lastLoginAt,
       createdAt: userJson.createdAt
     };
-
+    // User was successfully created
     callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ user })
     });
   } catch (error) {
+    // Catch anything that I haven't thought of yet here
     callback(null, {
-      statusCode: 200,
+      statusCode: 400,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ error })
     });
