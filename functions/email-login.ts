@@ -46,13 +46,13 @@ export const handler = async function(
       createdAt: userJson.createdAt
     };
 
-    callback(null, {
+    return callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ user })
     });
   } catch (error) {
-    callback(null, {
+    return callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ error })
