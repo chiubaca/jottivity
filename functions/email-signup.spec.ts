@@ -1,8 +1,8 @@
 import LambdaTester from "lambda-tester";
 import { APIGatewayProxyEvent } from "aws-lambda";
-import { handler } from "./email-login";
+import { handler } from "./email-signup";
 
-describe("Login", () => {
+describe("Signup", () => {
   test("Access via GET is not allowed", async () => {
     await LambdaTester(handler)
       .event({ httpMethod: "GET" } as APIGatewayProxyEvent)
@@ -34,15 +34,4 @@ describe("Login", () => {
       });
   });
 
-  // test("Test GET is not allowed v2", async () => {
-  //   const response = await handler(
-  //     {
-  //       httpMethod: "GET",
-  //       body: '{ "name":"John", "age":30}'
-  //     } as APIGatewayProxyEvent,
-  //     null,
-  //     (_err, resp) => resp
-  //   );
-  //   expect(response).toBeTruthy();
-  // });
 });
