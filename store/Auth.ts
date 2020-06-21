@@ -28,11 +28,11 @@ export default class Auth extends VuexModule {
       }
 
       this.context.commit("SET_USER", user);
-      console.log("login resp", user);
       alert("You've logged in");
       return user;
     } catch (err) {
       console.error("error logging in", err);
+      alert("There was a problem loggin in");
     }
   }
 
