@@ -9,7 +9,7 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-export const handler = async function (
+export const handler = async function(
   event: APIGatewayProxyEvent,
   _context: any,
   callback: APIGatewayProxyCallback
