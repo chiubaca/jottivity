@@ -38,10 +38,22 @@ export default class Auth extends VuexModule {
 
   @Action({ rawError: true })
   async emailSignup(loginCreds: JUserRegistration) {
-    const user = await $axios.$post("email-signup", loginCreds);
-    this.context.commit("SET_USER", user.message);
-    console.log("login resp", user.message);
-    return user.message;
+    try {
+      const user = await $axios.$post("email-signup", loginCreds);
+
+      if (user.error) {
+        alert(user.error.message);
+        return;
+      }
+
+      this.context.commit("SET_USER", user.message);
+      alert(user.message);
+    } catch (err) {
+      console.error("Vuex ,error creating new user", err);
+      alert(
+        "There was a problem trying registering you. Please contact alexchiu11@gmail.com"
+      );
+    }
   }
 
   get isSignedIn() {
