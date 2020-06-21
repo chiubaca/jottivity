@@ -3,9 +3,6 @@ import { APIGatewayProxyEvent } from "aws-lambda";
 import { handler } from "./email-login";
 
 describe("Login", () => {
-  test("A placeholder test", () => {
-    expect(handler).toBeTruthy();
-  });
 
   test("Access via GET is not allowed", async () => {
     await LambdaTester(handler)
