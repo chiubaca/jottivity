@@ -32,7 +32,7 @@ export default class Auth extends VuexModule {
       return user;
     } catch (err) {
       console.error("error logging in", err);
-      alert("There was a problem loggin in");
+      alert("There was a problem logging in");
     }
   }
 
@@ -45,9 +45,8 @@ export default class Auth extends VuexModule {
         alert(user.error.message);
         return;
       }
-
-      this.context.commit("SET_USER", user.message);
-      alert(user.message);
+      this.context.commit("SET_USER", user);
+      alert("You have successfully signed up!");
     } catch (err) {
       console.error("Vuex ,error creating new user", err);
       alert(
