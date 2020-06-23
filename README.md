@@ -1,3 +1,7 @@
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/136153df-8560-4bc0-b805-42e64fbb3723/deploy-status)](https://app.netlify.com/sites/jottivity2/deploys)
+![Unit Tests](https://github.com/chiubaca/jottivity-v2/workflows/Unit%20Tests/badge.svg)
+
 # jottivity-v2
 
 > Jottivity rewrite

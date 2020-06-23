@@ -8,10 +8,15 @@
     "allowJs": true,
     "sourceMap": true,
   },
+  "types": [
+    "jest"
+  ],
   "include": [
     "./*"
   ],
   "exclude": [
-    "built"
+    "built",
+    "**/*.spec.ts",
+    "firebaseConfig.ts"
   ]
 }
