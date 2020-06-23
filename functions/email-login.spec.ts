@@ -33,16 +33,4 @@ describe("Login", () => {
         });
       });
   });
-
-  // test("Test GET is not allowed v2", async () => {
-  //   const response = await handler(
-  //     {
-  //       httpMethod: "GET",
-  //       body: '{ "name":"John", "age":30}'
-  //     } as APIGatewayProxyEvent,
-  //     null,
-  //     (_err, resp) => resp
-  //   );
-  //   expect(response).toBeTruthy();
-  // });
 });
