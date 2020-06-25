@@ -1,26 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Amaranth&display=swap');
+
+
 /*
 * === COLOURS ===
 */
 [data-theme="light"] {
-    --app-background-color: #c2c2c2;
+    --app-background: url("../images/dot.png");
     --app-secondary-background-color: white;
     --primary: rgb(44, 44, 44);
+    --main-font: 'Amaranth', sans-serif, 'Helvetica Neue', Arial, sans-serif;
 }
 
 [data-theme="dark"] {
-    --app-background-color: #093050;
+    --app-background: url("../images/dot_dark.png");
     --app-secondary-background-color: #094f88;
-    --primary: #FFFFFF
-}
-
-[data-theme="sepia"] {
-    --app-background-color: #F1E7D0;
+    --primary: #FFFFFF;
+    --main-font: 'Amaranth', sans-serif, 'Helvetica Neue', Arial, sans-serif;
 }
 
 /*
 * === STYLES ===
 */
-body{
-  /* background-color: var(--app-background-color); */
-  background-image: url("../images/dot.png");
+html{
+  background-image: var(--app-background);
+  font-family: var(--main-font);  
+  font-size: 16px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
 }
