@@ -23,12 +23,11 @@ export default class Auth extends VuexModule {
       const user = await $axios.$post("email-login", loginCreds);
 
       if (user.error) {
-        alert(user.error.message);
-        return;
+        return user;
       }
 
       this.context.commit("SET_USER", user);
-      alert("You've logged in");
+
       return user;
     } catch (err) {
       console.error("error logging in", err);

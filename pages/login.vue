@@ -42,11 +42,18 @@ export default Vue.extend({
     async useLogin() {
       try {
         const resp = await this.emailLogin(this.loginCrendentials);
-        console.log("got response in component", resp)
-      } catch (err) {
-        console.error("there was an error in the component", err)
-      }
 
+        // catch client errors here
+        if (resp.error) {
+          alert(resp.error.message);
+          return;
+        }
+        alert("You've signed in!");
+        this.$router.push("/journals");
+      } catch (err) {
+        // server error throw here
+        console.error("there was an error in the component", err);
+      }
     }
   }
 });
@@ -54,7 +61,7 @@ export default Vue.extend({
 
 <style>
 .signin-form {
-  display:flex;
+  display: flex;
   flex-direction: column;
   font-size: 2em;
 }
