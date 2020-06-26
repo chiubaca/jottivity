@@ -43,9 +43,7 @@
 <script lang="ts">
 import Vue from "vue";
 
-
-export default Vue.extend({
-});
+export default Vue.extend({});
 </script>
 
 <style>
@@ -53,7 +51,6 @@ export default Vue.extend({
   display: flex;
   justify-content: center;
   align-items: center;
-  
 }
 .title {
   padding-left: 10px;

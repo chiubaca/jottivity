@@ -7,11 +7,9 @@
 </template>
 
 <script>
-  export default {
+export default {
   middleware: "authenticated"
-  }
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
