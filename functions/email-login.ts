@@ -2,7 +2,7 @@ import * as firebase from "firebase/app";
 import "firebase/auth";
 import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
 import { JUser, JLoginCrendentials, firebaseExt } from "../types";
-import { firebaseConfig } from "./firebaseConfig";
+import { firebaseConfig } from "../firebase";
 // Prevents firebase from initilising more than once
 // TODO: find a way to remove this.
 if (!firebase.apps.length) {
