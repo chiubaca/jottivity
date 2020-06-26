@@ -1,9 +1,10 @@
 <template>
   <div id="signin">
-    <div class="signin-form">
+    <div class="container--center signin-form">
+      <h1>Welcome Back!</h1>
       <form @submit.prevent="useLogin">
         <div class="input">
-          <label for="email">Mail</label>
+          <label for="email">Email</label>
           <input id="email" v-model="loginCrendentials.email" type="email" />
         </div>
         <div class="input">
@@ -15,7 +16,7 @@
           />
         </div>
         <div class="submit">
-          <button type="submit">Submit</button>
+          <button type="submit">Login</button>
         </div>
       </form>
     </div>
@@ -51,4 +52,10 @@ export default Vue.extend({
 });
 </script>
 
-<style></style>
+<style>
+.signin-form {
+  display:flex;
+  flex-direction: column;
+  font-size: 2em;
+}
+</style>
