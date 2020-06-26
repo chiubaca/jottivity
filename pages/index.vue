@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container--center">
     <div>
       <div class="logo">
         <svg
@@ -49,15 +49,6 @@ export default Vue.extend({
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
 .logo {
   display: flex;
   justify-content: center;
