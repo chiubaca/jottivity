@@ -47,8 +47,20 @@ export default Vue.extend({
   },
   methods: {
     ...mapActions("Auth", ["emailSignup"]),
-    useEmailSignup() {
-      this.emailSignup(this.registrationDetails);
+    async useEmailSignup() {
+      try {
+        const resp = await this.emailSignup(this.registrationDetails);
+        // catch client errors here
+        if (resp.error) {
+          alert(resp.error.message);
+          return;
+        }
+        alert("You've signed up!");
+        this.$router.push("/journals");
+      } catch (err) {
+        console.error("API error", err);
+        alert("Server error");
+      }
     }
   }
 });
@@ -56,7 +68,7 @@ export default Vue.extend({
 
 <style>
 .signup-form {
-  display:flex;
+  display: flex;
   flex-direction: column;
   font-size: 2em;
 }
