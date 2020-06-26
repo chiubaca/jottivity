@@ -43,16 +43,16 @@ export default Vue.extend({
       try {
         const resp = await this.emailLogin(this.loginCrendentials);
 
-        // catch client errors here
         if (resp.error) {
+          // client errors here
           alert(resp.error.message);
           return;
         }
         alert("You've signed in!");
         this.$router.push("/journals");
       } catch (err) {
-        // server error throw here
-        console.error("there was an error in the component", err);
+        console.error("API error", err);
+        alert("Server error");
       }
     }
   }
