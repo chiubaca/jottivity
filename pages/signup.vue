@@ -1,11 +1,8 @@
 <template>
   <div id="signup">
-    <div class="signup-form">
+    <div class="container--center signup-form">
+      <h1>👋 Hello there, Signup!</h1>
       <form @submit.prevent="useEmailSignup">
-        <div class="input">
-          <label for="email">Mail</label>
-          <input id="email" v-model="registrationDetails.email" type="email" />
-        </div>
         <div class="input">
           <label for="age">Your Name</label>
           <input
@@ -15,6 +12,10 @@
           />
         </div>
         <div class="input">
+          <label for="email">Email</label>
+          <input id="email" v-model="registrationDetails.email" type="email" />
+        </div>
+        <div class="input">
           <label for="password">Password</label>
           <input
             id="password"
@@ -22,7 +23,6 @@
             type="password"
           />
         </div>
-
         <div class="submit">
           <button type="submit">Submit</button>
         </div>
@@ -47,11 +47,29 @@ export default Vue.extend({
   },
   methods: {
     ...mapActions("Auth", ["emailSignup"]),
-    useEmailSignup() {
-      this.emailSignup(this.registrationDetails);
+    async useEmailSignup() {
+      try {
+        const resp = await this.emailSignup(this.registrationDetails);
+        // catch client errors here
+        if (resp.error) {
+          alert(resp.error.message);
+          return;
+        }
+        alert("You've signed up!");
+        this.$router.push("/journals");
+      } catch (err) {
+        console.error("API error", err);
+        alert("Server error");
+      }
     }
   }
 });
 </script>
 
-<style></style>
+<style>
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  font-size: 2em;
+}
+</style>

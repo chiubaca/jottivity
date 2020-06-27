@@ -2,7 +2,7 @@ import * as firebase from "firebase/app";
 import "firebase/auth";
 import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
 import { JUser, JUserRegistration, firebaseExt } from "../types";
-import { firebaseConfig } from "./firebaseConfig";
+import { firebaseConfig } from "../firebase";
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);

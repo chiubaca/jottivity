@@ -23,16 +23,13 @@ export default class Auth extends VuexModule {
       const user = await $axios.$post("email-login", loginCreds);
 
       if (user.error) {
-        alert(user.error.message);
-        return;
+        return user;
       }
-
       this.context.commit("SET_USER", user);
-      alert("You've logged in");
       return user;
     } catch (err) {
       console.error("error logging in", err);
-      alert("There was a problem logging in");
+      return err;
     }
   }
 
@@ -42,16 +39,13 @@ export default class Auth extends VuexModule {
       const user = await $axios.$post("email-signup", loginCreds);
 
       if (user.error) {
-        alert(user.error.message);
-        return;
+        return user;
       }
       this.context.commit("SET_USER", user);
-      alert("You have successfully signed up!");
+      return user;
     } catch (err) {
       console.error("Vuex ,error creating new user", err);
-      alert(
-        "There was a problem trying registering you. Please contact alexchiu11@gmail.com"
-      );
+      return err;
     }
   }
 
