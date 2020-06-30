@@ -11,6 +11,7 @@
     "start": "nuxt-ts start",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest",
+    "test:db":"npm test -- ./firebase/test-rules.test.ts --config ./firebase/jest.config.js",
     "ndev": "concurrently \"netlify dev\" \"tsc -p functions/tsconfig.json -w\" ",
     "ndep": "npm run generate && netlify deploy --open",
     "cfunc": "tsc -p functions/tsconfig.json"
