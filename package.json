@@ -11,7 +11,7 @@
     "start": "nuxt-ts start",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest",
-    "test:db":"npm test -- ./firebase/test-rules.test.ts --config ./firebase/jest.config.js",
+    "test:db": "npm test -- ./firebase/firebase-rules.test.ts --config ./firebase/jest.config.js",
     "ndev": "concurrently \"netlify dev\" \"tsc -p functions/tsconfig.json -w\" ",
     "ndep": "npm run generate && netlify deploy --open",
     "cfunc": "tsc -p functions/tsconfig.json"
@@ -22,7 +22,7 @@
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/pwa": "^3.0.0-0",
     "@nuxtjs/dotenv": "^1.4.0",
-    "firebase": "^7.15.0"
+    "firebase": "^7.15.1"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^0.6.0",
@@ -47,6 +47,6 @@
     "ts-jest": "^25.0.0",
     "vue-jest": "^4.0.0-0",
     "vuex-module-decorators": "^0.17.0",
-    "@firebase/testing": "^0.20.5"
+    "@firebase/testing": "^0.15.0"
   }
 }
