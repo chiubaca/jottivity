@@ -24,20 +24,6 @@ Behind the scenes it is using Netlify Dev which will spin up serverless function
 
 
 ### Firestore Rules
-`npm run test:db`
 
-> Note: Java runtime and firebase cli must be installed globablly
-
-```bash
-# on windows
-npm install -g firebase-tools
-winget install --id="Oracle.JavaRuntimeEnvironment" --exact 
-```
-
-```bash
-# on mac...
-🤷
-```
-
-
+Due to loads of problems trying to integrate Firestore rules unit testing with `@firebase/testing` into this project. It's easier to split unit testing for Firestore rules into a seperate repo which can be found here - https://github.com/chiubaca/jottivity-firebase-rules.
 
