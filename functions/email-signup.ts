@@ -54,7 +54,8 @@ export const handler = async function(
       email: userJson.email,
       emailVerified: userJson.emailVerified,
       lastLoginAt: userJson.lastLoginAt,
-      createdAt: userJson.createdAt
+      createdAt: userJson.createdAt,
+      uid: userJson.uid
     };
     // User was successfully created
     callback(null, {
