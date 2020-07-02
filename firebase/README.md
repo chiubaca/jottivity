@@ -1,0 +1,1 @@
+> These unit test don't work in this project currently and have been moved to a different repo here - https://github.com/chiubaca/jottivity-firebase-rules
