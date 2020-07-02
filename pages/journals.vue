@@ -1,15 +1,51 @@
 <template>
-  <div id="journals">
-    <div class="container--center">
-      <h1>Your Journals</h1>
+  <div class="journals container--center">
+    <h1>Your Journals</h1>
+    <div class="new-notebook">
+      <textarea
+        id="new-notebook-name"
+        v-model="newJournalName"
+        placeholder="Notebook Name"
+      ></textarea>
+      <button @click="addNewJournal">+ New Notebook</button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 export default {
-  middleware: "authenticated"
+  middleware: "authenticated",
+  data() {
+    return {
+      newJournalName: ""
+    };
+  },
+  computed: mapState("Auth", ["user"]),
+  methods: {
+    ...mapActions("Journals", ["createJournal"]),
+    addNewJournal() {
+      this.createJournal({
+        journalName: this.newJournalName,
+        uid: this.user.uid,
+        createdAt: Date.now()
+      });
+    }
+  }
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.journals {
+  display: flex;
+  flex-direction: column;
+}
+.new-notebook {
+  color: #2c3e50;
+  box-shadow: 0px 0px 13px #7d7d7d;
+  width: 200px;
+  margin: 15px;
+  padding: 20px;
+  border-radius: 10px;
+}
+</style>
