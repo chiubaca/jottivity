@@ -62,7 +62,7 @@ export const handler = async function(
     callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user })
+      body: JSON.stringify({ ...user })
     });
   } catch (error) {
     callback(null, {

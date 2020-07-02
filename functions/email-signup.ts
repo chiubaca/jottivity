@@ -61,7 +61,7 @@ export const handler = async function(
     callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user })
+      body: JSON.stringify({ ...user })
     });
   } catch (error) {
     // Catch anything that I haven't thought of yet here
