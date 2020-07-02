@@ -1,4 +1,5 @@
 // const {describe, test, expect} = require("jest");
+/** 
 import * as firebase from "@firebase/testing";
 
 const MY_PROJECT_ID = "jottivity-live";
@@ -90,3 +91,5 @@ describe("firebase db rules", () => {
 // after(async()=>{
 //   await firebase.clearFirestoreData({projectId: MY_PROJECT_ID})
 // })
+
+*/
