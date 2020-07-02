@@ -25,6 +25,14 @@ export type JUser = {
   emailVerified: boolean;
   lastLoginAt: string;
   createdAt: string;
+  uid: string;
+};
+
+export type JJournal = {
+  name: string;
+  createdAt: Date;
+  token: string;
+  uid: string;
 };
 
 export declare namespace firebaseExt {
