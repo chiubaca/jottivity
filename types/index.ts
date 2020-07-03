@@ -16,11 +16,7 @@ export type JSignupResponse = {
 };
 
 export type JUser = {
-  tokens: {
-    refreshToken: string;
-    accessToken: string;
-    expirationTime: number;
-  };
+  tokens: JToken;
   email: string;
   emailVerified: boolean;
   lastLoginAt: string;
@@ -28,10 +24,16 @@ export type JUser = {
   uid: string;
 };
 
+export type JToken = {
+  refreshToken: string;
+  accessToken: string;
+  expirationTime: number;
+};
+
 export type JJournal = {
   name: string;
   createdAt: Date;
-  token: string;
+  tokens: JToken;
   uid: string;
 };
 
