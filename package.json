@@ -22,7 +22,8 @@
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/pwa": "^3.0.0-0",
     "@nuxtjs/dotenv": "^1.4.0",
-    "firebase": "^7.15.1"
+    "firebase": "^7.15.1",
+    "firebase-admin": "^8.13.0"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^0.6.0",
