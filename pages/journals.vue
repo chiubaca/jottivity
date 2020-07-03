@@ -12,8 +12,9 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions, mapState } from "vuex";
+import { JJournal } from "../types";
 export default {
   middleware: "authenticated",
   data() {
@@ -25,11 +26,14 @@ export default {
   methods: {
     ...mapActions("Journals", ["createJournal"]),
     addNewJournal() {
-      this.createJournal({
-        journalName: this.newJournalName,
+      const journal: JJournal = {
+        name: this.newJournalName,
         uid: this.user.uid,
-        createdAt: Date.now()
-      });
+        createdAt: Date.now(),
+        tokens: this.user.tokens
+      };
+
+      this.createJournal(journal);
     }
   }
 };
