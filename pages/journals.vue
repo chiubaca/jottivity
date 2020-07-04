@@ -13,9 +13,10 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue";
 import { mapActions, mapState } from "vuex";
 import { JJournal } from "../types";
-export default {
+export default Vue.extend({
   middleware: "authenticated",
   data() {
     return {
@@ -29,14 +30,14 @@ export default {
       const journal: JJournal = {
         name: this.newJournalName,
         uid: this.user.uid,
-        createdAt: Date.now(),
+        createdAt: new Date(),
         tokens: this.user.tokens
       };
 
       this.createJournal(journal);
     }
   }
-};
+});
 </script>
 
 <style scoped>
