@@ -30,8 +30,7 @@ export default Vue.extend({
       const journal: JJournal = {
         name: this.newJournalName,
         uid: this.user.uid,
-        createdAt: new Date(),
-        tokens: this.user.tokens
+        createdAt: new Date().getTime()
       };
 
       this.createJournal(journal);
