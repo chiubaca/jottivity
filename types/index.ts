@@ -22,6 +22,7 @@ export type JUser = {
   lastLoginAt: string;
   createdAt: string;
   uid: string;
+  username: string;
 };
 
 export type JToken = {
