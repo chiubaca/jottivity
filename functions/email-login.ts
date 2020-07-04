@@ -56,7 +56,8 @@ export const handler = async function(
       emailVerified: userJson.emailVerified,
       lastLoginAt: userJson.lastLoginAt,
       createdAt: userJson.createdAt,
-      uid: userJson.uid
+      uid: userJson.uid,
+      username: userJson.displayName
     };
 
     callback(null, {
