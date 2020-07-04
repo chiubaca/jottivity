@@ -1,8 +1,13 @@
 import * as firebase from "firebase/app";
+import * as admin from "firebase-admin";
 import "firebase/auth";
+import "firebase/firestore";
 import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
 import { JUser, JUserRegistration, firebaseExt } from "../types";
 import { firebaseConfig } from "../firebase";
+import { initFirebaseAdmin } from "./helpers/initFirebase";
+
+initFirebaseAdmin();
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -55,9 +60,21 @@ export const handler = async function(
       emailVerified: userJson.emailVerified,
       lastLoginAt: userJson.lastLoginAt,
       createdAt: userJson.createdAt,
-      uid: userJson.uid
+      uid: userJson.uid,
+      username: userData.name
     };
-    // User was successfully created
+    // create a user document with the same id as the uid of the created user
+    await admin
+      .firestore()
+      .collection("users")
+      .doc(user.uid)
+      .set(user);
+
+    // TODO send verification email to user
+    // call another serverless function for this..
+    // see- https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth#generateemailverificationlink
+
+    // User was successfully created, send success response
     callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
