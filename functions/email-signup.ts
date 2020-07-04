@@ -43,13 +43,18 @@ export const handler = async function(
   }
 
   try {
+    // Create the user account on firebase
     await firebase
       .auth()
       .createUserWithEmailAndPassword(userData.email, userData.password);
+
+    // Once user creation is complete, get the user current user.
     const User: firebase.User = firebase.auth().currentUser as firebase.User;
-    // Parse the user object so we can destructure the contents of the object
+
+    // Then get the JSON for this user
     const userJson: firebaseExt.UserJSON = User.toJSON() as firebaseExt.UserJSON;
 
+    // Prepare the user object to be sent to the client.
     const user: JUser = {
       tokens: {
         refreshToken: userJson.stsTokenManager.refreshToken,
@@ -63,7 +68,12 @@ export const handler = async function(
       uid: userJson.uid,
       username: userData.name
     };
-    // create a user document with the same id as the uid of the created user
+
+    // Update the user info store by Firebase auth
+    User.updateProfile({
+      displayName: userData.name
+    });
+    // Create a user document with the same id as the uid of the created user
     await admin
       .firestore()
       .collection("users")
@@ -74,7 +84,7 @@ export const handler = async function(
     // call another serverless function for this..
     // see- https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth#generateemailverificationlink
 
-    // User was successfully created, send success response
+    // Send success response to client with the user object
     callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
