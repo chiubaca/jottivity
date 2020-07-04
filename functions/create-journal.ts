@@ -1,15 +1,10 @@
 import * as admin from "firebase-admin";
 import "firebase/firestore";
 import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
-import { JJournal } from "../types";
+import { JJournal, JToken } from "../types";
+import { initFirebaseAdmin } from "./helpers/initFirebase";
 
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_CONFIG))
-  });
-}
-
-const db = admin.firestore();
+initFirebaseAdmin();
 
 export const handler = async function(
   event: APIGatewayProxyEvent,
@@ -27,17 +22,20 @@ export const handler = async function(
   }
 
   try {
-    const journal: JJournal = await JSON.parse(event.body as string);
+    const journal: JJournal & JToken = await JSON.parse(event.body as string);
+    const { name, uid, createdAt } = journal;
 
-    // write to db
-    const resp = await db.collection("journals").add({
-      title: journal.name
-    });
-    console.log(resp)
+    // write new journal to db
+    await admin
+      .firestore()
+      .collection("journals")
+      .add({ name, uid, createdAt });
+
+    // sucess response for client
     return callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: "created journal" + journal.name })
+      body: JSON.stringify({ name, uid, createdAt })
     });
   } catch (error) {
     console.error(error);
