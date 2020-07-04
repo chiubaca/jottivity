@@ -18,9 +18,7 @@ export const handler = async function(
     callback(null, {
       statusCode: 405,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        error: "POST requests only"
-      })
+      body: JSON.stringify({ error: "POST requests only" })
     });
   }
   const loginCreds: JLoginCrendentials = JSON.parse(event.body as string);
@@ -30,9 +28,7 @@ export const handler = async function(
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        error: {
-          message: "email or password can not be empty"
-        }
+        error: { message: "email or password can not be empty" }
       })
     });
   }
