@@ -24,8 +24,12 @@ export default Vue.extend({
     };
   },
   computed: mapState("Auth", ["user"]),
+  async beforeMount() {
+    const journals = await this.getJournals();
+    console.log("got journals", journals);
+  },
   methods: {
-    ...mapActions("Journals", ["createJournal"]),
+    ...mapActions("Journals", ["createJournal", "getJournals"]),
     addNewJournal() {
       const journal: JJournal = {
         name: this.newJournalName,
