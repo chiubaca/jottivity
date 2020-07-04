@@ -33,8 +33,7 @@ export type JToken = {
 
 export type JJournal = {
   name: string;
-  createdAt: Date;
-  tokens: JToken;
+  createdAt: number;
   uid: string;
 };
 
