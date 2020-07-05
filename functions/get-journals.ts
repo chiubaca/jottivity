@@ -55,7 +55,7 @@ export const handler = async function(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     });
-    process.exit();
+    admin.firestore().terminate();
   } catch (error) {
     console.error("There was an error", error);
     callback(null, {
