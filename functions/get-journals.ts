@@ -39,7 +39,7 @@ export const handler = async function(
 
     if (snapshot.empty) {
       console.log("empty db") 
-      return callback(null, {
+      callback(null, {
         statusCode: 200,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify([])
@@ -50,7 +50,7 @@ export const handler = async function(
     const data: JJournal[] = [];
     snapshot.forEach((doc) => data.push(doc.data() as JJournal));
     console.log("sending data", data)
-    return callback(null, {
+    callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
