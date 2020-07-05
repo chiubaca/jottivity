@@ -38,9 +38,14 @@ export default Vue.extend({
   },
   computed: mapState("Auth", ["user"]),
   async beforeMount() {
-    const journals = await this.getJournals();
-    console.log(journals);
-    this.journals = journals;
+    try {
+      const journals = await this.getJournals();
+      console.log(journals);
+      this.journals = journals;
+    } catch (err) {
+      console.error("could'nt retreive journals", err);
+      alert("Sorry there was problem getting your journals");
+    }
   },
   methods: {
     ...mapActions("Journals", ["createJournal", "getJournals"]),
