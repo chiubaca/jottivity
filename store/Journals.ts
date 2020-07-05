@@ -1,7 +1,7 @@
 import { Module, VuexModule, Action } from "vuex-module-decorators";
 import store from "vuex";
 import { $axios } from "~/utils/api";
-import { JJournal, JToken } from "@/types";
+import { JJournal } from "@/types";
 
 @Module({
   namespaced: true,
@@ -9,15 +9,14 @@ import { JJournal, JToken } from "@/types";
   preserveState: false,
   store: store as any
 })
-export default class Auth extends VuexModule {
+export default class Journals extends VuexModule {
   journals: string[] = [];
 
   @Action({ rawError: true })
-  async createJournal(journal: JJournal, tokens: JToken) {
+  async createJournal(journal: JJournal) {
     try {
       const resp = await $axios.$post("create-journal", {
-        ...journal,
-        ...tokens
+        ...journal
       });
       return resp;
     } catch (err) {
@@ -28,8 +27,13 @@ export default class Auth extends VuexModule {
 
   @Action({ rawError: true })
   async getJournals() {
+    const tokens = this.context.rootState.Auth.user.tokens;
     try {
-      const resp = await $axios.$get("get-journals");
+      const resp = await $axios.$get("get-journals", {
+        headers: {
+          Authorization: tokens.accessToken
+        }
+      });
       return resp;
     } catch (err) {
       console.error("error logging in", err);
