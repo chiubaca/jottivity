@@ -9,6 +9,14 @@
       ></textarea>
       <button @click="addNewJournal">+ New Notebook</button>
     </div>
+
+    <Journal
+      v-for="journal in journals"
+      :key="journal.createdAt"
+      :journal="journal"
+    />
+
+    <button @click="getJournals">Get journals</button>
   </div>
 </template>
 
@@ -16,17 +24,23 @@
 import Vue from "vue";
 import { mapActions, mapState } from "vuex";
 import { JJournal } from "../types";
+import Journal from "@/components/Journal.vue";
 export default Vue.extend({
   middleware: "authenticated",
+  components: {
+    Journal
+  },
   data() {
     return {
-      newJournalName: ""
+      newJournalName: "",
+      journals: []
     };
   },
   computed: mapState("Auth", ["user"]),
   async beforeMount() {
     const journals = await this.getJournals();
-    console.log("got journals", journals);
+    console.log(journals);
+    this.journals = journals;
   },
   methods: {
     ...mapActions("Journals", ["createJournal", "getJournals"]),
