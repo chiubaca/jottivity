@@ -30,9 +30,7 @@ export default class Journals extends VuexModule {
     const tokens = this.context.rootState.Auth.user.tokens;
     try {
       const resp = await $axios.$get("get-journals", {
-        headers: {
-          Authorization: tokens.accessToken
-        }
+        headers: { Authorization: tokens.accessToken }
       });
       return resp;
     } catch (err) {
