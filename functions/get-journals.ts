@@ -4,13 +4,12 @@ import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
 import { JJournal } from "../types";
 import { initFirebaseAdmin } from "./helpers/initFirebase";
 
-initFirebaseAdmin();
-
 export const handler = async function(
   event: APIGatewayProxyEvent,
   _context: any,
   callback: APIGatewayProxyCallback
 ) {
+  initFirebaseAdmin();
   // If no authorisation header is provided reject
   if (!event.headers.authorization) {
     return callback(null, {
