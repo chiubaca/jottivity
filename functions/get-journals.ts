@@ -34,21 +34,21 @@ export const handler = async function(
     // see - https://firebase.google.com/docs/auth/admin?hl=en
 
     // Get journals based on user.uid
-    const usersRef = admin.firestore().collection("journals");
-    const snapshot = await usersRef.where("uid", "==", user.uid).get();
+    // const journalsRef = admin.firestore().collection("journals");
+    // const snapshot = await journalsRef.where("uid", "==", user.uid).get();
 
-    if (snapshot.empty) {
-      console.log("empty db") 
-      callback(null, {
-        statusCode: 200,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify([])
-      });
-    }
+    // if (snapshot.empty) {
+    //   console.log("empty db") 
+    //   callback(null, {
+    //     statusCode: 200,
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify([])
+    //   });
+    // }
 
     // Enumerate through snapshot and push into data array to be sent to client
     const data: JJournal[] = [];
-    snapshot.forEach((doc) => data.push(doc.data() as JJournal));
+    // snapshot.forEach((doc) => data.push(doc.data() as JJournal));
     console.log("sending data", data)
     callback(null, {
       statusCode: 200,
