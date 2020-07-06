@@ -4,12 +4,14 @@ import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
 import { JJournal } from "../types";
 import { initFirebaseAdmin } from "./helpers/initFirebase";
 
+initFirebaseAdmin();
+
 export const handler = async function(
   event: APIGatewayProxyEvent,
   _context: any,
   callback: APIGatewayProxyCallback
 ) {
-  await initFirebaseAdmin();
+
   // If no authorisation header is provided reject
   if (!event.headers.authorization) {
     return callback(null, {
@@ -27,7 +29,8 @@ export const handler = async function(
     // Verify JWT, if user deleted, or JWT is invalid, this will throw an error
     const user: admin.auth.DecodedIdToken = await admin
       .auth()
-      .verifyIdToken(JWT, true);
+      .verifyIdToken(JWT);
+
     console.log("user obj",user);
     // TODO Could check for custom claim for additional security logic here
     // see - https://firebase.google.com/docs/auth/admin?hl=en
