@@ -24,12 +24,12 @@ export const handler = async function(
     console.log("getting journals...")
     // Extract JWT from header
     const JWT = event.headers.authorization;
-
+    console.log(JWT)  
     // Verify JWT, if user deleted, or JWT is invalid, this will throw an error
-    const user: admin.auth.DecodedIdToken = await admin
-      .auth()
-      .verifyIdToken(JWT, true);
-   console.log("user obj",user) 
+  //   const user: admin.auth.DecodedIdToken = await admin
+  //     .auth()
+  //     .verifyIdToken(JWT, true);
+  //  console.log("user obj",user) 
     // TODO Could check for custom claim for additional security logic here
     // see - https://firebase.google.com/docs/auth/admin?hl=en
 
