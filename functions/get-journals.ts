@@ -21,15 +21,15 @@ export const handler = async function(
   }
 
   try {
-    console.log("getting journals...")
+    console.log("getting journals...");
     // Extract JWT from header
     const JWT = event.headers.authorization;
-    console.log(JWT)  
+    console.log(JWT);
     // Verify JWT, if user deleted, or JWT is invalid, this will throw an error
-  //   const user: admin.auth.DecodedIdToken = await admin
-  //     .auth()
-  //     .verifyIdToken(JWT, true);
-  //  console.log("user obj",user) 
+    const user: admin.auth.DecodedIdToken = await admin
+      .auth()
+      .verifyIdToken(JWT, true);
+    console.log("user obj",user);
     // TODO Could check for custom claim for additional security logic here
     // see - https://firebase.google.com/docs/auth/admin?hl=en
 
@@ -49,7 +49,7 @@ export const handler = async function(
     // Enumerate through snapshot and push into data array to be sent to client
     const data: JJournal[] = [];
     // snapshot.forEach((doc) => data.push(doc.data() as JJournal));
-    console.log("sending data", data)
+    console.log("sending data", data);
     callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
