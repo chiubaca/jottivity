@@ -9,7 +9,7 @@ export const handler = async function(
   _context: any,
   callback: APIGatewayProxyCallback
 ) {
-  initFirebaseAdmin();
+  await initFirebaseAdmin();
   // If no authorisation header is provided reject
   if (!event.headers.authorization) {
     return callback(null, {
