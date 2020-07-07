@@ -54,7 +54,8 @@ export const handler = async function(
     snapshot.forEach((doc) => data.push(doc.data() as JJournal));
     console.log("sending data", data);
     // close the database connection
-    admin.app().delete;
+    console.log("closing db connection");
+    await admin.app().delete;
     callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
