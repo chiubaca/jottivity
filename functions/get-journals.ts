@@ -55,7 +55,7 @@ export const handler = async function(
     console.log("sending data", data);
     // close the database connection
     console.log("closing db connection");
-    await admin.app().delete;
+    await admin.app().delete();
     callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
