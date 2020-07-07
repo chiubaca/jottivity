@@ -29,7 +29,7 @@ export const handler = async function(
     // Verify JWT, if user deleted, or JWT is invalid, this will throw an error
     const user: admin.auth.DecodedIdToken = await admin
       .auth()
-      .verifyIdToken(JWT);
+      .verifyIdToken(JWT, true);
 
     console.log("user obj",user);
     // TODO Could check for custom claim for additional security logic here
@@ -53,6 +53,8 @@ export const handler = async function(
     const data: JJournal[] = [];
     snapshot.forEach((doc) => data.push(doc.data() as JJournal));
     console.log("sending data", data);
+    // close the database connection
+    admin.app().delete;
     callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
