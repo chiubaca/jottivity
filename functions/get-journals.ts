@@ -10,6 +10,7 @@ export const handler = async function(
   callback: APIGatewayProxyCallback
 ) {
   initFirebaseAdmin();
+
   // If no authorisation header is provided reject
   if (!event.headers.authorization) {
     return callback(null, {
@@ -20,16 +21,13 @@ export const handler = async function(
   }
 
   try {
-    console.log("getting journals...");
     // Extract JWT from header
     const JWT = event.headers.authorization;
-    console.log(JWT);
     // Verify JWT, if user deleted, or JWT is invalid, this will throw an error
     const user: admin.auth.DecodedIdToken = await admin
       .auth()
       .verifyIdToken(JWT, true);
 
-    console.log("user obj", user);
     // TODO Could check for custom claim for additional security logic here
     // see - https://firebase.google.com/docs/auth/admin?hl=en
 
@@ -38,7 +36,6 @@ export const handler = async function(
     const snapshot = await journalsRef.where("uid", "==", user.uid).get();
 
     if (snapshot.empty) {
-      console.log("empty db");
       callback(null, {
         statusCode: 200,
         headers: { "Content-Type": "application/json" },
@@ -49,9 +46,8 @@ export const handler = async function(
     // Enumerate through snapshot and push into data array to be sent to client
     const data: JJournal[] = [];
     snapshot.forEach((doc) => data.push(doc.data() as JJournal));
-    console.log("sending data", data);
-    // close the database connection
-    console.log("closing db connection");
+
+    // Close the database connection. Really important for Netlify functions, otherwise API will timeout
     await admin.app().delete();
     callback(null, {
       statusCode: 200,
