@@ -37,8 +37,7 @@ export const handler = async function(
 
     // Get journals based on user.uid
     const journalsRef = admin.firestore().collection("journals");
-    const snapshot = await journalsRef.get();
-    // const snapshot = await journalsRef.where("uid", "==", user.uid).get();
+    const snapshot = await journalsRef.where("uid", "==", user.uid).get();
 
     if (snapshot.empty) {
       console.log("empty db");
