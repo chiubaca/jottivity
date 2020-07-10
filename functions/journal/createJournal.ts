@@ -10,15 +10,22 @@ export default async function createJournal(
   const { name, uid, createdAt } = journal;
 
   // write new journal to db
-  await admin
+  const newJournal = await admin
     .firestore()
     .collection("journals")
     .add({ name, uid, createdAt });
+
+  // append journal id to the journal object
+  await admin
+    .firestore()
+    .collection("journals")
+    .doc(newJournal.id)
+    .update({ id: newJournal.id });
 
   // sucess response for client
   return callback(null, {
     statusCode: 200,
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, uid, createdAt })
+    body: JSON.stringify({ name, uid, createdAt, id: newJournal.id })
   });
 }
