@@ -10,17 +10,20 @@ export const handler = async function(
   _context: any,
   callback: APIGatewayProxyCallback
 ) {
-  await initFirebaseAdmin();
-
+  initFirebaseAdmin();
   try {
     if (event.httpMethod === "GET") {
       // handle retreiving journals
       await retrieveJournal(event, callback);
+      return;
     }
     if (event.httpMethod === "POST") {
       // handle creating new journals
       await createJournal(event, callback);
+      return;
     } else {
+      // Very import to call this before callback otherwise Netlify lambda will timeout.
+      // https://github.com/firebase/firebase-admin-node/issues/929
       await admin.app().delete();
       callback(null, {
         statusCode: 405,
