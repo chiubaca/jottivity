@@ -34,7 +34,8 @@ export type JToken = {
 export type JJournal = {
   name: string;
   createdAt: number;
-  uid: string;
+  uid: string; // user id
+  id: string | undefined; // document id
 };
 
 export declare namespace firebaseExt {
