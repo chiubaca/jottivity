@@ -2,6 +2,7 @@
   <div class="journal">
     <h1>{{ journal.name }}</h1>
     <h2>{{ journal.createdAt }}</h2>
+    <button @click="$emit('delete', journal.id)">Delete Journal</button>
   </div>
 </template>
 
