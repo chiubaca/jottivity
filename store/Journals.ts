@@ -15,7 +15,7 @@ export default class Journals extends VuexModule {
   @Action({ rawError: true })
   async createJournal(journal: JJournal) {
     try {
-      const resp = await $axios.$post("create-journal", {
+      const resp = await $axios.$post("journal", {
         ...journal
       });
       return resp;
@@ -29,7 +29,7 @@ export default class Journals extends VuexModule {
   async getJournals() {
     const tokens = this.context.rootState.Auth.user.tokens;
     try {
-      const resp = await $axios.$get("get-journals", {
+      const resp = await $axios.$get("journal", {
         headers: { Authorization: tokens.accessToken }
       });
       return resp;
