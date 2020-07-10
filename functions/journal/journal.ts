@@ -4,7 +4,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
 import { initFirebaseAdmin } from "../helpers/initFirebase";
 import retrieveJournal from "./retrieveJournal";
 import createJournal from "./createJournal";
-
+import deleteJournal from "./deleteJournal";
 export const handler = async function(
   event: APIGatewayProxyEvent,
   _context: any,
@@ -20,6 +20,11 @@ export const handler = async function(
     if (event.httpMethod === "POST") {
       // handle creating new journals
       await createJournal(event, callback);
+      return;
+    }
+    if (event.httpMethod === "DELETE") {
+      // handle creating new journals
+      await deleteJournal(event, callback);
       return;
     } else {
       // Very import to call this before callback otherwise Netlify lambda will timeout.
