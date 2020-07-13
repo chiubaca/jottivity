@@ -40,8 +40,7 @@ export default class Journals extends VuexModule {
   }
 
   @Action({ rawError: true })
-  async deleteJournal(journalId) {
-    console.log("deleting journal", journalId);
+  async deleteJournal(journalId: string) {
     const tokens = this.context.rootState.Auth.user.tokens;
     try {
       const resp = await $axios.$delete(`journal?id=${journalId}`, {
