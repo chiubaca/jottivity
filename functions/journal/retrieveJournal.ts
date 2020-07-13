@@ -38,7 +38,10 @@ export default async function retrieveJournals(
 
   // Enumerate through snapshot and push into data array to be sent to client
   const data: JJournal[] = [];
-  snapshot.forEach((doc) => data.push(doc.data() as JJournal));
+  snapshot.forEach((doc) => {
+    const journal = doc.data() as JJournal;
+    data.push({ ...journal, id: doc.id });
+  });
 
   // Close the database connection. Really important for Netlify functions, otherwise API will timeout
   await admin.app().delete();

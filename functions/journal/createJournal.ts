@@ -15,13 +15,6 @@ export default async function createJournal(
     .collection("journals")
     .add({ name, uid, createdAt });
 
-  // append journal id to the journal object
-  await admin
-    .firestore()
-    .collection("journals")
-    .doc(newJournal.id)
-    .update({ id: newJournal.id });
-
   // sucess response for client
   return callback(null, {
     statusCode: 200,
