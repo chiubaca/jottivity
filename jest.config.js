@@ -5,7 +5,7 @@ module.exports = {
     "^vue$": "vue/dist/vue.common.js"
   },
   moduleFileExtensions: ["ts", "js", "vue", "json"],
-  testPathIgnorePatterns: ["\\node_modules\\", "\\firebase\\"],
+  testPathIgnorePatterns: ["\\node_modules\\"],
   transform: {
     "^.+\\.ts$": "ts-jest",
     "^.+\\.js$": "babel-jest",
