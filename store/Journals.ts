@@ -55,4 +55,23 @@ export default class Journals extends VuexModule {
       return err;
     }
   }
+
+  @Action({ rawError: true })
+  async updateJournal(journalTitleAndId: { journalTitle: string; id: string }) {
+    const tokens = this.context.rootState.Auth.user.tokens;
+    const { journalTitle, id } = journalTitleAndId;
+    try {
+      const resp = await $axios.$patch(
+        `journal?id=${id}&title=${journalTitle}`,
+        {},
+        {
+          headers: { Authorization: tokens.accessToken, test: "test" }
+        }
+      );
+      return resp;
+    } catch (err) {
+      console.error("error logging in", err);
+      return err;
+    }
+  }
 }

@@ -5,6 +5,8 @@ import { initFirebaseAdmin } from "../helpers/initFirebase";
 import retrieveJournal from "./retrieveJournal";
 import createJournal from "./createJournal";
 import deleteJournal from "./deleteJournal";
+import updateJournal from "./updateJournal";
+
 export const handler = async function(
   event: APIGatewayProxyEvent,
   _context: any,
@@ -25,6 +27,10 @@ export const handler = async function(
     if (event.httpMethod === "DELETE") {
       // handle creating new journals
       await deleteJournal(event, callback);
+      return;
+    }
+    if (event.httpMethod === "PATCH") {
+      await updateJournal(event, callback);
       return;
     } else {
       // Very import to call this before callback otherwise Netlify lambda will timeout.
