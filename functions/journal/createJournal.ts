@@ -4,6 +4,7 @@ import { JJournal, JToken } from "../../types";
 
 export default async function createJournal(
   event: APIGatewayProxyEvent,
+  _context: any,
   callback: APIGatewayProxyCallback
 ) {
   try {

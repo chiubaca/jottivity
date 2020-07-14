@@ -1,3 +1,6 @@
+/**
+ * Main entry point for journal endpoint.
+ */
 import * as admin from "firebase-admin";
 import "firebase/firestore";
 import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
@@ -15,17 +18,14 @@ export const handler = async function(
   initFirebaseAdmin();
   try {
     if (event.httpMethod === "GET") {
-      // handle retreiving journals
       await retrieveJournal(event, callback);
       return;
     }
     if (event.httpMethod === "POST") {
-      // handle creating new journals
-      await createJournal(event, callback);
+      await createJournal(event, _context, callback);
       return;
     }
     if (event.httpMethod === "DELETE") {
-      // handle creating new journals
       await deleteJournal(event, callback);
       return;
     }
