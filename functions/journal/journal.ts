@@ -2,10 +2,10 @@ import * as admin from "firebase-admin";
 import "firebase/firestore";
 import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
 import { initFirebaseAdmin } from "../helpers/initFirebase";
-import retrieveJournal from "./retrieveJournal";
 import createJournal from "./createJournal";
-import deleteJournal from "./deleteJournal";
+import retrieveJournal from "./retrieveJournal";
 import updateJournal from "./updateJournal";
+import deleteJournal from "./deleteJournal";
 
 export const handler = async function(
   event: APIGatewayProxyEvent,
