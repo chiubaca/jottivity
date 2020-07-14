@@ -14,10 +14,13 @@ export default class Journals extends VuexModule {
 
   @Action({ rawError: true })
   async createJournal(journal: JJournal) {
+    const tokens = this.context.rootState.Auth.user.tokens;
     try {
-      const resp = await $axios.$post("journal", {
-        ...journal
-      });
+      const resp = await $axios.$post(
+        "journal",
+        { ...journal },
+        { headers: { Authorization: tokens.accessToken } }
+      );
       return resp;
     } catch (err) {
       console.error("error logging in", err);
