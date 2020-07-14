@@ -12,9 +12,10 @@
 
     <Journal
       v-for="journal in journals"
-      :key="journal.createdAt"
+      :key="journal.id"
       :journal="journal"
       @delete="deleteJournal($event)"
+      @update="updateJournal($event, journal)"
     />
 
     <button @click="getJournals">Get journals</button>
@@ -52,7 +53,8 @@ export default Vue.extend({
     ...mapActions("Journals", [
       "createJournal",
       "getJournals",
-      "deleteJournal"
+      "deleteJournal",
+      "updateJournal"
     ]),
     addNewJournal() {
       const journal: JJournal = {

@@ -1,6 +1,13 @@
 <template>
   <div class="journal">
-    <h1>{{ journal.name }}</h1>
+    <input
+      ref="editTitle"
+      v-model="journalTitle"
+      readonly
+      type="text"
+      @keyup.enter="$emit('update', { journalTitle, id: journal.id })"
+      @click="toggleEditMode"
+    />
     <h2>{{ journal.createdAt }}</h2>
     <button @click="$emit('delete', journal.id)">Delete Journal</button>
   </div>
@@ -16,6 +23,23 @@ export default Vue.extend({
       type: Object,
       required: true
     } as PropOptions<JJournal>
+  },
+  data() {
+    return {
+      editMode: false,
+      journalTitle: ""
+    };
+  },
+  mounted() {
+    this.journalTitle = this.journal.name;
+  },
+  methods: {
+    toggleEditMode() {
+      this.editMode = !this.editMode;
+      if (this.editMode) {
+        (this.$refs.editTitle as HTMLInputElement).removeAttribute("readonly");
+      }
+    }
   }
 });
 </script>
