@@ -8,7 +8,7 @@ describe("Login", () => {
       .event({ httpMethod: "GET" } as APIGatewayProxyEvent)
       .expectResult((result: any) => {
         return expect(result).toEqual({
-          body: '{"error":"POST requests only"}',
+          body: '{"error":"Invalid Operation"}',
           headers: {
             "Content-Type": "application/json"
           },

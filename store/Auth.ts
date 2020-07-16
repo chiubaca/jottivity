@@ -1,7 +1,7 @@
 import { Module, VuexModule, Action, Mutation } from "vuex-module-decorators";
 import store from "vuex";
 import { $axios } from "~/utils/api";
-import { JLoginCrendentials, JUserRegistration } from "@/types";
+import { JLoginCrendentials, JUserRegistration, JUser } from "@/types";
 
 @Module({
   namespaced: true,
@@ -10,7 +10,7 @@ import { JLoginCrendentials, JUserRegistration } from "@/types";
   store: store as any
 })
 export default class Auth extends VuexModule {
-  user: any = null;
+  user: undefined | JUser = undefined;
 
   @Mutation
   SET_USER(user: any) {

@@ -1,26 +1,29 @@
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/136153df-8560-4bc0-b805-42e64fbb3723/deploy-status)](https://app.netlify.com/sites/jottivity2/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/136153df-8560-4bc0-b805-42e64fbb3723/deploy-status)](https://app.netlify.com/sites/jottivity/deploys)
 ![Unit Tests](https://github.com/chiubaca/jottivity-v2/workflows/Unit%20Tests/badge.svg)
 
-# jottivity-v2
+# Jottivity ✒️ 
 
-> Jottivity rewrite
+Jottivity rewrite.
 
-## Build Setup
+## Build Setup 🛠️
 
-```bash
-# install dependencies
-$ npm install
 
-# serve with hot reload at localhost:3000
-$ npm run dev
+### Install dependencies
+`npm install`
 
-# build for production and launch server
-$ npm run build
-$ npm run start
+### Serve with hot reload at `localhost:8888`
+`npm run ndev`
 
-# generate static project
-$ npm run generate
-```
+Behind the scenes it is using Netlify Dev which will spin up serverless function APIs which run locally on your machine and also the Nuxt front-end, then proxy everything to port 8888.
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+## Unit Tests 🧪
+
+### Netlify functions and Vue components
+`npm run test`
+
+
+### Firestore Rules
+
+Due to loads of problems trying to integrate Firestore rules unit testing with `@firebase/testing` into this project. It's easier to split unit testing for Firestore rules into a seperate repo which can be found here - https://github.com/chiubaca/jottivity-firebase-rules.
+

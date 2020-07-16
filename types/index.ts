@@ -16,15 +16,26 @@ export type JSignupResponse = {
 };
 
 export type JUser = {
-  tokens: {
-    refreshToken: string;
-    accessToken: string;
-    expirationTime: number;
-  };
+  tokens: JToken;
   email: string;
   emailVerified: boolean;
   lastLoginAt: string;
   createdAt: string;
+  uid: string;
+  username: string;
+};
+
+export type JToken = {
+  refreshToken: string;
+  accessToken: string;
+  expirationTime: number;
+};
+
+export type JJournal = {
+  name: string;
+  createdAt: number;
+  uid: string; // user id
+  id: string | undefined; // document id
 };
 
 export declare namespace firebaseExt {
