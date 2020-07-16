@@ -3,9 +3,9 @@ import * as admin from "firebase-admin";
 import "firebase/auth";
 import "firebase/firestore";
 import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
-import { JUser, JUserRegistration, firebaseExt } from "../types";
-import { firebaseConfig } from "../firebase";
-import { initFirebaseAdmin } from "./helpers/initFirebase";
+import { JUser, JUserRegistration, firebaseExt } from "../../types";
+import { firebaseConfig } from "../../firebase";
+import { initFirebaseAdmin } from "../helpers/initFirebase";
 
 initFirebaseAdmin();
 
