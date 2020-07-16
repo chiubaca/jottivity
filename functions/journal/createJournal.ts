@@ -30,6 +30,7 @@ export default async function createJournal(
       .add({ name, uid, createdAt });
 
     // sucess response for client
+    await admin.app().delete();
     return callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },

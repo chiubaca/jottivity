@@ -60,6 +60,8 @@ export const handler = async function(
       User.updateProfile({
         displayName: userData.name
       });
+
+      await firebase.app().delete();
       // Create a user document with the same id as the uid of the created user
       await firebase
         .firestore()
