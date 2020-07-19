@@ -11,7 +11,7 @@
     </div>
 
     <Journal
-      v-for="journal in journals"
+      v-for="journal in allJournals"
       :key="journal.id"
       :journal="journal"
       @delete="deleteJournal($event)"
@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
 import { JJournal } from "../types";
 import Journal from "@/components/Journal.vue";
 export default Vue.extend({
@@ -34,29 +34,30 @@ export default Vue.extend({
   },
   data() {
     return {
-      newJournalName: "",
-      journals: []
+      newJournalName: ""
     };
   },
-  computed: mapState("Auth", ["user"]),
-  async beforeMount() {
+  computed: {
+    ...mapState("Auth", ["user"]),
+    ...mapGetters("Journals", ["allJournals"])
+  },
+  async mounted() {
     try {
-      const journals = await this.getJournals();
-      console.log(journals);
-      this.journals = journals;
+      await this.getJournals();
     } catch (err) {
-      console.error("could'nt retreive journals", err);
+      console.error("Failed to get journals", err);
       alert("Sorry there was problem getting your journals");
     }
   },
   methods: {
+    ...mapMutations("Journals", ["ADD_JOURNAL"]),
     ...mapActions("Journals", [
       "createJournal",
       "getJournals",
       "deleteJournal",
       "updateJournal"
     ]),
-    addNewJournal() {
+    async addNewJournal() {
       const journal: JJournal = {
         name: this.newJournalName,
         uid: this.user.uid,
@@ -64,7 +65,9 @@ export default Vue.extend({
         id: undefined
       };
 
-      this.createJournal(journal);
+      const newJournal = await this.createJournal(journal);
+      this.ADD_JOURNAL(newJournal);
+      console.log("created new Journal", newJournal);
     }
   }
 });
