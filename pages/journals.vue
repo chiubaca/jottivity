@@ -11,9 +11,10 @@
     </div>
 
     <Journal
-      v-for="journal in allJournals"
+      v-for="(journal, index) in allJournals"
       :key="journal.id"
       :journal="journal"
+      :index="index"
       @delete="deleteJournal($event)"
       @update="updateJournal($event, journal)"
     />
@@ -58,16 +59,27 @@ export default Vue.extend({
       "updateJournal"
     ]),
     async addNewJournal() {
-      const journal: JJournal = {
-        name: this.newJournalName,
-        uid: this.user.uid,
-        createdAt: new Date().getTime(),
-        id: undefined
-      };
+      try {
+        const journal: JJournal = {
+          name: this.newJournalName,
+          uid: this.user.uid,
+          createdAt: new Date().getTime(),
+          id: undefined
+        };
 
-      const newJournal = await this.createJournal(journal);
-      this.ADD_JOURNAL(newJournal);
-      console.log("created new Journal", newJournal);
+        const newJournal = await this.createJournal(journal);
+
+        if (newJournal.error) {
+          alert("Please sign in again");
+          this.$router.push("login");
+          return;
+        }
+
+        this.ADD_JOURNAL(newJournal);
+        console.log("created new Journal", newJournal);
+      } catch (error) {
+        alert("there was problem creating the journal");
+      }
     }
   }
 });

@@ -1,5 +1,6 @@
 <template>
   <div class="journal">
+    {{ index }}
     <input
       ref="editTitle"
       v-model="journalTitle"
@@ -9,7 +10,9 @@
       @click="toggleEditMode"
     />
     <h2>{{ journal.createdAt }}</h2>
-    <button @click="$emit('delete', journal.id)">Delete Journal</button>
+    <button @click="$emit('delete', { index, id: journal.id })">
+      Delete Journal
+    </button>
   </div>
 </template>
 
@@ -19,6 +22,10 @@ import Vue, { PropOptions } from "vue";
 import { JJournal } from "../types";
 export default Vue.extend({
   props: {
+    index: {
+      type: Number,
+      required: true
+    },
     journal: {
       type: Object,
       required: true

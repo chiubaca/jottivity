@@ -16,6 +16,11 @@ export default class Journals extends VuexModule {
     this.journals.push(journal);
   }
 
+  @Mutation
+  DELETE_JOURNAL(journalIndex: number) {
+    this.journals.splice(journalIndex, 1);
+  }
+
   get allJournals() {
     return this.journals;
   }
@@ -31,7 +36,7 @@ export default class Journals extends VuexModule {
       );
       return resp;
     } catch (err) {
-      console.error("error logging in", err);
+      console.error("server error creating journal", err);
       return err;
     }
   }
@@ -59,10 +64,12 @@ export default class Journals extends VuexModule {
   }
 
   @Action({ rawError: true })
-  async deleteJournal(journalId: string) {
+  async deleteJournal(delJournalPayload: { index: number; id: string }) {
+    const { index, id } = delJournalPayload;
     const tokens = this.context.rootState.Auth.user.tokens;
+    this.context.commit("DELETE_JOURNAL", index);
     try {
-      const resp = await $axios.$delete(`journal?id=${journalId}`, {
+      const resp = await $axios.$delete(`journal?id=${id}`, {
         headers: { Authorization: tokens.accessToken }
       });
       return resp;
