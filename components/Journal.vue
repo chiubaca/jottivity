@@ -6,7 +6,7 @@
       v-model="journalTitle"
       readonly
       type="text"
-      @keyup.enter="$emit('update', { journalTitle, id: journal.id })"
+      @keyup.enter="$emit('update', { journalTitle, id: journal.id, index })"
       @click="toggleEditMode"
     />
     <h2>{{ journal.createdAt }}</h2>
