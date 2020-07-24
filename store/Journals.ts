@@ -3,6 +3,11 @@ import store from "vuex";
 import { $axios } from "~/utils/api";
 import { JJournal } from "@/types";
 
+type UpdateJournalEvent = {
+  journalTitle: string;
+  id: string;
+  index: number;
+};
 @Module({
   namespaced: true,
   stateFactory: true,
@@ -14,6 +19,15 @@ export default class Journals extends VuexModule {
   @Mutation
   ADD_JOURNAL(journal: JJournal) {
     this.journals.push(journal);
+  }
+
+  @Mutation
+  UPDATE_JOURNAL(updateJournalEvnt: UpdateJournalEvent) {
+    console.log(
+      "Update Mutation",
+      (this.journals[updateJournalEvnt.index].name =
+        updateJournalEvnt.journalTitle)
+    );
   }
 
   @Mutation
@@ -64,8 +78,8 @@ export default class Journals extends VuexModule {
   }
 
   @Action({ rawError: true })
-  async deleteJournal(delJournalPayload: { index: number; id: string }) {
-    const { index, id } = delJournalPayload;
+  async deleteJournal(delJournalEvnt: { index: number; id: string }) {
+    const { index, id } = delJournalEvnt;
     const tokens = this.context.rootState.Auth.user.tokens;
     this.context.commit("DELETE_JOURNAL", index);
     try {
@@ -80,17 +94,16 @@ export default class Journals extends VuexModule {
   }
 
   @Action({ rawError: true })
-  async updateJournal(journalTitleAndId: { journalTitle: string; id: string }) {
+  async updateJournal(updateJournalEvnt: UpdateJournalEvent) {
     const tokens = this.context.rootState.Auth.user.tokens;
-    const { journalTitle, id } = journalTitleAndId;
+    const { journalTitle, id } = updateJournalEvnt;
     try {
       const resp = await $axios.$patch(
         `journal?id=${id}&title=${journalTitle}`,
         {},
-        {
-          headers: { Authorization: tokens.accessToken, test: "test" }
-        }
+        { headers: { Authorization: tokens.accessToken, test: "test" } }
       );
+      this.context.commit("UPDATE_JOURNAL", updateJournalEvnt);
       return resp;
     } catch (err) {
       console.error("error logging in", err);
