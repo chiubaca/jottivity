@@ -35,6 +35,11 @@ export default class Journals extends VuexModule {
     this.journals.splice(journalIndex, 1);
   }
 
+  @Mutation
+  REFRESH_JOURNAL_STATE(journals: JJournal[]) {
+    this.journals = journals;
+  }
+
   get allJournals() {
     return this.journals;
   }
@@ -59,18 +64,13 @@ export default class Journals extends VuexModule {
   async getJournals() {
     const tokens = this.context.rootState.Auth.user.tokens;
     try {
-      // only retreive journals if there is nothing in state
-      if (this.journals.length === 0) {
-        const resp = await $axios.$get("journal", {
-          headers: { Authorization: tokens.accessToken }
-        });
-        resp.forEach((journal: JJournal) => {
-          this.context.commit("ADD_JOURNAL", journal);
-        });
-        return resp;
-      } else {
-        return [];
-      }
+      const resp = await $axios.$get("journal", {
+        headers: { Authorization: tokens.accessToken }
+      });
+
+      this.context.commit("REFRESH_JOURNAL_STATE", resp);
+
+      return resp;
     } catch (err) {
       console.error("error retrieving jounrnals", err);
       return err;
