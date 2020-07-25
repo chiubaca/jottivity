@@ -10,9 +10,9 @@
       <button @click="addNewJournal">+ New Notebook</button>
     </div>
 
-    <Journal
+    <JournalCard
       v-for="(journal, index) in allJournals"
-      :key="journal.id"
+      :key="index"
       :journal="journal"
       :index="index"
       @delete="deleteJournal($event)"
@@ -27,11 +27,11 @@
 import Vue from "vue";
 import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
 import { JJournal } from "../types";
-import Journal from "@/components/Journal.vue";
+import JournalCard from "@/components/JournalCard.vue";
 export default Vue.extend({
   middleware: "authenticated",
   components: {
-    Journal
+    JournalCard
   },
   data() {
     return {
