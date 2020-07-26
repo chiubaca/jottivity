@@ -1,20 +1,25 @@
 <template>
-  <div class="journals container--center">
+  <div class="">
     <h1>Your Journals</h1>
 
-    <NewJournalButton 
-      @create="addNewJournal($event)"
-      button-text="Create a new Journal" />
-    <JournalCard
-      v-for="(journal, index) in allJournals"
-      :key="index"
-      :journal="journal"
-      :index="index"
-      @delete="deleteJournal($event)"
-      @update="updateJournal($event, journal)"
-    />
+    <div class="journals container--center">
+      <JournalCard
+        v-for="(journal, index) in allJournals"
+        :key="index"
+        :journal="journal"
+        :index="index"
+        @delete="deleteJournal($event)"
+        @update="updateJournal($event, journal)"
+      />
+    </div>
+    <div class="fixed">
+      <NewJournalButton
+        button-text="Create a new Journal"
+        @create="addNewJournal($event)"
+      />
+    </div>
 
-    <button @click="getJournals">Get journals</button>
+    <button @click="getJournals">Sync Journals</button>
   </div>
 </template>
 
@@ -23,7 +28,7 @@ import Vue from "vue";
 import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
 import { JJournal } from "../types";
 import JournalCard from "@/components/JournalCard.vue";
-import NewJournalButton from "@/components/NewJournalButton.vue"
+import NewJournalButton from "@/components/NewJournalButton.vue";
 export default Vue.extend({
   middleware: "authenticated",
   components: {
@@ -41,7 +46,15 @@ export default Vue.extend({
   },
   async mounted() {
     try {
-      await this.getJournals();
+      const resp = await this.getJournals();
+
+      // Handle Token timeout
+      // TODO make handling error more DRY. Consier renewing token on app start?
+      if (resp.error) {
+        alert("Please sign in again");
+        this.$router.push("login");
+        return;
+      }
     } catch (err) {
       console.error("Failed to get journals", err);
       alert("Sorry there was problem getting your journals");
@@ -94,5 +107,11 @@ export default Vue.extend({
   margin: 15px;
   padding: 20px;
   border-radius: 10px;
+}
+
+.fixed {
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
 }
 </style>
