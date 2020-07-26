@@ -72,7 +72,7 @@ export default class Journals extends VuexModule {
 
       return resp;
     } catch (err) {
-      console.error("error retrieving jounrnals", err);
+      console.error("error retrieving journals", err);
       return err;
     }
   }
