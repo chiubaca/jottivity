@@ -1,15 +1,10 @@
 <template>
   <div class="journals container--center">
     <h1>Your Journals</h1>
-    <div class="new-notebook">
-      <textarea
-        id="new-notebook-name"
-        v-model="newJournalName"
-        placeholder="Notebook Name"
-      ></textarea>
-      <button @click="addNewJournal">+ New Notebook</button>
-    </div>
 
+    <NewJournalButton 
+      @create="addNewJournal($event)"
+      button-text="Create a new Journal" />
     <JournalCard
       v-for="(journal, index) in allJournals"
       :key="index"
@@ -28,10 +23,12 @@ import Vue from "vue";
 import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
 import { JJournal } from "../types";
 import JournalCard from "@/components/JournalCard.vue";
+import NewJournalButton from "@/components/NewJournalButton.vue"
 export default Vue.extend({
   middleware: "authenticated",
   components: {
-    JournalCard
+    JournalCard,
+    NewJournalButton
   },
   data() {
     return {
@@ -58,10 +55,10 @@ export default Vue.extend({
       "deleteJournal",
       "updateJournal"
     ]),
-    async addNewJournal() {
+    async addNewJournal(journalTitle: string) {
       try {
         const journal: JJournal = {
-          name: this.newJournalName,
+          name: journalTitle,
           uid: this.user.uid,
           createdAt: new Date().getTime(),
           id: undefined
