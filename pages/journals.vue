@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div>
     <h1>Your Journals</h1>
 
     <div class="journals container--center">
@@ -86,7 +86,6 @@ export default Vue.extend({
         }
 
         this.ADD_JOURNAL(newJournal);
-        console.log("created new Journal", newJournal);
       } catch (error) {
         alert("there was problem creating the journal");
       }
