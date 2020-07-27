@@ -30,7 +30,10 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["./plugins/axios-accessor"],
+  plugins: [
+    "./plugins/axios-accessor",
+    { src: "~/plugins/vuex-persist", ssr: false }
+  ],
   /*
    ** Nuxt.js dev-modules
    */

@@ -1,70 +1,94 @@
 <template>
-  <div class="journals container--center">
+  <div>
     <h1>Your Journals</h1>
-    <div class="new-notebook">
-      <textarea
-        id="new-notebook-name"
-        v-model="newJournalName"
-        placeholder="Notebook Name"
-      ></textarea>
-      <button @click="addNewJournal">+ New Notebook</button>
+
+    <div class="journals container--center">
+      <JournalCard
+        v-for="(journal, index) in allJournals"
+        :key="index"
+        :journal="journal"
+        :index="index"
+        @delete="deleteJournal($event)"
+        @update="updateJournal($event, journal)"
+      />
+    </div>
+    <div class="fixed">
+      <NewJournalButton
+        button-text="Create a new Journal"
+        @create="addNewJournal($event)"
+      />
     </div>
 
-    <Journal
-      v-for="journal in journals"
-      :key="journal.id"
-      :journal="journal"
-      @delete="deleteJournal($event)"
-      @update="updateJournal($event, journal)"
-    />
-
-    <button @click="getJournals">Get journals</button>
+    <button @click="getJournals">Sync Journals</button>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
 import { JJournal } from "../types";
-import Journal from "@/components/Journal.vue";
+import JournalCard from "@/components/JournalCard.vue";
+import NewJournalButton from "@/components/NewJournalButton.vue";
 export default Vue.extend({
   middleware: "authenticated",
   components: {
-    Journal
+    JournalCard,
+    NewJournalButton
   },
   data() {
     return {
-      newJournalName: "",
-      journals: []
+      newJournalName: ""
     };
   },
-  computed: mapState("Auth", ["user"]),
-  async beforeMount() {
+  computed: {
+    ...mapState("Auth", ["user"]),
+    ...mapGetters("Journals", ["allJournals"])
+  },
+  async mounted() {
     try {
-      const journals = await this.getJournals();
-      console.log(journals);
-      this.journals = journals;
+      const resp = await this.getJournals();
+
+      // Handle Token timeout
+      // TODO make handling error more DRY. Consier renewing token on app start?
+      if (resp.error) {
+        alert("Please sign in again");
+        this.$router.push("login");
+        return;
+      }
     } catch (err) {
-      console.error("could'nt retreive journals", err);
+      console.error("Failed to get journals", err);
       alert("Sorry there was problem getting your journals");
     }
   },
   methods: {
+    ...mapMutations("Journals", ["ADD_JOURNAL"]),
     ...mapActions("Journals", [
       "createJournal",
       "getJournals",
       "deleteJournal",
       "updateJournal"
     ]),
-    addNewJournal() {
-      const journal: JJournal = {
-        name: this.newJournalName,
-        uid: this.user.uid,
-        createdAt: new Date().getTime(),
-        id: undefined
-      };
+    async addNewJournal(journalTitle: string) {
+      try {
+        const journal: JJournal = {
+          name: journalTitle,
+          uid: this.user.uid,
+          createdAt: new Date().getTime(),
+          id: undefined
+        };
 
-      this.createJournal(journal);
+        const newJournal = await this.createJournal(journal);
+
+        if (newJournal.error) {
+          alert("Please sign in again");
+          this.$router.push("login");
+          return;
+        }
+
+        this.ADD_JOURNAL(newJournal);
+      } catch (error) {
+        alert("there was problem creating the journal");
+      }
     }
   }
 });
@@ -82,5 +106,11 @@ export default Vue.extend({
   margin: 15px;
   padding: 20px;
   border-radius: 10px;
+}
+
+.fixed {
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
 }
 </style>
