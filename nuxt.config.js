@@ -55,8 +55,10 @@ export default {
         workbox: {
           runtimeCaching: [
             {
-              urlPattern:
-                "https://fonts.googleapis.com/css2?family=Amaranth&display=swap"
+              urlPattern: "https://fonts.gstatic.com/.*",
+              handler: "cacheFirst",
+              method: "GET",
+              strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
             }
           ]
         }
