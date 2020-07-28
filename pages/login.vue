@@ -1,7 +1,7 @@
 <template>
   <div id="signin">
     <div class="container--center signin-form">
-      <h1>Welcome Back!</h1>
+      <h1>Welcome Back!!</h1>
       <form @submit.prevent="useLogin">
         <div class="input">
           <label for="email">Email</label>

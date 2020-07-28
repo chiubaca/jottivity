@@ -51,6 +51,14 @@ export default {
           name: "Jottivity",
           short_name: "Jottivity",
           description: "Jot your thoughts and mood"
+        },
+        workbox: {
+          runtimeCaching: [
+            {
+              urlPattern:
+                "https://fonts.googleapis.com/css2?family=Amaranth&display=swap"
+            }
+          ]
         }
       }
     ]
