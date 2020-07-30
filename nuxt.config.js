@@ -40,7 +40,30 @@ export default {
   buildModules: [
     "@nuxt/typescript-build",
     // Doc: https://github.com/nuxt-community/stylelint-module
-    "@nuxtjs/stylelint-module"
+    "@nuxtjs/stylelint-module",
+    [
+      "@nuxtjs/pwa",
+      {
+        icon: {
+          iconSrc: "./assets/images/logo.png"
+        },
+        manifest: {
+          name: "Jottivity",
+          short_name: "Jottivity",
+          description: "Jot your thoughts and mood"
+        },
+        workbox: {
+          runtimeCaching: [
+            {
+              urlPattern: "https://fonts.gstatic.com/.*",
+              handler: "cacheFirst",
+              method: "GET",
+              strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
+            }
+          ]
+        }
+      }
+    ]
   ],
   /*
    ** Nuxt.js modules
@@ -48,7 +71,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
-    // '@nuxtjs/pwa', <-- disabled whilst i'm still learning about other Nuxt features
+    "@nuxtjs/pwa",
     // Doc: https://github.com/nuxt-community/dotenv-module
     "@nuxtjs/dotenv"
   ],
@@ -64,6 +87,6 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) { }
+    extend(config, ctx) {}
   }
 };
