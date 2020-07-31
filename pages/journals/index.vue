@@ -26,7 +26,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
-import { JJournal } from "../types";
+import { JJournal } from "@/types";
 import JournalCard from "@/components/JournalCard.vue";
 import NewJournalButton from "@/components/NewJournalButton.vue";
 export default Vue.extend({

@@ -13,6 +13,7 @@
     <button @click="$emit('delete', { index, id: journal.id })">
       Delete Journal
     </button>
+    <button @click="openJournal">Open Journal</button>
   </div>
 </template>
 
@@ -46,7 +47,10 @@ export default Vue.extend({
       if (this.editMode) {
         (this.$refs.editTitle as HTMLInputElement).removeAttribute("readonly");
       }
-    }
+    },
+    openJournal(){
+      this.$router.push(`journals/${this.journal.id}`)
+    }   
   }
 });
 </script>
