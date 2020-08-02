@@ -1,7 +1,7 @@
 import { Module, VuexModule, Action, Mutation } from "vuex-module-decorators";
 import store from "vuex";
-import { $axios } from "~/utils/api";
 import { JJournal } from "@/types";
+import { $axios } from "~/utils/api";
 
 type UpdateJournalEvent = {
   journalTitle: string;
@@ -48,11 +48,13 @@ export default class Journals extends VuexModule {
   async createJournal(journal: JJournal) {
     const tokens = this.context.rootState.Auth.user.tokens;
     try {
-      const resp = await $axios.$post(
+      const resp: JJournal = await $axios.$post(
         "journal",
         { ...journal },
         { headers: { Authorization: tokens.accessToken } }
       );
+      // Setup a array container for posts
+      this.context.commit("Posts/SETUP_POSTS", resp.id, { root: true });
       return resp;
     } catch (err) {
       console.error("server error creating journal", err);
@@ -82,6 +84,7 @@ export default class Journals extends VuexModule {
     const { index, id } = delJournalEvnt;
     const tokens = this.context.rootState.Auth.user.tokens;
     this.context.commit("DELETE_JOURNAL", index);
+    this.context.commit("Posts/DELETE_ALL_POSTS", id, { root: true });
     try {
       const resp = await $axios.$delete(`journal?id=${id}`, {
         headers: { Authorization: tokens.accessToken }
