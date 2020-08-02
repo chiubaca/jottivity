@@ -9,7 +9,8 @@
       @keyup.enter="$emit('update', { journalTitle, id: journal.id, index })"
       @click="toggleEditMode"
     />
-    <h2>{{ journal.createdAt }}</h2>
+    <h2>Created on {{ new Date(journal.createdAt).toDateString() }}</h2>
+    <h3>Journal ID {{ journal.id }}</h3>
     <button @click="$emit('delete', { index, id: journal.id })">
       Delete Journal
     </button>
@@ -50,7 +51,7 @@ export default Vue.extend({
     },
     openJournal(){
       this.$router.push(`journals/${this.journal.id}`)
-    }   
+    }
   }
 });
 </script>
@@ -59,7 +60,6 @@ export default Vue.extend({
 .journal {
   color: #2c3e50;
   box-shadow: 0px 0px 13px #7d7d7d;
-  width: 200px;
   margin: 15px;
   padding: 20px;
   border-radius: 10px;
