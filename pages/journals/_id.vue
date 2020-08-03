@@ -21,7 +21,7 @@ import { mapMutations, mapState, mapGetters } from "vuex";
 import NewPostButton from "@/components/NewPostButton.vue";
 
 export default Vue.extend({
-  middleware: "setJournalState",
+  middleware: ["setJournalState", "initPostPageState"],
   components: {
     NewPostButton
   },
