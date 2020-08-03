@@ -49,8 +49,8 @@ export default Vue.extend({
         (this.$refs.editTitle as HTMLInputElement).removeAttribute("readonly");
       }
     },
-    openJournal(){
-      this.$router.push(`journals/${this.journal.id}`)
+    openJournal() {
+      this.$router.push({ path: `/journals/${this.journal.id}` });
     }
   }
 });
