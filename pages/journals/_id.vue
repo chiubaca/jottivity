@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h1>Your Posts | {{ journalMeta.name }}</h1>
-    <p>journal ID: {{ journalMeta.id }}</p>
+    <h1>Your Posts | {{ currentJournal.name }}</h1>
+    <p>journal ID: {{ currentJournal.id }}</p>
     <div class="fixed">
       <NewPostButton
         button-text="Add A New Post"
-        @create="addNewPost($event)"
+        @create-new-post="addNewPost($event)"
       />
 
       <div v-for="(post, index) in allPostInCurrentJournal">
@@ -17,24 +17,22 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { mapMutations, mapState, mapGetters } from "vuex";
+import { mapMutations, mapGetters } from "vuex";
 import NewPostButton from "@/components/NewPostButton.vue";
 
 export default Vue.extend({
-  middleware: ["setJournalState", "initPostPageState"],
+  middleware: ["setJournalState"],
   components: {
     NewPostButton
   },
   methods: {
     ...mapMutations("Posts", ["ADD_POST"]),
     addNewPost(newPost: unknown) {
-      console.log("Adding new Post", newPost);
-      this.ADD_POST({ journalId: this.journalMeta.id, post: newPost });
+      this.ADD_POST(newPost);
     }
   },
   computed: {
-    ...mapState("Posts", ["journalMeta"]),
-    ...mapGetters("Posts", ["allPostInCurrentJournal"])
+    ...mapGetters("Posts", ["allPostInCurrentJournal", "currentJournal"])
   }
 });
 </script>

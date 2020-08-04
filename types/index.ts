@@ -38,14 +38,13 @@ export type JJournal = {
   id: string | undefined; // document id
 };
 
-export type JAllPosts = {
-  [postID: string]: JPost[];
-};
-
 export type JPost = {
   title: string;
   contents: string;
-  createAt: number;
+  createdAt: number;
+  tags: unknown;
+  journalId: string;
+  uid: string;
 };
 
 export declare namespace firebaseExt {

@@ -44,6 +44,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { JPost } from "@/types";
 
 export default Vue.extend({
   props: {
@@ -68,13 +69,17 @@ export default Vue.extend({
         this.emptyTitle = true;
         return;
       }
-
-      this.$emit("create", {
+ 
+      const newPost: JPost = {
         title: this.postTitle,
         contents: this.postContents,
         tags: this.tags,
-        createdAt: new Date().getTime()
-      });
+        createdAt: new Date().getTime(),
+        journalId: this.$store.getters["Posts/currentJournalInfo"].id,
+        uid: this.$store.getters["Posts/currentJournalInfo"].uid
+      };
+
+      this.$emit("create-new-post", newPost);
       this.showModal = false;
       this.postTitle = "";
       this.emptyTitle = false;

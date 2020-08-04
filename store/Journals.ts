@@ -53,8 +53,6 @@ export default class Journals extends VuexModule {
         { ...journal },
         { headers: { Authorization: tokens.accessToken } }
       );
-      // Setup a array container for posts
-      this.context.commit("Posts/SETUP_POSTS", resp.id, { root: true });
       return resp;
     } catch (err) {
       console.error("server error creating journal", err);
