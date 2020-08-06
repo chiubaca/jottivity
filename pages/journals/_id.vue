@@ -21,18 +21,18 @@ import { mapMutations, mapGetters } from "vuex";
 import NewPostButton from "@/components/NewPostButton.vue";
 
 export default Vue.extend({
-  middleware: ["setJournalState"],
+  middleware: ["journalInitialise"],
   components: {
     NewPostButton
+  },
+  computed: {
+    ...mapGetters("Posts", ["allPostInCurrentJournal", "currentJournal"])
   },
   methods: {
     ...mapMutations("Posts", ["ADD_POST"]),
     addNewPost(newPost: unknown) {
       this.ADD_POST(newPost);
     }
-  },
-  computed: {
-    ...mapGetters("Posts", ["allPostInCurrentJournal", "currentJournal"])
   }
 });
 </script>
