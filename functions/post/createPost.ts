@@ -1,5 +1,6 @@
 import * as admin from "firebase-admin";
 import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
+import { JPost } from "../../types";
 
 export default async function createJournal(
   event: APIGatewayProxyEvent,
@@ -20,10 +21,19 @@ export default async function createJournal(
     // Verify JWT, if user deleted, or JWT is invalid, this will throw an error
     await admin.auth().verifyIdToken(JWT, true);
 
+    // write new post to db
+    const post: JPost = await JSON.parse(event.body as string);
+
+    const newPost = await admin
+      .firestore()
+      .collection("posts")
+      .add(post);
+
+    // sucess response for client when successfully written to db
     return callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ success: "Endpoint not implemented yet" })
+      body: JSON.stringify({ ...post, id: newPost.id })
     });
   } catch (error) {
     console.error("There was an error creating a new journal", error);
@@ -32,5 +42,8 @@ export default async function createJournal(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ error })
     });
+  } finally {
+    // End the firebase instance otherwise netlify function will hang
+    await admin.app().delete();
   }
 }
