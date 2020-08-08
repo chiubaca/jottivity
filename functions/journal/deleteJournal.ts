@@ -41,7 +41,7 @@ export default async function retrieveJournals(
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        message: "deleted journal ID" + journalId
+        message: `deleted journal ID ${journalId}`
       })
     });
   } catch (error) {
