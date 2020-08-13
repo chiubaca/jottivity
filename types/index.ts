@@ -45,6 +45,7 @@ export type JPost = {
   tags: unknown;
   journalId: string;
   uid: string;
+  id: string | undefined; // document id
 };
 
 export declare namespace firebaseExt {
