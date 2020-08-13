@@ -14,6 +14,7 @@ export default async function retrieveJournals(
       body: JSON.stringify({ error: "Unauthorised, no token was provided" })
     });
   }
+
   // Extract JWT from header
   const JWT = event.headers.authorization;
   // Verify JWT, if user deleted, or JWT is invalid, this will throw an error
@@ -23,6 +24,9 @@ export default async function retrieveJournals(
 
   // TODO Could check for custom claim for additional security logic here
   // see - https://firebase.google.com/docs/auth/admin?hl=en
+
+  // TODO: Should also verify that user id param has been passed and should
+  // cross check this with the JWT
 
   // Get journals based on user.uid
   const journalsRef = admin.firestore().collection("journals");
@@ -38,7 +42,7 @@ export default async function retrieveJournals(
 
   // Enumerate through snapshot and push into data array to be sent to client
   const data: JJournal[] = [];
-  snapshot.forEach((doc) => {
+  snapshot.forEach((doc: FirebaseFirestore.DocumentSnapshot) => {
     const journal = doc.data() as JJournal;
     data.push({ ...journal, id: doc.id });
   });
