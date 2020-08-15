@@ -1,7 +1,7 @@
 import { Module, VuexModule, Action, Mutation } from "vuex-module-decorators";
 import store from "vuex";
 import { JJournal } from "@/types";
-import { $axios } from "~/utils/api";
+import { $axios } from "@/utils/api";
 
 type UpdateJournalEvent = {
   journalTitle: string;
