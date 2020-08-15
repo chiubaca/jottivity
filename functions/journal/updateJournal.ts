@@ -22,7 +22,6 @@ export default async function retrieveJournals(
 
     // extract journal id from query string
     const queryParam = event?.queryStringParameters;
-    console.warn("server says!!!", queryParam);
 
     if (!queryParam?.id) {
       return callback(null, {
@@ -55,7 +54,7 @@ export default async function retrieveJournals(
       })
     });
   } catch (error) {
-    console.error("There was problme updating", error);
+    console.error("There was problem updating", error);
     return callback(null, {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
