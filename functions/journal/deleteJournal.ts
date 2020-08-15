@@ -36,7 +36,6 @@ export default async function retrieveJournals(
       .doc(journalId)
       .delete();
 
-    await admin.app().delete();
     callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },

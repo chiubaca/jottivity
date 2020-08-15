@@ -47,8 +47,6 @@ export default async function retrieveJournals(
     data.push({ ...journal, journalId: doc.id });
   });
 
-  // Close the database connection. Really important for Netlify functions, otherwise API will timeout
-  await admin.app().delete();
   callback(null, {
     statusCode: 200,
     headers: { "Content-Type": "application/json" },

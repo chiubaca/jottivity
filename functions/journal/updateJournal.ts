@@ -45,7 +45,6 @@ export default async function retrieveJournals(
       .doc(queryParam.journalId)
       .update({ name: queryParam.title });
 
-    await admin.app().delete();
     callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
