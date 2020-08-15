@@ -1,8 +1,10 @@
 import * as admin from "firebase-admin";
 import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
+import { JPost } from "../../types";
 
-export default async function retrieveJournals(
+export default async function createJournal(
   event: APIGatewayProxyEvent,
+  _context: any,
   callback: APIGatewayProxyCallback
 ) {
   try {
@@ -19,37 +21,41 @@ export default async function retrieveJournals(
     // Verify JWT, if user deleted, or JWT is invalid, this will throw an error
     await admin.auth().verifyIdToken(JWT, true);
 
-    // extract journal id from query string
-    const queryParam = event?.queryStringParameters;
+    // contents of updated Journal
+    const updatedPost: JPost = await JSON.parse(event.body as string);
 
-    if (!queryParam?.id) {
+    // TODO: cross check uid with JWT token for extra security
+
+    // type check post id to please the TS gods
+    if (typeof updatedPost.id !== "string") {
       return callback(null, {
         statusCode: 401,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ error: "no journal id was provided" })
+        body: JSON.stringify({ error: "Post ID not valid" })
       });
     }
-    const journalId = queryParam.id;
+
     await admin
       .firestore()
-      .collection("journals")
-      .doc(journalId)
-      .delete();
+      .collection("posts")
+      .doc(updatedPost.id)
+      .update(updatedPost);
 
-    await admin.app().delete();
-    callback(null, {
+    return callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message: `deleted journal ID ${journalId}`
-      })
+      body: JSON.stringify({ success: `Updated post ID ${updatedPost.id}` })
     });
   } catch (error) {
-    console.error(`There was an error deleting journal`, error);
+    console.error("There was a problem updating the post");
+
     return callback(null, {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ error })
     });
+  } finally {
+    // End the firebase instance otherwise netlify function will hang
+    await admin.app().delete();
   }
 }

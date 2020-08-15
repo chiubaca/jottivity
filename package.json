@@ -1,7 +1,7 @@
 {
-  "name": "jottivity-v2",
+  "name": "jottivity",
   "version": "1.0.0",
-  "description": "Jottivity rewrite",
+  "description": "Analyse your thoughts and mood",
   "author": "Alex Chiu",
   "private": true,
   "scripts": {

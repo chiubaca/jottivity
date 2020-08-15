@@ -1,8 +1,9 @@
 import * as admin from "firebase-admin";
 import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
 
-export default async function retrieveJournals(
+export default async function createJournal(
   event: APIGatewayProxyEvent,
+  _context: any,
   callback: APIGatewayProxyCallback
 ) {
   try {
@@ -19,37 +20,40 @@ export default async function retrieveJournals(
     // Verify JWT, if user deleted, or JWT is invalid, this will throw an error
     await admin.auth().verifyIdToken(JWT, true);
 
-    // extract journal id from query string
+
+    // extract post id from query string
     const queryParam = event?.queryStringParameters;
 
     if (!queryParam?.id) {
       return callback(null, {
         statusCode: 401,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ error: "no journal id was provided" })
+        body: JSON.stringify({ error: "no post id was provided" })
       });
     }
-    const journalId = queryParam.id;
+    const postId = queryParam.id;
     await admin
       .firestore()
-      .collection("journals")
-      .doc(journalId)
+      .collection("posts")
+      .doc(postId)
       .delete();
 
-    await admin.app().delete();
-    callback(null, {
+    return callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        message: `deleted journal ID ${journalId}`
+        message: `deleted post ID ${postId}`
       })
     });
   } catch (error) {
-    console.error(`There was an error deleting journal`, error);
+    console.error("There was an error creating a new journal", error);
     return callback(null, {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ error })
     });
+  } finally {
+    // End the firebase instance otherwise netlify function will hang
+    await admin.app().delete();
   }
 }

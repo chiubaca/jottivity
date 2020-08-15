@@ -1,8 +1,10 @@
 import * as admin from "firebase-admin";
 import { APIGatewayProxyEvent, APIGatewayProxyCallback } from "aws-lambda";
+import { JPost } from "../../types";
 
-export default async function retrieveJournals(
+export default async function createJournal(
   event: APIGatewayProxyEvent,
+  _context: any,
   callback: APIGatewayProxyCallback
 ) {
   try {
@@ -19,37 +21,29 @@ export default async function retrieveJournals(
     // Verify JWT, if user deleted, or JWT is invalid, this will throw an error
     await admin.auth().verifyIdToken(JWT, true);
 
-    // extract journal id from query string
-    const queryParam = event?.queryStringParameters;
+    // write new post to db
+    const post: JPost = await JSON.parse(event.body as string);
 
-    if (!queryParam?.id) {
-      return callback(null, {
-        statusCode: 401,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ error: "no journal id was provided" })
-      });
-    }
-    const journalId = queryParam.id;
-    await admin
+    const newPost = await admin
       .firestore()
-      .collection("journals")
-      .doc(journalId)
-      .delete();
+      .collection("posts")
+      .add(post);
 
-    await admin.app().delete();
-    callback(null, {
+    // sucess response for client when successfully written to db
+    return callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message: `deleted journal ID ${journalId}`
-      })
+      body: JSON.stringify({ ...post, id: newPost.id })
     });
   } catch (error) {
-    console.error(`There was an error deleting journal`, error);
+    console.error("There was an error creating a new journal", error);
     return callback(null, {
       statusCode: 400,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ error })
     });
+  } finally {
+    // End the firebase instance otherwise netlify function will hang
+    await admin.app().delete();
   }
 }
