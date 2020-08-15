@@ -71,7 +71,7 @@ export default async function createJournal(
     const data: JPost[] = [];
     snapshot.forEach((doc: FirebaseFirestore.DocumentSnapshot) => {
       const post = doc.data() as JPost;
-      data.push({ ...post, id: doc.id });
+      data.push({ ...post, postId: doc.id });
     });
 
     return callback(null, {
@@ -86,8 +86,5 @@ export default async function createJournal(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ error })
     });
-  } finally {
-    // Close the database connection. Really important for Netlify functions, otherwise API will timeout
-    await admin.app().delete();
   }
 }

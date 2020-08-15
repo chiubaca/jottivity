@@ -40,11 +40,11 @@ export default class Posts extends VuexModule {
   }
 
   get allPostInCurrentJournal() {
-    if (!this._currentJournal?.id) {
+    if (!this._currentJournal?.journalId) {
       return [];
     }
     return this._posts.filter(
-      (post) => post.journalId === this._currentJournal?.id
+      (post) => post.journalId === this._currentJournal?.journalId
     );
   }
 

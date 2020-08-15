@@ -44,11 +44,9 @@ export default async function retrieveJournals(
   const data: JJournal[] = [];
   snapshot.forEach((doc: FirebaseFirestore.DocumentSnapshot) => {
     const journal = doc.data() as JJournal;
-    data.push({ ...journal, id: doc.id });
+    data.push({ ...journal, journalId: doc.id });
   });
 
-  // Close the database connection. Really important for Netlify functions, otherwise API will timeout
-  await admin.app().delete();
   callback(null, {
     statusCode: 200,
     headers: { "Content-Type": "application/json" },

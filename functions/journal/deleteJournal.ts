@@ -22,21 +22,20 @@ export default async function retrieveJournals(
     // extract journal id from query string
     const queryParam = event?.queryStringParameters;
 
-    if (!queryParam?.id) {
+    if (!queryParam?.journalId) {
       return callback(null, {
         statusCode: 401,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ error: "no journal id was provided" })
       });
     }
-    const journalId = queryParam.id;
+    const journalId = queryParam.journalId;
     await admin
       .firestore()
       .collection("journals")
       .doc(journalId)
       .delete();
 
-    await admin.app().delete();
     callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },

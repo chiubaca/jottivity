@@ -29,12 +29,10 @@ export default async function createJournal(
       .collection("journals")
       .add({ name, uid, createdAt });
 
-    // sucess response for client
-    await admin.app().delete();
     return callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, uid, createdAt, id: newJournal.id })
+      body: JSON.stringify({ name, uid, createdAt, journalId: newJournal.id })
     });
   } catch (error) {
     console.error("There was an error creating a new journal", error);

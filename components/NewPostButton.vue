@@ -77,7 +77,7 @@ export default Vue.extend({
         createdAt: new Date().getTime(),
         journalId: this.$store.getters["Posts/currentJournalInfo"].id,
         uid: this.$store.getters["Posts/currentJournalInfo"].uid,
-        id: undefined
+        postId: undefined
       };
 
       this.$emit("create-new-post", newPost);

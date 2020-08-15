@@ -20,18 +20,17 @@ export default async function createJournal(
     // Verify JWT, if user deleted, or JWT is invalid, this will throw an error
     await admin.auth().verifyIdToken(JWT, true);
 
-
     // extract post id from query string
     const queryParam = event?.queryStringParameters;
 
-    if (!queryParam?.id) {
+    if (!queryParam?.postId) {
       return callback(null, {
         statusCode: 401,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ error: "no post id was provided" })
       });
     }
-    const postId = queryParam.id;
+    const postId = queryParam.postId;
     await admin
       .firestore()
       .collection("posts")
@@ -52,8 +51,5 @@ export default async function createJournal(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ error })
     });
-  } finally {
-    // End the firebase instance otherwise netlify function will hang
-    await admin.app().delete();
   }
 }
