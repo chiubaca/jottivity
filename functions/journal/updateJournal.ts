@@ -23,7 +23,7 @@ export default async function retrieveJournals(
     // extract journal id from query string
     const queryParam = event?.queryStringParameters;
 
-    if (!queryParam?.id) {
+    if (!queryParam?.journalId) {
       return callback(null, {
         statusCode: 401,
         headers: { "Content-Type": "application/json" },
@@ -42,7 +42,7 @@ export default async function retrieveJournals(
     await admin
       .firestore()
       .collection("journals")
-      .doc(queryParam.id)
+      .doc(queryParam.journalId)
       .update({ name: queryParam.title });
 
     await admin.app().delete();
@@ -50,7 +50,7 @@ export default async function retrieveJournals(
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        message: "Updated journal ID title" + queryParam.id
+        message: "Updated journal ID title" + queryParam.journalId
       })
     });
   } catch (error) {

@@ -6,12 +6,14 @@
       v-model="journalTitle"
       readonly
       type="text"
-      @keyup.enter="$emit('update', { journalTitle, id: journal.id, index })"
+      @keyup.enter="
+        $emit('update', { journalTitle, journalIdId: journal.journalId, index })
+      "
       @click="toggleEditMode"
     />
     <h2>Created on {{ new Date(journal.createdAt).toDateString() }}</h2>
     <h3>Journal ID {{ journal.id }}</h3>
-    <button @click="$emit('delete', { index, id: journal.id })">
+    <button @click="$emit('delete', { index, id: journal.journalId })">
       Delete Journal
     </button>
     <button @click="openJournal">Open Journal</button>
@@ -50,7 +52,7 @@ export default Vue.extend({
       }
     },
     openJournal() {
-      this.$router.push({ path: `/journals/${this.journal.id}` });
+      this.$router.push({ path: `/journals/${this.journal.journalId}` });
     }
   }
 });

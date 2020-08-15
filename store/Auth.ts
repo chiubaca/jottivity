@@ -1,7 +1,7 @@
 import { Module, VuexModule, Action, Mutation } from "vuex-module-decorators";
 import store from "vuex";
-import { $axios } from "~/utils/api";
 import { JLoginCrendentials, JUserRegistration, JUser } from "@/types";
+import { $axios } from "~/utils/api";
 
 @Module({
   namespaced: true,

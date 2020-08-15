@@ -35,7 +35,7 @@ export type JJournal = {
   name: string;
   createdAt: number;
   uid: string; // user id
-  id: string | undefined; // document id of journal
+  journalId: string | undefined; // document id of journal
 };
 
 export type JPost = {
@@ -45,7 +45,7 @@ export type JPost = {
   tags: unknown;
   journalId: string;
   uid: string;
-  id: string | undefined; // document id of post
+  postId: string | undefined; // document id of post
 };
 
 export declare namespace firebaseExt {

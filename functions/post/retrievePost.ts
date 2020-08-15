@@ -71,7 +71,7 @@ export default async function createJournal(
     const data: JPost[] = [];
     snapshot.forEach((doc: FirebaseFirestore.DocumentSnapshot) => {
       const post = doc.data() as JPost;
-      data.push({ ...post, id: doc.id });
+      data.push({ ...post, postId: doc.id });
     });
 
     return callback(null, {

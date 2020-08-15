@@ -13,7 +13,7 @@ const setJournalState: Middleware = (context) => {
 
   // find journal info from journal state
   const currentJournal = allJournals.find(
-    (journal: JJournal) => journal.id === journalId
+    (journal: JJournal) => journal.journalId === journalId
   );
 
   // If no journal could be found redirect back to journals page

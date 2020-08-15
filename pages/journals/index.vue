@@ -74,7 +74,7 @@ export default Vue.extend({
           name: journalTitle,
           uid: this.user.uid,
           createdAt: new Date().getTime(),
-          id: undefined
+          journalId: undefined
         };
 
         const newJournal = await this.createJournal(journal);

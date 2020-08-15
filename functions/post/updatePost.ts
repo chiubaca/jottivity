@@ -27,7 +27,7 @@ export default async function createJournal(
     // TODO: cross check uid with JWT token for extra security
 
     // type check post id to please the TS gods
-    if (typeof updatedPost.id !== "string") {
+    if (typeof updatedPost.postId !== "string") {
       return callback(null, {
         statusCode: 401,
         headers: { "Content-Type": "application/json" },
@@ -38,13 +38,13 @@ export default async function createJournal(
     await admin
       .firestore()
       .collection("posts")
-      .doc(updatedPost.id)
+      .doc(updatedPost.postId)
       .update(updatedPost);
 
     return callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ success: `Updated post ID ${updatedPost.id}` })
+      body: JSON.stringify({ success: `Updated post ID ${updatedPost.postId}` })
     });
   } catch (error) {
     console.error("There was a problem updating the post");

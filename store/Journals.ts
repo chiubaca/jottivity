@@ -5,7 +5,7 @@ import { $axios } from "@/utils/api";
 
 type UpdateJournalEvent = {
   journalTitle: string;
-  id: string;
+  journalId: string;
   index: number;
 };
 @Module({
@@ -78,13 +78,13 @@ export default class Journals extends VuexModule {
   }
 
   @Action({ rawError: true })
-  async deleteJournal(delJournalEvnt: { index: number; id: string }) {
-    const { index, id } = delJournalEvnt;
+  async deleteJournal(delJournalEvnt: { index: number; journalId: string }) {
+    const { index, journalId } = delJournalEvnt;
     const tokens = this.context.rootState.Auth.user.tokens;
     this.context.commit("DELETE_JOURNAL", index);
-    this.context.commit("Posts/DELETE_ALL_POSTS", id, { root: true });
+    this.context.commit("Posts/DELETE_ALL_POSTS", journalId, { root: true });
     try {
-      const resp = await $axios.$delete(`journal?id=${id}`, {
+      const resp = await $axios.$delete(`journal?id=${journalId}`, {
         headers: { Authorization: tokens.accessToken }
       });
       return resp;
@@ -97,10 +97,10 @@ export default class Journals extends VuexModule {
   @Action({ rawError: true })
   async updateJournal(updateJournalEvnt: UpdateJournalEvent) {
     const tokens = this.context.rootState.Auth.user.tokens;
-    const { journalTitle, id } = updateJournalEvnt;
+    const { journalTitle, journalId } = updateJournalEvnt;
     try {
       const resp = await $axios.$patch(
-        `journal?id=${id}&title=${journalTitle}`,
+        `journal?id=${journalId}&title=${journalTitle}`,
         {},
         { headers: { Authorization: tokens.accessToken, test: "test" } }
       );

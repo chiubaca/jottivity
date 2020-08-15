@@ -33,7 +33,7 @@ export default async function createJournal(
     return callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...post, id: newPost.id })
+      body: JSON.stringify({ ...post, postId: newPost.id })
     });
   } catch (error) {
     console.error("There was an error creating a new journal", error);
