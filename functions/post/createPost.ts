@@ -42,8 +42,5 @@ export default async function createJournal(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ error })
     });
-  } finally {
-    // End the firebase instance otherwise netlify function will hang
-    await admin.app().delete();
   }
 }

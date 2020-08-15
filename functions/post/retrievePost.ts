@@ -86,8 +86,5 @@ export default async function createJournal(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ error })
     });
-  } finally {
-    // Close the database connection. Really important for Netlify functions, otherwise API will timeout
-    await admin.app().delete();
   }
 }
