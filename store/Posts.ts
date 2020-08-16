@@ -1,15 +1,16 @@
-import Vue from "vue";
-import { Module, VuexModule, Action, Mutation } from "vuex-module-decorators";
+// import Vue from "vue";
+import { Module, VuexModule, Mutation } from "vuex-module-decorators";
 import store from "vuex";
 import { JPost, JJournal } from "@/types";
 // import { $axios } from "~/utils/api";
 
 @Module({
+  name: "Posts",
   namespaced: true,
   stateFactory: true,
   store: store as any
 })
-export default class Posts extends VuexModule {
+export default class PostStore extends VuexModule {
   _posts: JPost[] = [];
 
   _currentJournal: JJournal | undefined = undefined;
