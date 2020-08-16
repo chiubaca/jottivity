@@ -8,33 +8,42 @@
         @create-new-post="addNewPost($event)"
       />
 
-      <div v-for="(post, index) in allPostInCurrentJournal">
+      <div v-for="post in allPostInCurrentJournal">
         {{ post }}
       </div>
     </div>
+    <p>Testing class components</p>
+    <p>{{ message }}</p>
+    <p>{{ computedMessage }}</p>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { mapMutations, mapGetters } from "vuex";
+import { Vue, Component } from "vue-property-decorator";
 import NewPostButton from "@/components/NewPostButton.vue";
+import { Posts } from "@/store";
 
-export default Vue.extend({
-  middleware: ["journalInitialise"],
+@Component({
   components: {
     NewPostButton
   },
-  computed: {
-    ...mapGetters("Posts", ["allPostInCurrentJournal", "currentJournal"])
-  },
-  methods: {
-    ...mapMutations("Posts", ["ADD_POST"]),
-    addNewPost(newPost: unknown) {
-      this.ADD_POST(newPost);
-    }
+  middleware: ["journalInitialise"]
+})
+export default class AllPosts extends Vue {
+  message = "Hello from class components";
+
+  get computedMessage() {
+    return this.message + " plus some more text";
   }
-});
+
+  get allPostInCurrentJournal() {
+    return Posts.allPostInCurrentJournal;
+  }
+
+  get currentJournal() {
+    return Posts.currentJournal;
+  }
+}
 </script>
 
 <style scoped></style>
