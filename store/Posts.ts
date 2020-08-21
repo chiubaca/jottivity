@@ -1,8 +1,8 @@
 // import Vue from "vue";
-import { Module, VuexModule, Mutation } from "vuex-module-decorators";
+import { Module, VuexModule, Action, Mutation } from "vuex-module-decorators";
 import store from "vuex";
 import { JPost, JJournal } from "@/types";
-// import { $axios } from "~/utils/api";
+import { $axios } from "@/utils/api";
 
 @Module({
   name: "Posts",
@@ -32,6 +32,11 @@ export default class PostStore extends VuexModule {
     this._currentJournal = journal;
   }
 
+  @Mutation
+  REFRESH_POST_STATE(posts: JPost[]) {
+    this._posts = posts;
+  }
+
   get currentJournal() {
     return this._currentJournal;
   }
@@ -51,6 +56,34 @@ export default class PostStore extends VuexModule {
 
   get currentJournalInfo() {
     return this._currentJournal;
+  }
+
+  @Action({ rawError: true })
+  async getPostsInCurrentJournal(getPostsEvnt: {
+    // TODO Review these types, might be too looses
+    uid: string | undefined;
+    journalid: string | undefined;
+  }) {
+    const { uid, journalid } = getPostsEvnt;
+
+    const tokens = this.context.rootState.Auth.user.tokens;
+    try {
+      const resp = await $axios.$get("post", {
+        headers: { Authorization: tokens.accessToken },
+        params: {
+          uid,
+          journalid
+        }
+      });
+
+      // try using Posts.REFRESH_POST_STATE 
+      this.context.commit("REFRESH_POST_STATE", resp);
+
+      return resp;
+    } catch (err) {
+      console.error("error retrieving journals", err);
+      return err;
+    }
   }
 
   // @Action({ rawError: true })
