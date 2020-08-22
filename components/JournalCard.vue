@@ -12,7 +12,7 @@
       @click="toggleEditMode"
     />
     <h2>Created on {{ new Date(journal.createdAt).toDateString() }}</h2>
-    <h3>Journal ID {{ journal.id }}</h3>
+    <h3>Journal ID {{ journal.journalId }}</h3>
     <button @click="$emit('delete', { index, id: journal.journalId })">
       Delete Journal
     </button>
@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from "vue";
+import Vue, { PropType } from "vue";
 
 import { JJournal } from "../types";
 export default Vue.extend({
@@ -31,9 +31,9 @@ export default Vue.extend({
       required: true
     },
     journal: {
-      type: Object,
+      type: Object as PropType<JJournal>,
       required: true
-    } as PropOptions<JJournal>
+    }
   },
   data() {
     return {
