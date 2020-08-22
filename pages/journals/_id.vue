@@ -9,23 +9,22 @@
       />
 
       <div v-for="post in allPostInCurrentJournal">
-        {{ post }}
+        <PostCard :post="post" />
       </div>
     </div>
-    <p>Testing class components</p>
-    <p>{{ message }}</p>
-    <p>{{ computedMessage }}</p>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import NewPostButton from "@/components/NewPostButton.vue";
+import PostCard from "@/components/PostCard.vue";
 import { Posts } from "@/store";
 
 @Component({
   components: {
-    NewPostButton
+    NewPostButton,
+    PostCard
   },
   middleware: ["journalInitialise"]
 })
