@@ -60,7 +60,7 @@ export default Vue.extend({
         return;
       }
 
-      this.$emit("create", this.journalTitle);
+      this.$emit("create-journal", this.journalTitle);
       this.showModal = false;
       this.journalTitle = "";
       this.emptyTitle = false;
