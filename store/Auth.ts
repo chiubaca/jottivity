@@ -4,17 +4,18 @@ import { JLoginCrendentials, JUserRegistration, JUser } from "@/types";
 import { $axios } from "~/utils/api";
 
 @Module({
+  name: "Auth",
   namespaced: true,
   stateFactory: true,
   preserveState: false,
   store: store as any
 })
 export default class Auth extends VuexModule {
-  user: undefined | JUser = undefined;
+  _user: undefined | JUser = undefined;
 
   @Mutation
   SET_USER(user: any) {
-    this.user = user;
+    this._user = user;
   }
 
   @Action({ rawError: true })
@@ -50,6 +51,10 @@ export default class Auth extends VuexModule {
   }
 
   get isSignedIn() {
-    return !!this.user;
+    return !!this._user;
+  }
+
+  get user() {
+    return this._user;
   }
 }
