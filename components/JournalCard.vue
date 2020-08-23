@@ -7,13 +7,13 @@
       readonly
       type="text"
       @keyup.enter="
-        $emit('update', { journalTitle, journalIdId: journal.journalId, index })
+        $emit('update-journal', { journalTitle, journalIdId: journal.journalId, index })
       "
       @click="toggleEditMode"
     />
     <h2>Created on {{ new Date(journal.createdAt).toDateString() }}</h2>
     <h3>Journal ID {{ journal.journalId }}</h3>
-    <button @click="$emit('delete', { index, id: journal.journalId })">
+    <button @click="$emit('delete-journal', { index, id: journal.journalId })">
       Delete Journal
     </button>
     <button @click="openJournal">Open Journal</button>
