@@ -43,50 +43,44 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { Vue, Component, Prop } from "vue-property-decorator";
 import { JPost } from "@/types";
 
-export default Vue.extend({
-  props: {
-    buttonText: {
-      type: String,
-      required: true
+@Component
+export default class PostCard extends Vue {
+  @Prop({ required: true }) readonly buttonText!: string;
+  @Prop({ required: true }) readonly journalId!: string;
+  @Prop({ required: true }) readonly uid!: string;
+
+  showModal: boolean = false;
+  postTitle: string = "";
+  postContents = "";
+  tags = {};
+  emptyTitle = false;
+
+  emitPostAndCloseModal() {
+    if (this.postTitle === "") {
+      this.emptyTitle = true;
+      return;
     }
-  },
-  data() {
-    return {
-      showModal: false,
-      postTitle: "",
-      postContents: "",
-      tags: {},
-      emptyTitle: false
+
+    const newPost: JPost = {
+      title: this.postTitle,
+      contents: this.postContents,
+      tags: this.tags,
+      createdAt: new Date().getTime(),
+      journalId: this.journalId,
+      uid: this.uid,
+      postId: undefined
     };
-  },
 
-  methods: {
-    emitPostAndCloseModal() {
-      if (this.postTitle === "") {
-        this.emptyTitle = true;
-        return;
-      }
- 
-      const newPost: JPost = {
-        title: this.postTitle,
-        contents: this.postContents,
-        tags: this.tags,
-        createdAt: new Date().getTime(),
-        journalId: this.$store.getters["Posts/currentJournalInfo"].id,
-        uid: this.$store.getters["Posts/currentJournalInfo"].uid,
-        postId: undefined
-      };
-
-      this.$emit("create-new-post", newPost);
-      this.showModal = false;
-      this.postTitle = "";
-      this.emptyTitle = false;
-    }
+    this.$emit("create-new-post", newPost);
+    this.showModal = false;
+    this.postTitle = "";
+    this.postContents = "";
+    this.emptyTitle = false;
   }
-});
+}
 </script>
 
 <style scoped>
