@@ -8,14 +8,14 @@
         :key="index"
         :journal="journal"
         :index="index"
-        @delete="deleteJournal($event)"
-        @update="updateJournal($event, journal)"
+        @delete-journal="deleteJournal($event)"
+        @update-journal="updateJournal($event, journal)"
       />
     </div>
     <div class="fixed">
       <NewJournalButton
         button-text="Create a new Journal"
-        @create="addNewJournal($event)"
+        @create-journal="addNewJournal($event)"
       />
     </div>
 
@@ -41,7 +41,7 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...mapState("Auth", ["user"]),
+    ...mapGetters("Auth", ["user"]),
     ...mapGetters("Journals", ["allJournals"])
   },
   async mounted() {
@@ -76,7 +76,6 @@ export default Vue.extend({
           createdAt: new Date().getTime(),
           journalId: undefined
         };
-
         const newJournal = await this.createJournal(journal);
 
         if (newJournal.error) {
@@ -87,6 +86,7 @@ export default Vue.extend({
 
         this.ADD_JOURNAL(newJournal);
       } catch (error) {
+        console.error("there was problem creating the journal", error);
         alert("there was problem creating the journal");
       }
     }
