@@ -48,10 +48,6 @@ export default class AllPosts extends Vue {
     });
   }
 
-  get computedMessage(): string {
-    return this.message + " plus some more text";
-  }
-
   get allPostInCurrentJournal() {
     return Posts.allPostInCurrentJournal;
   }
