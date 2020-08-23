@@ -86,12 +86,13 @@ export default class Journals extends VuexModule {
     this.context.commit("DELETE_JOURNAL", index);
     this.context.commit("Posts/DELETE_ALL_POSTS", journalId, { root: true });
     try {
-      const resp = await $axios.$delete(`journal?id=${journalId}`, {
-        headers: { Authorization: tokens?.accessToken }
+      const resp = await $axios.$delete(`journal`, {
+        headers: { Authorization: tokens?.accessToken },
+        params: { journalId }
       });
       return resp;
     } catch (err) {
-      console.error("error logging in", err);
+      console.error("error deleting journal", err);
       return err;
     }
   }
@@ -102,9 +103,15 @@ export default class Journals extends VuexModule {
     const { journalTitle, journalId } = updateJournalEvnt;
     try {
       const resp = await $axios.$patch(
-        `journal?id=${journalId}&title=${journalTitle}`,
+        `journal`,
         {},
-        { headers: { Authorization: tokens?.accessToken, test: "test" } }
+        {
+          headers: { Authorization: tokens?.accessToken },
+          params: {
+            title: journalTitle,
+            journalId
+          }
+        }
       );
       this.context.commit("UPDATE_JOURNAL", updateJournalEvnt);
       return resp;
