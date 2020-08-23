@@ -1,5 +1,6 @@
 <template>
   <div class="post">
+    {{ index }}
     <h1>{{ post.title }}</h1>
     {{ post.createdAt }}
   </div>
@@ -12,6 +13,7 @@ import { JPost } from "@/types";
 @Component
 export default class PostCard extends Vue {
   @Prop({ required: true }) readonly post!: JPost;
+  @Prop({ required: true }) readonly index!: JPost;
 }
 </script>
 
