@@ -1,6 +1,7 @@
 // import Vue from "vue";
 import { Module, VuexModule, Action, Mutation } from "vuex-module-decorators";
 import store from "vuex";
+import { Auth } from "@/store";
 import { JPost, JJournal } from "@/types";
 import { $axios } from "@/utils/api";
 
@@ -66,7 +67,7 @@ export default class PostStore extends VuexModule {
   }) {
     const { uid, journalid } = getPostsEvnt;
 
-    const tokens = this.context.rootState.Auth.user.tokens;
+    const tokens = this.context.rootState.Auth._user.tokens;
     try {
       const resp = await $axios.$get("post", {
         headers: { Authorization: tokens.accessToken },
@@ -76,7 +77,7 @@ export default class PostStore extends VuexModule {
         }
       });
 
-      // try using Posts.REFRESH_POST_STATE 
+      // try using Posts.REFRESH_POST_STATE
       this.context.commit("REFRESH_POST_STATE", resp);
 
       return resp;
@@ -86,20 +87,21 @@ export default class PostStore extends VuexModule {
     }
   }
 
-  // @Action({ rawError: true })
-  // async createPost(post: JPost) {
-  //   const tokens = await this.context.rootState.Auth.user.tokens;
-  //   try {
-  //     // const resp = await $axios.$post(
-  //     //   "post",
-  //     //   { ...post },
-  //     //   { headers: { Authorization: tokens.accessToken } }
-  //     // );
-  //     // return resp;
-  //     return tokens;
-  //   } catch (err) {
-  //     console.error("server error creating journal", err);
-  //     return err;
-  //   }
-  // }
+  @Action({ rawError: true })
+  async createPost(post: JPost) {
+    const tokens = await Auth.user?.tokens;
+
+    try {
+      const resp = await $axios.$post(
+        "post",
+        { ...post },
+        { headers: { Authorization: tokens?.accessToken } }
+      );
+      console.log("Action added new post", post);
+      return resp;
+    } catch (err) {
+      console.error("server error creating journal", err);
+      return err;
+    }
+  }
 }
