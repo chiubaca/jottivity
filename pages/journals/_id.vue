@@ -5,12 +5,17 @@
     <div class="fixed">
       <NewPostButton
         button-text="Add A New Post"
+        :journal-id="currentJournal.journalId"
+        :uid="currentJournal.uid"
         @create-new-post="addNewPost($event)"
       />
 
-      <div v-for="post in allPostInCurrentJournal">
-        <PostCard :post="post" />
-      </div>
+      <PostCard
+        v-for="(post, index) in allPostInCurrentJournal"
+        :key="index"
+        :post="post"
+        :index="index"
+      />
     </div>
   </div>
 </template>
@@ -20,6 +25,7 @@ import { Vue, Component } from "vue-property-decorator";
 import NewPostButton from "@/components/NewPostButton.vue";
 import PostCard from "@/components/PostCard.vue";
 import { Posts } from "@/store";
+import { JPost } from "@/types";
 
 @Component({
   components: {
@@ -29,8 +35,6 @@ import { Posts } from "@/store";
   middleware: ["journalInitialise"]
 })
 export default class AllPosts extends Vue {
-  message = "Hello from class components";
-
   mounted() {
     console.log(
       "fetching posts",
@@ -44,7 +48,7 @@ export default class AllPosts extends Vue {
     });
   }
 
-  get computedMessage() {
+  get computedMessage(): string {
     return this.message + " plus some more text";
   }
 
@@ -54,6 +58,11 @@ export default class AllPosts extends Vue {
 
   get currentJournal() {
     return Posts.currentJournal;
+  }
+
+  addNewPost(post: JPost) {
+    console.log("dispatching action");
+    Posts.createPost(post);
   }
 }
 </script>
