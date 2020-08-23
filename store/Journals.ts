@@ -1,5 +1,6 @@
 import { Module, VuexModule, Action, Mutation } from "vuex-module-decorators";
 import store from "vuex";
+import { Auth } from "@/store";
 import { JJournal } from "@/types";
 import { $axios } from "@/utils/api";
 
@@ -9,6 +10,7 @@ type UpdateJournalEvent = {
   index: number;
 };
 @Module({
+  name: "Journal",
   namespaced: true,
   stateFactory: true,
   store: store as any
@@ -46,12 +48,12 @@ export default class Journals extends VuexModule {
 
   @Action({ rawError: true })
   async createJournal(journal: JJournal) {
-    const tokens = this.context.rootState.Auth.user.tokens;
+    const tokens = Auth.user?.tokens;
     try {
       const resp: JJournal = await $axios.$post(
         "journal",
         { ...journal },
-        { headers: { Authorization: tokens.accessToken } }
+        { headers: { Authorization: tokens?.accessToken } }
       );
       return resp;
     } catch (err) {
@@ -62,10 +64,10 @@ export default class Journals extends VuexModule {
 
   @Action({ rawError: true })
   async getJournals() {
-    const tokens = this.context.rootState.Auth.user.tokens;
+    const tokens = Auth.user?.tokens;
     try {
       const resp = await $axios.$get("journal", {
-        headers: { Authorization: tokens.accessToken }
+        headers: { Authorization: tokens?.accessToken }
       });
 
       this.context.commit("REFRESH_JOURNAL_STATE", resp);
@@ -80,12 +82,12 @@ export default class Journals extends VuexModule {
   @Action({ rawError: true })
   async deleteJournal(delJournalEvnt: { index: number; journalId: string }) {
     const { index, journalId } = delJournalEvnt;
-    const tokens = this.context.rootState.Auth.user.tokens;
+    const tokens = Auth.user?.tokens;
     this.context.commit("DELETE_JOURNAL", index);
     this.context.commit("Posts/DELETE_ALL_POSTS", journalId, { root: true });
     try {
       const resp = await $axios.$delete(`journal?id=${journalId}`, {
-        headers: { Authorization: tokens.accessToken }
+        headers: { Authorization: tokens?.accessToken }
       });
       return resp;
     } catch (err) {
@@ -96,13 +98,13 @@ export default class Journals extends VuexModule {
 
   @Action({ rawError: true })
   async updateJournal(updateJournalEvnt: UpdateJournalEvent) {
-    const tokens = this.context.rootState.Auth.user.tokens;
+    const tokens = Auth.user?.tokens;
     const { journalTitle, journalId } = updateJournalEvnt;
     try {
       const resp = await $axios.$patch(
         `journal?id=${journalId}&title=${journalTitle}`,
         {},
-        { headers: { Authorization: tokens.accessToken, test: "test" } }
+        { headers: { Authorization: tokens?.accessToken, test: "test" } }
       );
       this.context.commit("UPDATE_JOURNAL", updateJournalEvnt);
       return resp;
