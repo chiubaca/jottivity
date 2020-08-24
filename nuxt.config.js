@@ -88,5 +88,12 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
+  },
+  /*
+   ** Required for SPA refreshes on netlify
+   ** https://nuxtjs.org/faq/netlify-deployment
+   */
+  generate: {
+    fallback: true
   }
 };
