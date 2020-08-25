@@ -33,9 +33,15 @@ export default class PostStore extends VuexModule {
     this._currentJournal = journal;
   }
 
+  // TODO: Is there a better data structure than a flat array for this?
   @Mutation
   REFRESH_POST_STATE(posts: JPost[]) {
     this._posts = posts;
+  }
+
+  @Mutation
+  HIDE_POST(index: number) {
+    this._posts[index].hidden = true;
   }
 
   get currentJournal() {
@@ -47,9 +53,6 @@ export default class PostStore extends VuexModule {
   }
 
   get allPostInCurrentJournal() {
-    if (!this._currentJournal?.journalId) {
-      return [];
-    }
     return this._posts.filter(
       (post) => post.journalId === this._currentJournal?.journalId
     );
@@ -61,7 +64,7 @@ export default class PostStore extends VuexModule {
 
   @Action({ rawError: true })
   async getPostsInCurrentJournal(getPostsEvnt: {
-    // TODO Review these types, might be too looses
+    // TODO Review these types, might be too loose
     uid: string | undefined;
     journalid: string | undefined;
   }) {
@@ -78,7 +81,14 @@ export default class PostStore extends VuexModule {
       });
 
       // try using Posts.REFRESH_POST_STATE
-      this.context.commit("REFRESH_POST_STATE", resp);
+      // all post in current journal are not hidden by default
+      this.context.commit(
+        "REFRESH_POST_STATE",
+        resp.map((post: JPost) => {
+          post.hidden = false;
+          return post;
+        })
+      );
 
       return resp;
     } catch (err) {
@@ -98,9 +108,30 @@ export default class PostStore extends VuexModule {
         { headers: { Authorization: tokens?.accessToken } }
       );
       console.log("Action added new post", post);
+      // set the post to be visible
+      post.hidden = false;
+      this.context.commit("ADD_POST", post);
       return resp;
     } catch (err) {
       console.error("server error creating journal", err);
+      return err;
+    }
+  }
+
+  @Action({ rawError: true })
+  async deletePost(delEvtPayload: { index: number; postId: string }) {
+    const tokens = await Auth.user?.tokens;
+    const { index, postId } = delEvtPayload;
+    try {
+      const resp = await $axios.$delete("post", {
+        headers: { Authorization: tokens?.accessToken },
+        params: { postId }
+      });
+      console.log("vuex deleting post...", postId, index);
+      this.context.commit("HIDE_POST", index);
+      return resp;
+    } catch (err) {
+      console.error("server error deleting post", err);
       return err;
     }
   }
