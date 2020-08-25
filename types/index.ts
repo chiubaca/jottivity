@@ -46,6 +46,7 @@ export type JPost = {
   journalId: string;
   uid: string;
   postId: string | undefined; // document id of post
+  hidden: boolean | undefined; // used in vue template
 };
 
 export declare namespace firebaseExt {
