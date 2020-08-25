@@ -2,7 +2,11 @@
   <div class="post">
     {{ index }}
     <h1>{{ post.title }}</h1>
-    {{ post.createdAt }}
+    Date: {{ post.createdAt }}
+
+    <button @click="$emit('delete-post', { index, postId: post.postId })">
+      Delete Post
+    </button>
   </div>
 </template>
 
