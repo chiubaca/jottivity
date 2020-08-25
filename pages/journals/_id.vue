@@ -10,12 +10,18 @@
         @create-new-post="addNewPost($event)"
       />
 
-      <PostCard
+      <div
         v-for="(post, index) in allPostInCurrentJournal"
         :key="index"
-        :post="post"
-        :index="index"
-      />
+        class="postcard-container"
+      >
+        <PostCard
+          v-if="!post.hidden"
+          :post="post"
+          :index="index"
+          @delete-post="deletePost($event)"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -36,12 +42,7 @@ import { JPost } from "@/types";
 })
 export default class AllPosts extends Vue {
   mounted() {
-    console.log(
-      "fetching posts",
-      this.currentJournal?.uid,
-      this.currentJournal?.journalId
-    );
-
+    // Fetch posts
     Posts.getPostsInCurrentJournal({
       uid: this.currentJournal?.uid,
       journalid: this.currentJournal?.journalId
@@ -59,6 +60,11 @@ export default class AllPosts extends Vue {
   addNewPost(post: JPost) {
     console.log("dispatching action");
     Posts.createPost(post);
+  }
+
+  deletePost(delEvtPayload: { index: number; postId: string }) {
+    console.log("component dispatching delete", delEvtPayload);
+    Posts.deletePost(delEvtPayload);
   }
 }
 </script>
