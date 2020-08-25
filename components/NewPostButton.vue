@@ -71,7 +71,8 @@ export default class PostCard extends Vue {
       createdAt: new Date().getTime(),
       journalId: this.journalId,
       uid: this.uid,
-      postId: undefined
+      postId: undefined,
+      deleted: false
     };
 
     this.$emit("create-new-post", newPost);

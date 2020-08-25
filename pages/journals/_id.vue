@@ -16,7 +16,7 @@
         class="postcard-container"
       >
         <PostCard
-          v-if="!post.hidden"
+          v-if="!post.deleted"
           :post="post"
           :index="index"
           @delete-post="deletePost($event)"

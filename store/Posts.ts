@@ -41,7 +41,7 @@ export default class PostStore extends VuexModule {
 
   @Mutation
   HIDE_POST(index: number) {
-    this._posts[index].hidden = true;
+    this._posts[index].deleted = true;
   }
 
   get currentJournal() {
@@ -85,7 +85,7 @@ export default class PostStore extends VuexModule {
       this.context.commit(
         "REFRESH_POST_STATE",
         resp.map((post: JPost) => {
-          post.hidden = false;
+          post.deleted = false;
           return post;
         })
       );
@@ -109,7 +109,7 @@ export default class PostStore extends VuexModule {
       );
       console.log("Action added new post", post);
       // set the post to be visible
-      post.hidden = false;
+      post.deleted = false;
       this.context.commit("ADD_POST", post);
       return resp;
     } catch (err) {
