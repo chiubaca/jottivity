@@ -47,7 +47,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import { JPost } from "@/types";
 
 @Component
-export default class PostCard extends Vue {
+export default class AddNewPost extends Vue {
   @Prop({ required: true }) readonly buttonText!: string;
   @Prop({ required: true }) readonly journalId!: string;
   @Prop({ required: true }) readonly uid!: string;
