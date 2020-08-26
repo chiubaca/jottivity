@@ -1,6 +1,8 @@
 <template>
   <div @keyup.esc="showModal = false">
-    <button v-if="buttonText" @click="showModal = true">{{ buttonText }}</button>
+    <button v-if="buttonText" @click="showModal = true">
+      {{ buttonText }}
+    </button>
     <div v-if="showModal" class="modal-shadow">
       <button id="button-exit" @click="showModal = false">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
