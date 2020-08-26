@@ -1,5 +1,5 @@
 <template>
-  <div class="post">
+  <div class="post" @click="openModal = !openModal">
     {{ index }}
     <h1>{{ post.title }}</h1>
     Date: {{ post.createdAt }}
@@ -7,17 +7,25 @@
     <button @click="$emit('delete-post', { index, postId: post.postId })">
       Delete Post
     </button>
+     <Modal :showModal="openModal"> {{ post.contents }} </Modal>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
+import Modal from "@/components/Modal.vue";
 import { JPost } from "@/types";
 
-@Component
+@Component({
+  components: {
+    Modal
+  }
+})
 export default class PostCard extends Vue {
   @Prop({ required: true }) readonly post!: JPost;
   @Prop({ required: true }) readonly index!: JPost;
+
+  openModal = false;
 }
 </script>
 
