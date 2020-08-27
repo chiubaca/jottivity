@@ -1,8 +1,5 @@
 <template>
   <div @keyup.esc="showModal = false">
-    <button v-if="buttonText" @click="showModal = true">
-      {{ buttonText }}
-    </button>
     <div v-if="showModal" class="modal-shadow">
       <button id="button-exit" @click="showModal = false">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -29,23 +26,11 @@ import Vue from "vue";
 
 export default Vue.extend({
   props: {
-    buttonText: {
-      type: String,
-      default: undefined,
-      required: false
-    },
     showModal: {
       type: Boolean,
       default: false,
       required: false
     }
-  },
-  data() {
-    return {
-      // showModal: false,
-      journalTitle: "",
-      emptyTitle: false
-    };
   }
 });
 </script>
