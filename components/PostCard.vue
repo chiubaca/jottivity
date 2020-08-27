@@ -34,7 +34,9 @@
           <p>Created on {{ post.createdAt }}</p>
           <p>post ID {{ post.postId }}</p>
           <br />
-          <button @click="$emit('update-post', updatedPost)">Save</button>
+          <button @click="$emit('update-post', { updatedPost, index })">
+            Save
+          </button>
         </div>
       </div>
     </div>
@@ -43,31 +45,41 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
+import Vue, { PropType } from "vue";
 import { JPost } from "@/types";
 
-@Component
-export default class PostCard extends Vue {
-  @Prop({ required: true }) readonly post!: JPost;
-  @Prop({ required: true }) readonly index!: JPost;
+export default Vue.extend({
+  props: {
+    post: {
+      type: Object as PropType<JPost>,
+      required: true
+    },
+    index: {
+      type: Number,
+      required: true
+    }
+  },
+  data() {
+    return new (class {
+      updatedPost: JPost = {
+        title: "",
+        contents: "",
+        createdAt: 0,
+        tags: [],
+        journalId: "",
+        uid: "",
+        postId: undefined,
+        deleted: false
+      };
+
+      showModal = false;
+    })();
+  },
   mounted() {
     // Clone post object, so we dont mutate the prop
     this.updatedPost = { ...this.post };
   }
-
-  updatedPost: JPost = {
-    title: "",
-    contents: "",
-    createdAt: 0,
-    tags: [],
-    journalId: "",
-    uid: "",
-    postId: undefined,
-    deleted: false
-  };
-
-  showModal = false;
-}
+});
 </script>
 
 <style scoped>
