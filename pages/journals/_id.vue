@@ -68,7 +68,7 @@ export default class AllPosts extends Vue {
     Posts.deletePost(delEvtPayload);
   }
 
-  updatePost(updateEvtPayload: JPost) {
+  updatePost(updateEvtPayload: { index: number; updatedPost: JPost }) {
     console.log("dispatchig update post action", updateEvtPayload);
     Posts.updatePost(updateEvtPayload);
   }
