@@ -23,16 +23,15 @@ export default async function createJournal(
 
     // write new journal to db
     const journal: JJournal & JToken = await JSON.parse(event.body as string);
-    const { name, uid, createdAt } = journal;
     const newJournal = await admin
       .firestore()
       .collection("journals")
-      .add({ name, uid, createdAt });
+      .add({ ...journal });
 
     return callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, uid, createdAt, journalId: newJournal.id })
+      body: JSON.stringify({ ...journal, journalId: newJournal.id })
     });
   } catch (error) {
     console.error("There was an error creating a new journal", error);
