@@ -43,45 +43,59 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
+import Vue from "vue";
 import { JPost } from "@/types";
 
-@Component
-export default class AddNewPost extends Vue {
-  @Prop({ required: true }) readonly buttonText!: string;
-  @Prop({ required: true }) readonly journalId!: string;
-  @Prop({ required: true }) readonly uid!: string;
-
-  showModal: boolean = false;
-  postTitle: string = "";
-  postContents = "";
-  tags = {};
-  emptyTitle = false;
-
-  emitPostAndCloseModal() {
-    if (this.postTitle === "") {
-      this.emptyTitle = true;
-      return;
+export default Vue.extend({
+  props: {
+    buttonText: {
+      type: String,
+      required: true
+    },
+    journalId: {
+      type: String,
+      required: true
+    },
+    uid: {
+      type: String,
+      required: true
     }
-
-    const newPost: JPost = {
-      title: this.postTitle,
-      contents: this.postContents,
-      tags: this.tags,
-      createdAt: new Date().getTime(),
-      journalId: this.journalId,
-      uid: this.uid,
-      postId: undefined,
-      deleted: false
+  },
+  data() {
+    return {
+      showModal: false,
+      postTitle: "",
+      postContents: "",
+      tags: {},
+      emptyTitle: false
     };
+  },
+  methods: {
+    emitPostAndCloseModal() {
+      if (this.postTitle === "") {
+        this.emptyTitle = true;
+        return;
+      }
 
-    this.$emit("create-new-post", newPost);
-    this.showModal = false;
-    this.postTitle = "";
-    this.postContents = "";
-    this.emptyTitle = false;
+      const newPost: JPost = {
+        title: this.postTitle,
+        contents: this.postContents,
+        tags: this.tags,
+        createdAt: new Date().getTime(),
+        journalId: this.journalId,
+        uid: this.uid,
+        postId: undefined,
+        deleted: false
+      };
+
+      this.$emit("create-new-post", newPost);
+      this.showModal = false;
+      this.postTitle = "";
+      this.postContents = "";
+      this.emptyTitle = false;
+    }
   }
-}
+});
 </script>
 
 <style scoped>
