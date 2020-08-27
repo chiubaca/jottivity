@@ -20,6 +20,7 @@
           :post="post"
           :index="index"
           @delete-post="deletePost($event)"
+          @update-post="updatePost($event)"
         />
       </div>
     </div>
@@ -65,6 +66,11 @@ export default class AllPosts extends Vue {
   deletePost(delEvtPayload: { index: number; postId: string }) {
     console.log("component dispatching delete", delEvtPayload);
     Posts.deletePost(delEvtPayload);
+  }
+
+  updatePost(updateEvtPayload: JPost) {
+    console.log("dispatchig update post action", updateEvtPayload);
+    Posts.updatePost(updateEvtPayload);
   }
 }
 </script>
