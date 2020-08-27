@@ -2,9 +2,9 @@
   <div>
     <h1>Your Journals</h1>
 
-    <div class="journals container--center">
+    <div v-for="(journal, index) in allJournals">
       <JournalCard
-        v-for="(journal, index) in allJournals"
+        v-if="!journal.deleted"
         :key="index"
         :journal="journal"
         :index="index"
@@ -74,7 +74,8 @@ export default Vue.extend({
           name: journalTitle,
           uid: this.user.uid,
           createdAt: new Date().getTime(),
-          journalId: undefined
+          journalId: undefined,
+          deleted: false
         };
         const newJournal = await this.createJournal(journal);
 
