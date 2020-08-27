@@ -27,9 +27,11 @@
       </button>
       <div class="modal-container">
         <div class="modal-contents">
-          <p>Created on: {{ post.createdAt }}</p>
-          <h1>{{ post.title }}</h1>
-          <h2>{{ post.contents }}</h2>
+          <input v-model="updatedTitle" type="text" />
+          <br />
+          <textarea v-model="updatedContents" rows="10"></textarea>
+          <br />
+          <button @click="$emit('update-post')">Save</button>
         </div>
       </div>
     </div>
@@ -45,7 +47,14 @@ import { JPost } from "@/types";
 export default class PostCard extends Vue {
   @Prop({ required: true }) readonly post!: JPost;
   @Prop({ required: true }) readonly index!: JPost;
+  mounted() {
+    // Set current contents of the edit
+    this.updatedTitle = this.post.title;
+    this.updatedContents = this.post.contents;
+  }
 
+  updatedTitle = "";
+  updatedContents = "";
   showModal = false;
 }
 </script>
