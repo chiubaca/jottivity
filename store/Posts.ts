@@ -33,6 +33,11 @@ export default class PostStore extends VuexModule {
     this._currentJournal = journal;
   }
 
+  @Mutation
+  UPDATE_POST(updateEvtPayload: { index: number; updatedPost: JPost }) {
+    this._posts[updateEvtPayload.index] = updateEvtPayload.updatedPost;
+  }
+
   // TODO: Is there a better data structure than a flat array for this?
   @Mutation
   REFRESH_POST_STATE(posts: JPost[]) {
@@ -138,12 +143,12 @@ export default class PostStore extends VuexModule {
   }
 
   @Action({ rawError: true })
-  async updatePost(updateEvtPayload: JPost) {
+  async updatePost(updateEvtPayload: { index: number; updatedPost: JPost }) {
     const tokens = await Auth.user?.tokens;
     try {
       const resp = await $axios.$patch(
         "post",
-        { ...updateEvtPayload },
+        { ...updateEvtPayload.updatedPost },
         {
           headers: { Authorization: tokens?.accessToken }
         }
@@ -151,6 +156,7 @@ export default class PostStore extends VuexModule {
       if (resp.error) {
         throw new Error("error");
       }
+      this.context.commit("UPDATE_POST", updateEvtPayload);
       console.log("vuex updated post...", resp);
 
       alert("updated post");
