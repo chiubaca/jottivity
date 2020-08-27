@@ -3,7 +3,8 @@
     <div class="post" @click="showModal = true">
       {{ index }}
       <h1>{{ post.title }}</h1>
-      Date: {{ post.createdAt }}
+      <p>Date: {{ post.createdAt }}</p>
+      <p>post ID : {{ post.postId }}</p>
 
       <button @click="$emit('delete-post', { index, postId: post.postId })">
         Delete Post
@@ -27,11 +28,13 @@
       </button>
       <div class="modal-container">
         <div class="modal-contents">
-          <input v-model="updatedTitle" type="text" />
+          <input v-model="updatedPost.title" type="text" />
           <br />
-          <textarea v-model="updatedContents" rows="10"></textarea>
+          <textarea v-model="updatedPost.contents" rows="10"></textarea>
+          <p>Created on {{ post.createdAt }}</p>
+          <p>post ID {{ post.postId }}</p>
           <br />
-          <button @click="$emit('update-post')">Save</button>
+          <button @click="$emit('update-post', updatedPost)">Save</button>
         </div>
       </div>
     </div>
@@ -48,13 +51,21 @@ export default class PostCard extends Vue {
   @Prop({ required: true }) readonly post!: JPost;
   @Prop({ required: true }) readonly index!: JPost;
   mounted() {
-    // Set current contents of the edit
-    this.updatedTitle = this.post.title;
-    this.updatedContents = this.post.contents;
+    // Clone post object, so we dont mutate the prop
+    this.updatedPost = { ...this.post };
   }
 
-  updatedTitle = "";
-  updatedContents = "";
+  updatedPost: JPost = {
+    title: "",
+    contents: "",
+    createdAt: 0,
+    tags: [],
+    journalId: "",
+    uid: "",
+    postId: undefined,
+    deleted: false
+  };
+
   showModal = false;
 }
 </script>
