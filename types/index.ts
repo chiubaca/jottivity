@@ -36,6 +36,7 @@ export type JJournal = {
   createdAt: number;
   uid: string; // user id
   journalId: string | undefined; // document id of journal
+  deleted: boolean | undefined;
 };
 
 export type JPost = {
