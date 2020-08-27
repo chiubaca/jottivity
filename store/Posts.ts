@@ -107,10 +107,11 @@ export default class PostStore extends VuexModule {
         { ...post },
         { headers: { Authorization: tokens?.accessToken } }
       );
-      console.log("Action added new post", post);
+      console.log("Action added new post", resp);
+      alert("new post added");
       // set the post to be visible
       post.deleted = false;
-      this.context.commit("ADD_POST", post);
+      this.context.commit("ADD_POST", resp);
       return resp;
     } catch (err) {
       console.error("server error creating journal", err);
@@ -132,6 +133,31 @@ export default class PostStore extends VuexModule {
       return resp;
     } catch (err) {
       console.error("server error deleting post", err);
+      return err;
+    }
+  }
+
+  @Action({ rawError: true })
+  async updatePost(updateEvtPayload: JPost) {
+    const tokens = await Auth.user?.tokens;
+    try {
+      const resp = await $axios.$patch(
+        "post",
+        { ...updateEvtPayload },
+        {
+          headers: { Authorization: tokens?.accessToken }
+        }
+      );
+      if (resp.error) {
+        throw new Error("error");
+      }
+      console.log("vuex updated post...", resp);
+
+      alert("updated post");
+      return resp;
+    } catch (err) {
+      console.error("server error updating  post", err);
+      alert("error updating post");
       return err;
     }
   }
