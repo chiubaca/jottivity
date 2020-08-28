@@ -1,5 +1,6 @@
 import { Module, VuexModule, Action, Mutation } from "vuex-module-decorators";
 import store from "vuex";
+import { Auth } from "@/store";
 import { JJournal } from "@/types";
 import { $axios } from "@/utils/api";
 
@@ -9,6 +10,7 @@ type UpdateJournalEvent = {
   index: number;
 };
 @Module({
+  name: "Journal",
   namespaced: true,
   stateFactory: true,
   store: store as any
@@ -31,8 +33,8 @@ export default class Journals extends VuexModule {
   }
 
   @Mutation
-  DELETE_JOURNAL(journalIndex: number) {
-    this.journals.splice(journalIndex, 1);
+  HIDE_JOURNAL(journalIndex: number) {
+    this.journals[journalIndex].deleted = true;
   }
 
   @Mutation
@@ -46,13 +48,16 @@ export default class Journals extends VuexModule {
 
   @Action({ rawError: true })
   async createJournal(journal: JJournal) {
-    const tokens = this.context.rootState.Auth.user.tokens;
+    console.log("disaptching create action", journal)
+    const tokens = Auth.user?.tokens;
     try {
       const resp: JJournal = await $axios.$post(
         "journal",
         { ...journal },
-        { headers: { Authorization: tokens.accessToken } }
+        { headers: { Authorization: tokens?.accessToken } }
       );
+      alert("created a new journal!")
+      console.log("Created journal", resp)
       return resp;
     } catch (err) {
       console.error("server error creating journal", err);
@@ -62,10 +67,10 @@ export default class Journals extends VuexModule {
 
   @Action({ rawError: true })
   async getJournals() {
-    const tokens = this.context.rootState.Auth.user.tokens;
+    const tokens = Auth.user?.tokens;
     try {
       const resp = await $axios.$get("journal", {
-        headers: { Authorization: tokens.accessToken }
+        headers: { Authorization: tokens?.accessToken }
       });
 
       this.context.commit("REFRESH_JOURNAL_STATE", resp);
@@ -80,29 +85,36 @@ export default class Journals extends VuexModule {
   @Action({ rawError: true })
   async deleteJournal(delJournalEvnt: { index: number; journalId: string }) {
     const { index, journalId } = delJournalEvnt;
-    const tokens = this.context.rootState.Auth.user.tokens;
-    this.context.commit("DELETE_JOURNAL", index);
+    const tokens = Auth.user?.tokens;
+    this.context.commit("HIDE_JOURNAL", index);
     this.context.commit("Posts/DELETE_ALL_POSTS", journalId, { root: true });
     try {
-      const resp = await $axios.$delete(`journal?id=${journalId}`, {
-        headers: { Authorization: tokens.accessToken }
+      const resp = await $axios.$delete(`journal`, {
+        headers: { Authorization: tokens?.accessToken },
+        params: { journalId }
       });
       return resp;
     } catch (err) {
-      console.error("error logging in", err);
+      console.error("error deleting journal", err);
       return err;
     }
   }
 
   @Action({ rawError: true })
   async updateJournal(updateJournalEvnt: UpdateJournalEvent) {
-    const tokens = this.context.rootState.Auth.user.tokens;
+    const tokens = Auth.user?.tokens;
     const { journalTitle, journalId } = updateJournalEvnt;
     try {
       const resp = await $axios.$patch(
-        `journal?id=${journalId}&title=${journalTitle}`,
+        `journal`,
         {},
-        { headers: { Authorization: tokens.accessToken, test: "test" } }
+        {
+          headers: { Authorization: tokens?.accessToken },
+          params: {
+            title: journalTitle,
+            journalId
+          }
+        }
       );
       this.context.commit("UPDATE_JOURNAL", updateJournalEvnt);
       return resp;

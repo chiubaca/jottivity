@@ -36,6 +36,7 @@ export type JJournal = {
   createdAt: number;
   uid: string; // user id
   journalId: string | undefined; // document id of journal
+  deleted: boolean | undefined;
 };
 
 export type JPost = {
@@ -46,6 +47,7 @@ export type JPost = {
   journalId: string;
   uid: string;
   postId: string | undefined; // document id of post
+  deleted: boolean | undefined;
 };
 
 export declare namespace firebaseExt {

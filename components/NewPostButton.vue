@@ -51,6 +51,14 @@ export default Vue.extend({
     buttonText: {
       type: String,
       required: true
+    },
+    journalId: {
+      type: String,
+      required: true
+    },
+    uid: {
+      type: String,
+      required: true
     }
   },
   data() {
@@ -62,27 +70,28 @@ export default Vue.extend({
       emptyTitle: false
     };
   },
-
   methods: {
     emitPostAndCloseModal() {
       if (this.postTitle === "") {
         this.emptyTitle = true;
         return;
       }
- 
+
       const newPost: JPost = {
         title: this.postTitle,
         contents: this.postContents,
         tags: this.tags,
         createdAt: new Date().getTime(),
-        journalId: this.$store.getters["Posts/currentJournalInfo"].id,
-        uid: this.$store.getters["Posts/currentJournalInfo"].uid,
-        postId: undefined
+        journalId: this.journalId,
+        uid: this.uid,
+        postId: undefined,
+        deleted: false
       };
 
       this.$emit("create-new-post", newPost);
       this.showModal = false;
       this.postTitle = "";
+      this.postContents = "";
       this.emptyTitle = false;
     }
   }

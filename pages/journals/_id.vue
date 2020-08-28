@@ -1,15 +1,27 @@
 <template>
   <div>
     <h1>Your Posts | {{ currentJournal.name }}</h1>
-    <p>journal ID: {{ currentJournal.id }}</p>
+    <p>journal ID: {{ currentJournal.journalId }}</p>
     <div class="fixed">
       <NewPostButton
         button-text="Add A New Post"
+        :journal-id="currentJournal.journalId"
+        :uid="currentJournal.uid"
         @create-new-post="addNewPost($event)"
       />
 
-      <div v-for="(post, index) in allPostInCurrentJournal">
-        {{ post }}
+      <div
+        v-for="(post, index) in allPostInCurrentJournal"
+        :key="index"
+        class="postcard-container"
+      >
+        <PostCard
+          v-if="!post.deleted"
+          :post="post"
+          :index="index"
+          @delete-post="deletePost($event)"
+          @update-post="updatePost($event)"
+        />
       </div>
     </div>
   </div>
@@ -17,21 +29,47 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { mapMutations, mapGetters } from "vuex";
 import NewPostButton from "@/components/NewPostButton.vue";
+import PostCard from "@/components/PostCard.vue";
+import { Posts } from "@/store";
+import { JPost } from "@/types";
 
 export default Vue.extend({
   middleware: ["journalInitialise"],
   components: {
-    NewPostButton
+    NewPostButton,
+    PostCard
   },
   computed: {
-    ...mapGetters("Posts", ["allPostInCurrentJournal", "currentJournal"])
+    allPostInCurrentJournal() {
+      return Posts.allPostInCurrentJournal;
+    },
+
+    currentJournal() {
+      return Posts.currentJournal;
+    }
+  },
+  mounted() {
+    // Fetch posts
+    Posts.getPostsInCurrentJournal({
+      uid: this.currentJournal?.uid,
+      journalid: this.currentJournal?.journalId
+    });
   },
   methods: {
-    ...mapMutations("Posts", ["ADD_POST"]),
-    addNewPost(newPost: unknown) {
-      this.ADD_POST(newPost);
+    addNewPost(post: JPost) {
+      console.log("dispatching action");
+      Posts.createPost(post);
+    },
+
+    deletePost(delEvtPayload: { index: number; postId: string }) {
+      console.log("component dispatching delete", delEvtPayload);
+      Posts.deletePost(delEvtPayload);
+    },
+
+    updatePost(updateEvtPayload: { index: number; updatedPost: JPost }) {
+      console.log("dispatchig update post action", updateEvtPayload);
+      Posts.updatePost(updateEvtPayload);
     }
   }
 });

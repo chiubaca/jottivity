@@ -2,20 +2,20 @@
   <div>
     <h1>Your Journals</h1>
 
-    <div class="journals container--center">
+    <div v-for="(journal, index) in allJournals">
       <JournalCard
-        v-for="(journal, index) in allJournals"
+        v-if="!journal.deleted"
         :key="index"
         :journal="journal"
         :index="index"
-        @delete="deleteJournal($event)"
-        @update="updateJournal($event, journal)"
+        @delete-journal="deleteJournal($event)"
+        @update-journal="updateJournal($event, journal)"
       />
     </div>
     <div class="fixed">
       <NewJournalButton
         button-text="Create a new Journal"
-        @create="addNewJournal($event)"
+        @create-journal="addNewJournal($event)"
       />
     </div>
 
@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import { JJournal } from "@/types";
 import JournalCard from "@/components/JournalCard.vue";
 import NewJournalButton from "@/components/NewJournalButton.vue";
@@ -41,7 +41,7 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...mapState("Auth", ["user"]),
+    ...mapGetters("Auth", ["user"]),
     ...mapGetters("Journals", ["allJournals"])
   },
   async mounted() {
@@ -74,9 +74,9 @@ export default Vue.extend({
           name: journalTitle,
           uid: this.user.uid,
           createdAt: new Date().getTime(),
-          journalId: undefined
+          journalId: undefined,
+          deleted: false
         };
-
         const newJournal = await this.createJournal(journal);
 
         if (newJournal.error) {
@@ -87,6 +87,7 @@ export default Vue.extend({
 
         this.ADD_JOURNAL(newJournal);
       } catch (error) {
+        console.error("there was problem creating the journal", error);
         alert("there was problem creating the journal");
       }
     }
