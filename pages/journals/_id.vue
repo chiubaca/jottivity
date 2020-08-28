@@ -28,51 +28,51 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import Vue from "vue";
 import NewPostButton from "@/components/NewPostButton.vue";
 import PostCard from "@/components/PostCard.vue";
 import { Posts } from "@/store";
 import { JPost } from "@/types";
 
-@Component({
+export default Vue.extend({
+  middleware: ["journalInitialise"],
   components: {
     NewPostButton,
     PostCard
   },
-  middleware: ["journalInitialise"]
-})
-export default class AllPosts extends Vue {
+  computed: {
+    allPostInCurrentJournal() {
+      return Posts.allPostInCurrentJournal;
+    },
+
+    currentJournal() {
+      return Posts.currentJournal;
+    }
+  },
   mounted() {
     // Fetch posts
     Posts.getPostsInCurrentJournal({
       uid: this.currentJournal?.uid,
       journalid: this.currentJournal?.journalId
     });
-  }
+  },
+  methods: {
+    addNewPost(post: JPost) {
+      console.log("dispatching action");
+      Posts.createPost(post);
+    },
 
-  get allPostInCurrentJournal() {
-    return Posts.allPostInCurrentJournal;
-  }
+    deletePost(delEvtPayload: { index: number; postId: string }) {
+      console.log("component dispatching delete", delEvtPayload);
+      Posts.deletePost(delEvtPayload);
+    },
 
-  get currentJournal() {
-    return Posts.currentJournal;
+    updatePost(updateEvtPayload: { index: number; updatedPost: JPost }) {
+      console.log("dispatchig update post action", updateEvtPayload);
+      Posts.updatePost(updateEvtPayload);
+    }
   }
-
-  addNewPost(post: JPost) {
-    console.log("dispatching action");
-    Posts.createPost(post);
-  }
-
-  deletePost(delEvtPayload: { index: number; postId: string }) {
-    console.log("component dispatching delete", delEvtPayload);
-    Posts.deletePost(delEvtPayload);
-  }
-
-  updatePost(updateEvtPayload: { index: number; updatedPost: JPost }) {
-    console.log("dispatchig update post action", updateEvtPayload);
-    Posts.updatePost(updateEvtPayload);
-  }
-}
+});
 </script>
 
 <style scoped></style>
