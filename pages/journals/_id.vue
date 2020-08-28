@@ -29,6 +29,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { mapGetters } from "vuex";
 import NewPostButton from "@/components/NewPostButton.vue";
 import PostCard from "@/components/PostCard.vue";
 import { Posts } from "@/store";
@@ -41,9 +42,10 @@ export default Vue.extend({
     PostCard
   },
   computed: {
-    allPostInCurrentJournal() {
-      return Posts.allPostInCurrentJournal;
-    },
+    ...mapGetters("Posts", ["allPostInCurrentJournal"]),
+    // allPostInCurrentJournal() {
+    //   return Posts.allPostInCurrentJournal;
+    // },
 
     currentJournal() {
       return Posts.currentJournal;

@@ -1,4 +1,4 @@
-// import Vue from "vue";
+import Vue from "vue";
 import { Module, VuexModule, Action, Mutation } from "vuex-module-decorators";
 import store from "vuex";
 import { Auth } from "@/store";
@@ -35,7 +35,7 @@ export default class PostStore extends VuexModule {
 
   @Mutation
   UPDATE_POST(updateEvtPayload: { index: number; updatedPost: JPost }) {
-    this._posts[updateEvtPayload.index] = updateEvtPayload.updatedPost;
+    Vue.set(this._posts, updateEvtPayload.index, updateEvtPayload.updatedPost);
   }
 
   // TODO: Is there a better data structure than a flat array for this?
