@@ -1,7 +1,7 @@
 import Vue from "vue";
 import { Module, VuexModule, Action, Mutation } from "vuex-module-decorators";
 import store from "vuex";
-import { Auth } from "@/store";
+import { Auth, Posts } from "@/store";
 import { JPost, JJournal } from "@/types";
 import { $axios } from "@/utils/api";
 
@@ -75,26 +75,18 @@ export default class PostStore extends VuexModule {
   }) {
     const { uid, journalid } = getPostsEvnt;
 
-    const tokens = this.context.rootState.Auth._user.tokens;
+    // TODO - type check for undefined and handle it
+    const tokens = Auth.user?.tokens;
     try {
       const resp = await $axios.$get("post", {
-        headers: { Authorization: tokens.accessToken },
+        headers: { Authorization: tokens?.accessToken },
         params: {
           uid,
           journalid
         }
       });
 
-      // try using Posts.REFRESH_POST_STATE
-      // all post in current journal are not hidden by default
-      this.context.commit(
-        "REFRESH_POST_STATE",
-        resp.map((post: JPost) => {
-          post.deleted = false;
-          return post;
-        })
-      );
-
+      Posts.REFRESH_POST_STATE(resp);
       return resp;
     } catch (err) {
       console.error("error retrieving journals", err);
@@ -116,7 +108,7 @@ export default class PostStore extends VuexModule {
       alert("new post added");
       // set the post to be visible
       post.deleted = false;
-      this.context.commit("ADD_POST", resp);
+      Posts.ADD_POST(resp);
       return resp;
     } catch (err) {
       console.error("server error creating journal", err);
@@ -134,7 +126,7 @@ export default class PostStore extends VuexModule {
         params: { postId }
       });
       console.log("vuex deleting post...", postId, index);
-      this.context.commit("HIDE_POST", index);
+      Posts.HIDE_POST(index);
       return resp;
     } catch (err) {
       console.error("server error deleting post", err);
@@ -156,7 +148,7 @@ export default class PostStore extends VuexModule {
       if (resp.error) {
         throw new Error("error");
       }
-      this.context.commit("UPDATE_POST", updateEvtPayload);
+      Posts.UPDATE_POST(updateEvtPayload);
       console.log("vuex updated post...", resp);
 
       alert("updated post");
