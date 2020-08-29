@@ -35,5 +35,6 @@
     ".nuxt",
     "dist",
     "functions"
-  ]
+  ],
+  "files": [ "types/custom.d.ts" ]
 }
