@@ -39,10 +39,9 @@ export default {
    */
   buildModules: [
     "@nuxt/typescript-build",
-    // Doc: https://github.com/nuxt-community/stylelint-module
-    "@nuxtjs/stylelint-module",
+    "@nuxtjs/stylelint-module", // https://github.com/nuxt-community/stylelint-module
     [
-      "@nuxtjs/pwa",
+      "@nuxtjs/pwa", // https://github.com/nuxt-community/pwa-module
       {
         icon: {
           iconSrc: "./assets/images/logo.png"
@@ -63,7 +62,8 @@ export default {
           ]
         }
       }
-    ]
+    ],
+    "@nuxtjs/svg"
   ],
   /*
    ** Nuxt.js modules
