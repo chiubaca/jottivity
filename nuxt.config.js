@@ -95,5 +95,6 @@ export default {
    */
   generate: {
     fallback: true
-  }
+  },
+  components: true // Component lazy loading module - https://github.com/nuxt/components
 };

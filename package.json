@@ -33,6 +33,7 @@
     "@nuxtjs/stylelint-module": "^4.0.0",
     "@nuxt/types": "^2.14.0",
     "@nuxtjs/svg": "^0.1.12",
+    "@nuxt/components": "^1.1.0",
     "@types/aws-lambda": "^8.10.53",
     "@types/jest": "^26.0.0",
     "@vue/test-utils": "^1.0.0-beta.27",
