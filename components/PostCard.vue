@@ -14,7 +14,7 @@
     <!-- TODO: Move Modal to seperate component -->
     <div v-if="showModal" class="modal-shadow">
       <button id="button-exit" @click="showModal = false">
-        <ExitCross />
+        <ExitCrossIcon />
       </button>
       <div class="modal-container">
         <div class="modal-contents">
@@ -37,12 +37,8 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import { JPost } from "@/types";
-import ExitCross from "@/assets/images/exit-cross.svg?inline";
 
 export default Vue.extend({
-  components: {
-    ExitCross
-  },
   props: {
     post: {
       type: Object as PropType<JPost>,
