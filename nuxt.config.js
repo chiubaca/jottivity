@@ -4,9 +4,6 @@ export default {
    ** Headers of the page
    */
   head: {
-    htmlAttrs: {
-      "data-theme": "light"
-    },
     title: process.env.npm_package_name || "",
     meta: [
       { charset: "utf-8" },
@@ -63,7 +60,8 @@ export default {
         }
       }
     ],
-    "@nuxtjs/svg"
+    "@nuxtjs/svg", // https://github.com/nuxt-community/svg-module
+    "@nuxtjs/color-mode" // https://github.com/nuxt-community/color-mode-module
   ],
   /*
    ** Nuxt.js modules
