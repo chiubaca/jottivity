@@ -30,16 +30,11 @@
 <script lang="ts">
 import Vue from "vue";
 import NewPostButton from "@/components/NewPostButton.vue";
-import PostCard from "@/components/PostCard.vue";
 import { Posts } from "@/store";
 import { JPost } from "@/types";
 
 export default Vue.extend({
   middleware: ["journalInitialise"],
-  components: {
-    NewPostButton,
-    PostCard
-  },
   computed: {
     allPostInCurrentJournal() {
       return Posts.allPostInCurrentJournal;
