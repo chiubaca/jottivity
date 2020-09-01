@@ -4,14 +4,15 @@
 /*
 * === COLOURS ===
 */
-[data-theme="light"] {
+
+.light-mode {
     --app-background: url("../images/dot.png");
     --app-secondary-background-color: white;
     --primary: rgb(44, 44, 44);
     --main-font: 'Amaranth', sans-serif, 'Helvetica Neue', Arial, sans-serif;
 }
 
-[data-theme="dark"] {
+.dark-mode {
     --app-background: url("../images/dot_dark.png");
     --app-secondary-background-color: #094f88;
     --primary: #FFFFFF;

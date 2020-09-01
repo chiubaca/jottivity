@@ -4,9 +4,6 @@ export default {
    ** Headers of the page
    */
   head: {
-    htmlAttrs: {
-      "data-theme": "light"
-    },
     title: process.env.npm_package_name || "",
     meta: [
       { charset: "utf-8" },
@@ -39,10 +36,9 @@ export default {
    */
   buildModules: [
     "@nuxt/typescript-build",
-    // Doc: https://github.com/nuxt-community/stylelint-module
-    "@nuxtjs/stylelint-module",
+    "@nuxtjs/stylelint-module", // https://github.com/nuxt-community/stylelint-module
     [
-      "@nuxtjs/pwa",
+      "@nuxtjs/pwa", // https://github.com/nuxt-community/pwa-module
       {
         icon: {
           iconSrc: "./assets/images/logo.png"
@@ -63,7 +59,9 @@ export default {
           ]
         }
       }
-    ]
+    ],
+    "@nuxtjs/svg", // https://github.com/nuxt-community/svg-module
+    "@nuxtjs/color-mode" // https://github.com/nuxt-community/color-mode-module
   ],
   /*
    ** Nuxt.js modules
@@ -95,5 +93,6 @@ export default {
    */
   generate: {
     fallback: true
-  }
+  },
+  components: true // Component lazy loading module - https://github.com/nuxt/components
 };

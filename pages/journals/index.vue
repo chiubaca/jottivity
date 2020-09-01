@@ -27,14 +27,8 @@
 import Vue from "vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import { JJournal } from "@/types";
-import JournalCard from "@/components/JournalCard.vue";
-import NewJournalButton from "@/components/NewJournalButton.vue";
 export default Vue.extend({
   middleware: "authenticated",
-  components: {
-    JournalCard,
-    NewJournalButton
-  },
   data() {
     return {
       newJournalName: ""
