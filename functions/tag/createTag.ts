@@ -23,16 +23,23 @@ export default async function createTag(
     // write new tag to db
     const tag: JTag = await JSON.parse(event.body as string);
 
-    const newTag = await admin
+    // Create a reference to tag document
+    const newTagRef: FirebaseFirestore.DocumentReference = await admin
       .firestore()
       .collection("tags")
-      .add(tag);
+      .doc();
+
+    // Spread in contents of the tag object and also append in document refId
+    await newTagRef.set({ ...tag, tagId: newTagRef.id });
+
+    // Get the contents of newly created tag document for client response
+    const tagData = await newTagRef.get();
 
     // sucess response for client when successfully written to db
     return callback(null, {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...tag, tagId: newTag.id })
+      body: JSON.stringify({ ...tagData.data() })
     });
   } catch (error) {
     console.error("There was an error", error);
