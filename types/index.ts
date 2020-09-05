@@ -54,6 +54,7 @@ export type JTag = {
   name: string;
   journalId: string;
   tagId: string;
+  uid: string;
   category: "mood" | "activity";
 };
 
