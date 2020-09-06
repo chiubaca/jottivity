@@ -29,8 +29,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import NewPostButton from "@/components/NewPostButton.vue";
-import { Posts } from "@/store";
+import { Posts, Tags } from "@/store";
 import { JPost } from "@/types";
 
 export default Vue.extend({
@@ -44,9 +43,15 @@ export default Vue.extend({
       return Posts.currentJournal;
     }
   },
-  mounted() {
+  async mounted() {
     // Fetch posts
-    Posts.getPostsInCurrentJournal({
+    await Posts.getPostsInCurrentJournal({
+      uid: this.currentJournal?.uid,
+      journalid: this.currentJournal?.journalId
+    });
+
+    // Fetch tags
+    Tags.getAvailableTagsInCurrentJournal({
       uid: this.currentJournal?.uid,
       journalid: this.currentJournal?.journalId
     });
