@@ -6,12 +6,12 @@ import TagStore from "@/store/Tags";
 
 let Posts: PostStore;
 let Auth: AuthStore;
-let Tag: TagStore;
+let Tags: TagStore;
 
 function initialiseStores(store: Store<any>): void {
   Posts = getModule(PostStore, store);
   Auth = getModule(AuthStore, store);
-  Tag = getModule(TagStore, store);
+  Tags = getModule(TagStore, store);
 }
 
-export { initialiseStores, Posts, Auth, Tag };
+export { initialiseStores, Posts, Auth, Tags };
