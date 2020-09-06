@@ -20,7 +20,7 @@ export default async function retrieveTags(
     // extract post id from query string
     const queryParam = event?.queryStringParameters;
 
-    if (!queryParam?.uid || !queryParam?.journalId) {
+    if (!queryParam?.uid || !queryParam?.journalid) {
       return callback(null, {
         statusCode: 401,
         headers: { "Content-Type": "application/json" },
@@ -41,7 +41,7 @@ export default async function retrieveTags(
     const tagsRef = admin.firestore().collection("tags");
     const snapshot = await tagsRef
       .where("uid", "==", user.uid)
-      .where("journalId", "==", queryParam.journalId)
+      .where("journalId", "==", queryParam.journalid)
       .get();
 
     // If empty result return an empty array
