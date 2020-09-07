@@ -43,18 +43,17 @@ export default Vue.extend({
       return Posts.currentJournal;
     }
   },
-  async mounted() {
-    // Fetch posts
-    await Posts.getPostsInCurrentJournal({
-      uid: this.currentJournal?.uid,
-      journalid: this.currentJournal?.journalId
-    });
-
-    // Fetch tags
-    Tags.getAvailableTagsInCurrentJournal({
-      uid: this.currentJournal?.uid,
-      journalid: this.currentJournal?.journalId
-    });
+  mounted() {
+    Promise.all([
+      Posts.getPostsInCurrentJournal({
+        uid: this.currentJournal?.uid,
+        journalid: this.currentJournal?.journalId
+      }),
+      Tags.getAvailableTagsInCurrentJournal({
+        uid: this.currentJournal?.uid,
+        journalid: this.currentJournal?.journalId
+      })
+    ]);
   },
   methods: {
     addNewPost(post: JPost) {
