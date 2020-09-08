@@ -9,7 +9,7 @@
         <div class="modal-contents">
           <h1>How was your day?</h1>
           <input
-            v-model="postTitle"
+            v-model="newPost.postTitle"
             type="text"
             placeholder="Summerise your day in sentence"
             @keyup.enter="emitPostAndCloseModal"
@@ -18,11 +18,37 @@
           <span v-if="emptyTitle">Your new post title cant be empty</span>
           <br />
           <textarea
-            v-model="postContents"
+            v-model="newPost.postContents"
             rows="10"
             placeholder="Write anything you want about your day here. It's to get it all out"
           ></textarea>
           <br />
+          <h2>Tags</h2>
+          <!-- Tag and Tag container components  to be created -->
+          <h3>Mood</h3>
+          <div v-for="(tag, index) in groupedTags.mood" :key="index">
+            <input
+              v-model="checkedTags"
+              type="checkbox"
+              class="activity-tags"
+              :name="tag.name"
+              :value="tag"
+            />
+            <label :for="tag.name">{{ tag.name }}</label>
+          </div>
+
+          <h3>Activity</h3>
+          <div v-for="(tag, index) in groupedTags.activity" :key="index">
+            <input
+              v-model="checkedTags"
+              type="checkbox"
+              class="activity-tags"
+              :name="tag.name"
+              :value="tag"
+            />
+            <label :for="tag.name">{{ tag.name }}</label>
+          </div>
+
           <button @click="emitPostAndCloseModal">
             Create
           </button>
@@ -34,7 +60,8 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { JPost } from "@/types";
+import { Tags } from "@/store";
+import { JPost, JTag } from "@/types";
 
 export default Vue.extend({
   props: {
@@ -51,26 +78,51 @@ export default Vue.extend({
       required: true
     }
   },
-  data() {
-    return {
-      showModal: false,
-      postTitle: "",
-      postContents: "",
-      tags: {},
-      emptyTitle: false
+  data(): {
+    tags: JTag[];
+    checkedTags: JTag[];
+    newPost: {
+      postTitle: string;
+      postContents: string;
     };
+    emptyTitle: boolean;
+    showModal: boolean;
+  } {
+    return {
+      tags: [], // Tags for store is saved here
+      checkedTags: [], // Hold tags which are selected in the UI
+      newPost: {
+        postTitle: "",
+        postContents: ""
+      },
+      emptyTitle: false,
+      showModal: false
+    };
+  },
+  computed: {
+    groupedTags(): { mood: JTag[]; activity: JTag[] } {
+      const moodTags = this.tags.filter((tag: JTag) => tag.category === "mood");
+      const activityTags = this.tags.filter(
+        (tag: JTag) => tag.category === "activity"
+      );
+      return { mood: moodTags, activity: activityTags };
+    }
+  },
+  mounted() {
+    // Clone available tags for this journal so they be used to tag new post
+    this.tags = Tags.allTagsInCurrentJournal;
   },
   methods: {
     emitPostAndCloseModal() {
-      if (this.postTitle === "") {
+      if (this.newPost.postTitle === "") {
         this.emptyTitle = true;
         return;
       }
 
       const newPost: JPost = {
-        title: this.postTitle,
-        contents: this.postContents,
-        tags: this.tags,
+        title: this.newPost.postTitle,
+        contents: this.newPost.postContents,
+        tags: this.checkedTags,
         createdAt: new Date().getTime(),
         journalId: this.journalId,
         uid: this.uid,
@@ -80,9 +132,10 @@ export default Vue.extend({
 
       this.$emit("create-new-post", newPost);
       this.showModal = false;
-      this.postTitle = "";
-      this.postContents = "";
+      this.newPost.postTitle = "";
+      this.newPost.postContents = "";
       this.emptyTitle = false;
+      this.checkedTags = [];
     }
   }
 });
