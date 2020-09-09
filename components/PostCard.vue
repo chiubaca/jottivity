@@ -21,6 +21,10 @@
           <input v-model="updatedPost.title" type="text" />
           <br />
           <textarea v-model="updatedPost.contents" rows="10"></textarea>
+          <h2>Tags</h2>
+          <div v-for="(tag, index) in post.tags" class="tags-container">
+            {{ tag.name }}
+          </div>
           <p>Created on {{ post.createdAt }}</p>
           <p>post ID {{ post.postId }}</p>
           <br />
@@ -119,5 +123,10 @@ export default Vue.extend({
 }
 #button-exit:hover {
   fill: black;
+}
+
+.tags-container {
+  display: flex;
+  flex-direction: row;
 }
 </style>
