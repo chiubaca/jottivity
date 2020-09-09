@@ -24,31 +24,10 @@
           ></textarea>
           <br />
           <h2>Tags</h2>
-          <!-- Tag and Tag container components  to be created -->
-          <h3>Mood</h3>
-          <div v-for="(tag, index) in groupedTags.mood" :key="index">
-            <input
-              v-model="checkedTags"
-              type="checkbox"
-              class="activity-tags"
-              :name="tag.name"
-              :value="tag"
-            />
-            <label :for="tag.name">{{ tag.name }}</label>
-          </div>
-
-          <h3>Activity</h3>
-          <div v-for="(tag, index) in groupedTags.activity" :key="index">
-            <input
-              v-model="checkedTags"
-              type="checkbox"
-              class="activity-tags"
-              :name="tag.name"
-              :value="tag"
-            />
-            <label :for="tag.name">{{ tag.name }}</label>
-          </div>
-
+          <TagsContainer
+            :tags="groupedTags"
+            @checked-tags="handleCheckedTags($event)"
+          />
           <button @click="emitPostAndCloseModal">
             Create
           </button>
@@ -80,20 +59,21 @@ export default Vue.extend({
   },
   data(): {
     tags: JTag[];
-    checkedTags: JTag[];
     newPost: {
       postTitle: string;
       postContents: string;
+      tags: JTag[];
     };
     emptyTitle: boolean;
     showModal: boolean;
   } {
     return {
       tags: [], // Tags for store is saved here
-      checkedTags: [], // Hold tags which are selected in the UI
+
       newPost: {
         postTitle: "",
-        postContents: ""
+        postContents: "",
+        tags: []
       },
       emptyTitle: false,
       showModal: false
@@ -122,7 +102,7 @@ export default Vue.extend({
       const newPost: JPost = {
         title: this.newPost.postTitle,
         contents: this.newPost.postContents,
-        tags: this.checkedTags,
+        tags: this.newPost.tags,
         createdAt: new Date().getTime(),
         journalId: this.journalId,
         uid: this.uid,
@@ -134,8 +114,11 @@ export default Vue.extend({
       this.showModal = false;
       this.newPost.postTitle = "";
       this.newPost.postContents = "";
+      this.newPost.tags = [];
       this.emptyTitle = false;
-      this.checkedTags = [];
+    },
+    handleCheckedTags(eventPayload: JTag[]) {
+      this.newPost.tags = eventPayload;
     }
   }
 });
