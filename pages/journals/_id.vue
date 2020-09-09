@@ -29,8 +29,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import NewPostButton from "@/components/NewPostButton.vue";
-import { Posts } from "@/store";
+import { Posts, Tags } from "@/store";
 import { JPost } from "@/types";
 
 export default Vue.extend({
@@ -45,11 +44,16 @@ export default Vue.extend({
     }
   },
   mounted() {
-    // Fetch posts
-    Posts.getPostsInCurrentJournal({
-      uid: this.currentJournal?.uid,
-      journalid: this.currentJournal?.journalId
-    });
+    Promise.all([
+      Posts.getPostsInCurrentJournal({
+        uid: this.currentJournal?.uid,
+        journalid: this.currentJournal?.journalId
+      }),
+      Tags.getAvailableTagsInCurrentJournal({
+        uid: this.currentJournal?.uid,
+        journalid: this.currentJournal?.journalId
+      })
+    ]);
   },
   methods: {
     addNewPost(post: JPost) {

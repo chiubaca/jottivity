@@ -50,6 +50,14 @@ export type JPost = {
   deleted: boolean | undefined;
 };
 
+export type JTag = {
+  name: string;
+  journalId: string;
+  tagId: string;
+  uid: string;
+  category: "mood" | "activity";
+};
+
 export declare namespace firebaseExt {
   export interface ProviderData {
     uid: string;
